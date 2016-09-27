@@ -1,0 +1,7 @@
+# The list of files for Git to ignore
+
+*.sln
+*.csproj
+**/bin/**
+**/obj/**
+.vs/**
