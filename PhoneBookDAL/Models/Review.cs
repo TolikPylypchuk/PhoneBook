@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PhoneBook.DAL.Models
 {
 	[Table("Reviews")]
-	public class Review : EntityBase
+	public partial class Review : EntityBase
 	{
 		[Required]
 		[StringLength(300)]
@@ -20,9 +20,9 @@ namespace PhoneBook.DAL.Models
 		public int CompanyId { get; set; }
 
 		[ForeignKey("UserId")]
-		public User User { get; set; }
+		public virtual User User { get; set; }
 
 		[ForeignKey("CompanyId")]
-		public Company Company { get; set; }
+		public virtual Company Company { get; set; }
 	}
 }

@@ -1,20 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneBook.DAL.Models
 {
-	public class EntityBase
+	public partial class EntityBase
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public int Id { get; set; }
 
-		[Timestamp]
 		[Required]
-		public byte[] CreatedAt { get; set; }
+		[UIHint("Created at")]
+		public DateTime CreatedAt { get; set; }
 
-		[Timestamp]
 		[Required]
+		[Timestamp]
+		[UIHint("Updated at")]
 		public byte[] UpdatedAt { get; set; }
 	}
 }

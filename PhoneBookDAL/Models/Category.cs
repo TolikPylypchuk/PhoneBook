@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PhoneBook.DAL.Models
 {
 	[Table("Categories")]
-	public class Category : EntityBase
+	public partial class Category : EntityBase
 	{
 		[Required]
 		[StringLength(50)]

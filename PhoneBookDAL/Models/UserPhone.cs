@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneBook.DAL.Models
 {
 	[Table("UserPhones")]
-	public class UserPhone : EntityBase
+	public partial class UserPhone : EntityBase
 	{
 		[Required]
+		[Phone]
 		[StringLength(15)]
 		public string Number { get; set; }
 
@@ -16,6 +15,6 @@ namespace PhoneBook.DAL.Models
 		public int UserId { get; set; }
 
 		[ForeignKey("UserId")]
-		public User User { get; set; }
+		public virtual User User { get; set; }
 	}
 }

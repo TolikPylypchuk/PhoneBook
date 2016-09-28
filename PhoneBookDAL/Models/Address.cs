@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PhoneBook.DAL.Models
 {
 	[Table("Addresses")]
-	public class Address : EntityBase
+	public partial class Address : EntityBase
 	{
 		[Required]
 		[StringLength(20)]

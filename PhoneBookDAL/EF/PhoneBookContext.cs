@@ -17,19 +17,19 @@ namespace PhoneBook.DAL.EF
 			DbInterception.Add(Logger);
 		}
 
-		DbSet<User> Users { get; set; }
+		public DbSet<User> Users { get; set; }
 
-		DbSet<Company> Companies { get; set; }
+		public DbSet<Company> Companies { get; set; }
 
-		DbSet<Address> Addresses { get; set; }
+		public DbSet<Address> Addresses { get; set; }
 
-		DbSet<Category> Categories { get; set; }
+		public DbSet<Category> Categories { get; set; }
 
-		DbSet<Review> Reviews { get; set; }
+		public DbSet<Review> Reviews { get; set; }
 
-		DbSet<UserPhone> UserPhones { get; set; }
+		public DbSet<UserPhone> UserPhones { get; set; }
 
-		DbSet<CompanyPhone> CompanyPhones { get; set; }
+		public DbSet<CompanyPhone> CompanyPhones { get; set; }
 
 		protected override void Dispose(bool disposing)
 		{

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneBook.DAL.Models
 {
 	[Table("Users")]
-	public class User : EntityBase
+	public partial class User : EntityBase
 	{
 		[Required]
+		[EmailAddress]
 		[StringLength(50)]
 		public string Email { get; set; }
 
@@ -30,7 +30,7 @@ namespace PhoneBook.DAL.Models
 		public int AddressId { get; set; }
 
 		[ForeignKey("AddressId")]
-		public Address Address { get; set; }
+		public virtual Address Address { get; set; }
 
 		public virtual ICollection<UserPhone> Phones { get; set; } =
 			new HashSet<UserPhone>();
