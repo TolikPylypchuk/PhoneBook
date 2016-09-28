@@ -17,16 +17,20 @@ namespace PhoneBook.DAL.Models
 
 		[Required]
 		[StringLength(15)]
+		[Display(Name = "First name")]
 		public string FirstName { get; set; }
 
 		[StringLength(15)]
+		[Display(Name = "Middle name")]
 		public string MiddleName { get; set; }
 
 		[Required]
 		[StringLength(15)]
+		[Display(Name = "Last name")]
 		public string LastName { get; set; }
 
 		[Required]
+		[Display(Name = "Address ID")]
 		public int AddressId { get; set; }
 
 		[ForeignKey("AddressId")]

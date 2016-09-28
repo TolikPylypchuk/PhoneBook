@@ -19,14 +19,12 @@ namespace PhoneBook.DAL.Repositories
 
 		public int Add(T entity)
 		{
-			entity.CreatedAt = DateTime.Now;
 			Table.Add(entity);
 			return Context.SaveChanges();
 		}
 
 		public Task<int> AddAsync(T entity)
 		{
-			entity.CreatedAt = DateTime.Now;
 			Table.Add(entity);
 			return Context.SaveChangesAsync();
 		}
@@ -55,8 +53,8 @@ namespace PhoneBook.DAL.Repositories
 			return Context.SaveChangesAsync();
 		}
 
-		public abstract int Delete(int id, byte[] lastUpdate);
-		public abstract Task<int> DeleteAsync(int id, byte[] lastUpdate);
+		public abstract int Delete(int id);
+		public abstract Task<int> DeleteAsync(int id);
 
 		public int Delete(T entity)
 		{

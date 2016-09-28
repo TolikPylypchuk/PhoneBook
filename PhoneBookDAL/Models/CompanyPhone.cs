@@ -12,6 +12,7 @@ namespace PhoneBook.DAL.Models
 		public string Number { get; set; }
 
 		[Required]
+		[Display(Name = "Company ID")]
 		public int CompanyId { get; set; }
 
 		[ForeignKey("CompanyId")]

@@ -14,9 +14,11 @@ namespace PhoneBook.DAL.Models
 		public int Rating { get; set; }
 
 		[Required]
+		[Display(Name = "User ID")]
 		public int UserId { get; set; }
 
 		[Required]
+		[Display(Name = "Company ID")]
 		public int CompanyId { get; set; }
 
 		[ForeignKey("UserId")]

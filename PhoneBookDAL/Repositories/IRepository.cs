@@ -15,8 +15,8 @@ namespace PhoneBook.DAL.Repositories
 		int Update(T entity);
 		Task<int> UpdateAsync(T entity);
 
-		int Delete(int id, byte[] lastUpdate);
-		Task<int> DeleteAsync(int id, byte[] lastUpdate);
+		int Delete(int id);
+		Task<int> DeleteAsync(int id);
 
 		int Delete(T entity);
 		Task<int> DeleteAsync(T entity);

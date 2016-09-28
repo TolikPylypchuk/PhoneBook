@@ -2,8 +2,9 @@
 
 *.sln
 *.csproj
+
 **/bin/**
 **/obj/**
-**/packages.config
+
 packages/**
 .vs/**

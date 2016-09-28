@@ -8,15 +8,15 @@ namespace PhoneBook.DAL.Models
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Display(Name = "ID")]
 		public int Id { get; set; }
 
 		[Required]
-		[UIHint("Created at")]
+		[Display(Name = "Created at")]
 		public DateTime CreatedAt { get; set; }
 
 		[Required]
-		[Timestamp]
-		[UIHint("Updated at")]
-		public byte[] UpdatedAt { get; set; }
+		[Display(Name = "Updated at")]
+		public DateTime UpdatedAt { get; set; }
 	}
 }

@@ -12,24 +12,22 @@ namespace PhoneBook.DAL.Repositories
 			Table = Context.UserPhones;
 		}
 
-		public override int Delete(int id, byte[] lastUpdate)
+		public override int Delete(int id)
 		{
 			Context.Entry(
 				new UserPhone()
 				{
-					Id = id,
-					UpdatedAt = lastUpdate
+					Id = id
 				}).State = EntityState.Deleted;
 			return Context.SaveChanges();
 		}
 
-		public override Task<int> DeleteAsync(int id, byte[] lastUpdate)
+		public override Task<int> DeleteAsync(int id)
 		{
 			Context.Entry(
 				new UserPhone()
 				{
-					Id = id,
-					UpdatedAt = lastUpdate
+					Id = id
 				}).State = EntityState.Deleted;
 			return Context.SaveChangesAsync();
 		}

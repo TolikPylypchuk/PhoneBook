@@ -22,16 +22,19 @@ namespace PhoneBook.DAL.Models
 		[NotMapped]
 		public double Rating { get; set; }
 
+		[Display(Name = "User ID")]
 		public int UserId { get; set; }
 
 		[Required]
+		[Display(Name = "Address ID")]
 		public int AddressId { get; set; }
 
 		[Required]
+		[Display(Name = "Category ID")]
 		public int CategoryId { get; set; }
 
 		[ForeignKey("UserId")]
-		[UIHint("Created by")]
+		[Display(Name = "Creaded by")]
 		public virtual User CreatedBy { get; set; }
 
 		[ForeignKey("AddressId")]
