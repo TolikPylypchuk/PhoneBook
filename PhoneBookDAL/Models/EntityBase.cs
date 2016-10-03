@@ -13,10 +13,10 @@ namespace PhoneBook.DAL.Models
 
 		[Required]
 		[Display(Name = "Created at")]
-		public DateTime CreatedAt { get; set; }
+		public DateTime? CreatedAt { get; set; }
 
 		[Required]
 		[Display(Name = "Updated at")]
-		public DateTime UpdatedAt { get; set; }
+		public DateTime? UpdatedAt { get; set; }
 	}
 }

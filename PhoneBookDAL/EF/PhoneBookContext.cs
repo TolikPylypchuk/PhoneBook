@@ -18,9 +18,6 @@ namespace PhoneBook.DAL.EF
 		{
 			Logger.StartLogging();
 			DbInterception.Add(Logger);
-
-			var objContext = (this as IObjectContextAdapter).ObjectContext;
-			objContext.SavingChanges += AddTimeProperties;
 		}
 
 		public DbSet<User> Users { get; set; }
@@ -37,7 +34,7 @@ namespace PhoneBook.DAL.EF
 
 		public DbSet<CompanyPhone> CompanyPhones { get; set; }
 
-		private void AddTimeProperties(object sender, EventArgs e)
+		public override int SaveChanges()
 		{
 			foreach (var entity in
 				this.ChangeTracker.Entries()
@@ -54,6 +51,8 @@ namespace PhoneBook.DAL.EF
 			{
 				entity.Property("UpdatedAt").CurrentValue = DateTime.UtcNow;
 			}
+
+			return base.SaveChanges();
 		}
 
 		protected override void Dispose(bool disposing)

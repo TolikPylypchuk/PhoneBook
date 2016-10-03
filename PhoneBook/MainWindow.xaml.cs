@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Data.Entity;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+
+using PhoneBook.DAL.EF;
+using PhoneBook.DAL.Models;
+using PhoneBook.DAL.Repositories;
 
 namespace PhoneBook
 {
@@ -12,6 +18,22 @@ namespace PhoneBook
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			UserRepository repo = new UserRepository();
+
+			StringBuilder message = new StringBuilder("The list of users:");
+
+			repo.GetAll().Load();
+
+			foreach (var user in repo.Context.Users.Local)
+			{
+				message.Append($"\n {user.FirstName} {user.LastName}");
+			}
+
+			MessageBox.Show(message.ToString());
 		}
 	}
 }
