@@ -4,8 +4,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 
-using PhoneBook.DAL.EF;
-using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
 namespace PhoneBook

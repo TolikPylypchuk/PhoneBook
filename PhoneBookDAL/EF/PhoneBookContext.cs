@@ -1,6 +1,5 @@
 using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Infrastructure.Interception;
 using System.Linq;
 
@@ -11,10 +10,10 @@ namespace PhoneBook.DAL.EF
 	public class PhoneBookContext : DbContext
 	{
 		static readonly DatabaseLogger Logger =
-			new DatabaseLogger("db.log", true);
+			new DatabaseLogger("D:\\db.log", true);
 
 		public PhoneBookContext()
-			: base("name=PhoneBookConnection")
+			: base("name=AzurePhoneBookConnection")
 		{
 			Logger.StartLogging();
 			DbInterception.Add(Logger);
