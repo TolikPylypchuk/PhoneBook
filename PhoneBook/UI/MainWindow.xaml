@@ -1,0 +1,87 @@
+﻿<Window x:Class="PhoneBook.UI.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:PhoneBook.UI"
+		mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+		Title="Phone Book" Height="350" Width="750"
+		MinHeight="300" MinWidth="400" Loaded="Window_Loaded">
+	<Window.Resources>
+		<Style TargetType="{x:Type Button}">
+			<Setter Property="Margin" Value="2" />
+			<Setter Property="Padding" Value="2" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+		<Style TargetType="{x:Type TextBlock}">
+			<Setter Property="VerticalAlignment" Value="Center" />
+		</Style>
+
+		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
+	</Window.Resources>
+	
+    <Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition />
+			<ColumnDefinition />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+
+		<TextBlock Grid.Column="0" HorizontalAlignment="Center">
+			Filtering goes here.
+		</TextBlock>
+
+		<TextBlock Grid.Column="2" HorizontalAlignment="Center">
+			Individual info goes here.
+		</TextBlock>
+
+		<DockPanel x:Name="entriesPanel" Grid.Column="1"
+				   HorizontalAlignment="Stretch"
+				   VerticalAlignment="Stretch">
+			<DockPanel DockPanel.Dock="Top" Margin="10,0">
+				<Button DockPanel.Dock="Left"
+						IsEnabled="{Binding Path=IsFirstPage,
+							Converter={StaticResource
+								ResourceKey=InverseBoolConverter}}">
+					&lt;
+				</Button>
+				<Button DockPanel.Dock="Right"
+						IsEnabled="{Binding Path=IsLastPage,
+							Converter={StaticResource
+								ResourceKey=InverseBoolConverter}}">
+					&gt;
+				</Button>
+				<StackPanel HorizontalAlignment="Center"
+							Orientation="Horizontal">
+					<TextBlock Text="Page " />
+					<TextBlock Text="{Binding Path=CurrentPage}" />
+					<TextBlock Text="/" />
+					<TextBlock Text="{Binding Path=TotalPages}" />
+				</StackPanel>
+			</DockPanel>
+			<TabControl x:Name="entriesTabControl" Margin="10"
+						SelectionChanged="TabControl_SelectionChanged">
+				<TabItem x:Name="peopleTabItem" Header="People">
+					<ListBox x:Name="peopleListBox" Margin="10"
+							BorderBrush="Black" BorderThickness="1">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Path=FullName}" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</TabItem>
+				<TabItem x:Name="companiesTabItem" Header="Companies">
+					<ListBox x:Name="companiesListBox" Margin="10"
+							 BorderBrush="Black" BorderThickness="1">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Path=Name}" />
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</TabItem>
+			</TabControl>
+		</DockPanel>
+	</Grid>
+</Window>

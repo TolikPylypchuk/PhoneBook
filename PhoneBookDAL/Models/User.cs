@@ -38,5 +38,9 @@ namespace PhoneBook.DAL.Models
 
 		public virtual ICollection<UserPhone> Phones { get; set; } =
 			new HashSet<UserPhone>();
+
+		[NotMapped]
+		public string FullName =>
+			$"{this.FirstName} {this.MiddleName} {this.LastName}";
 	}
 }

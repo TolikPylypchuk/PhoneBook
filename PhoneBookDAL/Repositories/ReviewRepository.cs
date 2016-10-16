@@ -9,7 +9,7 @@ namespace PhoneBook.DAL.Repositories
 	{
 		public ReviewRepository()
 		{
-			Table = Context.Reviews;
+			table = Context.Reviews;
 		}
 
 		public override int Delete(int id)

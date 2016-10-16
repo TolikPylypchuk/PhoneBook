@@ -9,47 +9,49 @@ using PhoneBook.DAL.Models;
 namespace PhoneBook.DAL.Repositories
 {
 	public abstract class BaseRepository<T> : IRepository<T>
-		where T : EntityBase
+		where T : EntityBase, new()
 	{
+		protected DbSet<T> table;
+
 		public PhoneBookContext Context { get; } =
 			new PhoneBookContext();
 
-		protected DbSet<T> Table;
+		public IEnumerable<T> LocalData => this.table.Local;
 
 		public int Add(T entity)
 		{
-			Table.Add(entity);
-			return Context.SaveChanges();
+			this.table.Add(entity);
+			return this.Context.SaveChanges();
 		}
 
 		public Task<int> AddAsync(T entity)
 		{
-			Table.Add(entity);
-			return Context.SaveChangesAsync();
+			this.table.Add(entity);
+			return this.Context.SaveChangesAsync();
 		}
 
-		public int AddRange(IList<T> entities)
+		public int AddRange(IEnumerable<T> entities)
 		{
-			Table.AddRange(entities);
-			return Context.SaveChanges();
+			this.table.AddRange(entities);
+			return this.Context.SaveChanges();
 		}
 
-		public Task<int> AddRangeAsync(IList<T> entities)
+		public Task<int> AddRangeAsync(IEnumerable<T> entities)
 		{
-			Table.AddRange(entities);
-			return Context.SaveChangesAsync();
+			this.table.AddRange(entities);
+			return this.Context.SaveChangesAsync();
 		}
 
 		public int Update(T entity)
 		{
-			Context.Entry(entity).State = EntityState.Modified;
-			return Context.SaveChanges();
+			this.Context.Entry(entity).State = EntityState.Modified;
+			return this.Context.SaveChanges();
 		}
 
 		public Task<int> UpdateAsync(T entity)
 		{
-			Context.Entry(entity).State = EntityState.Modified;
-			return Context.SaveChangesAsync();
+			this.Context.Entry(entity).State = EntityState.Modified;
+			return this.Context.SaveChangesAsync();
 		}
 
 		public abstract int Delete(int id);
@@ -57,29 +59,29 @@ namespace PhoneBook.DAL.Repositories
 
 		public int Delete(T entity)
 		{
-			Context.Entry(entity).State = EntityState.Deleted;
-			return Context.SaveChanges();
+			this.Context.Entry(entity).State = EntityState.Deleted;
+			return this.Context.SaveChanges();
 		}
 
 		public Task<int> DeleteAsync(T entity)
 		{
-			Context.Entry(entity).State = EntityState.Deleted;
-			return Context.SaveChangesAsync();
+			this.Context.Entry(entity).State = EntityState.Deleted;
+			return this.Context.SaveChangesAsync();
 		}
 
 		public T GetById(int id)
 		{
-			return Table.Find(id);
+			return this.table.Find(id);
 		}
 
 		public Task<T> GetByIdAsync(int id)
 		{
-			return Table.FindAsync(id);
+			return this.table.FindAsync(id);
 		}
 
 		public IQueryable<T> GetAll()
 		{
-			return Table;
+			return this.table;
 		}
 	}
 }

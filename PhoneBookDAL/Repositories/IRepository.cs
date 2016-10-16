@@ -6,11 +6,13 @@ namespace PhoneBook.DAL.Repositories
 {
 	public interface IRepository<T>
 	{
+		IEnumerable<T> LocalData { get; }
+
 		int Add(T entity);
 		Task<int> AddAsync(T entity);
 
-		int AddRange(IList<T> entities);
-		Task<int> AddRangeAsync(IList<T> enitities);
+		int AddRange(IEnumerable<T> entities);
+		Task<int> AddRangeAsync(IEnumerable<T> enitities);
 
 		int Update(T entity);
 		Task<int> UpdateAsync(T entity);
