@@ -39,16 +39,18 @@
 				   HorizontalAlignment="Stretch"
 				   VerticalAlignment="Stretch">
 			<DockPanel DockPanel.Dock="Top" Margin="10,0">
-				<Button DockPanel.Dock="Left"
+				<Button x:Name="previousPage" DockPanel.Dock="Left"
 						IsEnabled="{Binding Path=IsFirstPage,
 							Converter={StaticResource
-								ResourceKey=InverseBoolConverter}}">
+								ResourceKey=InverseBoolConverter}}"
+						Click="previousPage_Click">
 					&lt;
 				</Button>
-				<Button DockPanel.Dock="Right"
+				<Button x:Name="nextPage" DockPanel.Dock="Right"
 						IsEnabled="{Binding Path=IsLastPage,
 							Converter={StaticResource
-								ResourceKey=InverseBoolConverter}}">
+								ResourceKey=InverseBoolConverter}}"
+						Click="nextPage_Click">
 					&gt;
 				</Button>
 				<StackPanel HorizontalAlignment="Center"
