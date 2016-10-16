@@ -61,18 +61,12 @@ namespace PhoneBook.UI
 			{
 				this.entriesPanel.DataContext = this.peoplePageInfo;
 
-				IRepository<User> repo = new UserRepository();
-				this.LoadPeople(repo, this.peoplePageInfo);
-
-				this.peopleListBox.ItemsSource = repo.LocalData;
+				this.UpdatePeopleListBox();
 			} else if (item == this.companiesTabItem)
 			{
 				this.entriesPanel.DataContext = this.companiesPageInfo;
 
-				IRepository<Company> repo = new CompanyRepository();
-				this.LoadCompanies(repo, this.companiesPageInfo);
-
-				this.companiesListBox.ItemsSource = repo.LocalData;
+				this.UpdateCompaniesListBox();
 			}
 		}
 
@@ -84,10 +78,12 @@ namespace PhoneBook.UI
 				this.peopleTabItem)
 			{
 				this.peoplePageInfo.CurrentPage--;
+				this.UpdatePeopleListBox();
 			} else if (this.entriesTabControl.SelectedItem ==
 				this.companiesTabItem)
 			{
 				this.companiesPageInfo.CurrentPage--;
+				this.UpdateCompaniesListBox();
 			}
 		}
 
@@ -99,16 +95,34 @@ namespace PhoneBook.UI
 				this.peopleTabItem)
 			{
 				this.peoplePageInfo.CurrentPage++;
+				this.UpdatePeopleListBox();
 			} else if (this.entriesTabControl.SelectedItem ==
 				this.companiesTabItem)
 			{
 				this.companiesPageInfo.CurrentPage++;
+				this.UpdateCompaniesListBox();
 			}
 		}
 
 		#endregion
 
 		#region Other methods
+
+		private void UpdatePeopleListBox()
+		{
+			IRepository<User> repo = new UserRepository();
+			this.LoadPeople(repo, this.peoplePageInfo);
+
+			this.peopleListBox.ItemsSource = repo.LocalData;
+		}
+
+		private void UpdateCompaniesListBox()
+		{
+			IRepository<Company> repo = new CompanyRepository();
+			this.LoadCompanies(repo, this.companiesPageInfo);
+
+			this.companiesListBox.ItemsSource = repo.LocalData;
+		}
 
 		private void LoadPeople(
 			IRepository<User> repo,
