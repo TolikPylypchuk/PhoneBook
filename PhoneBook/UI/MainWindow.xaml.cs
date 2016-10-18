@@ -103,12 +103,21 @@ namespace PhoneBook.UI
 				this.UpdateCompaniesListBox();
 			}
 		}
+        
+        private void updateButton_Click(object sender, RoutedEventArgs e)
+        {
 
-		#endregion
+        }
 
-		#region Other methods
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
 
-		private void UpdatePeopleListBox()
+        }
+        #endregion
+
+        #region Other methods
+
+        private void UpdatePeopleListBox()
 		{
 			IRepository<User> repo = new UserRepository();
 			this.LoadPeople(repo, this.peoplePageInfo);
@@ -146,6 +155,6 @@ namespace PhoneBook.UI
 				.LoadAsync();
 		}
 
-		#endregion
-	}
+        #endregion
+    }
 }
