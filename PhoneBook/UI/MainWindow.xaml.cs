@@ -113,6 +113,36 @@ namespace PhoneBook.UI
         {
 
         }
+
+        private void MenuLogInClick(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
+        private void MenuLogOutClick(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
+        private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
+        private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+
+        private void MenuExitClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void MenuAboutClick(object sender, RoutedEventArgs e)
+        {
+            //
+        }
         #endregion
 
         #region Other methods
