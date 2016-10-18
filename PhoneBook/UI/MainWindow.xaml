@@ -7,83 +7,83 @@
 		mc:Ignorable="d" WindowStartupLocation="CenterScreen"
 		Title="Phone Book" Height="350" Width="750"
 		MinHeight="300" MinWidth="400" Loaded="Window_Loaded">
-	<Window.Resources>
-		<Style TargetType="{x:Type Button}">
-			<Setter Property="Margin" Value="2" />
-			<Setter Property="Padding" Value="2" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-		</Style>
-		<Style TargetType="{x:Type TextBlock}">
-			<Setter Property="VerticalAlignment" Value="Center" />
-		</Style>
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Padding" Value="2" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
 
-		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
-	</Window.Resources>
-	
+        <local:InverseBoolConverter x:Key="InverseBoolConverter" />
+    </Window.Resources>
+
     <Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition />
-			<ColumnDefinition />
-			<ColumnDefinition />
-		</Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-		<TextBlock Grid.Column="0" HorizontalAlignment="Center">
+        <TextBlock Grid.Column="0" HorizontalAlignment="Center">
 			Filtering goes here.
-		</TextBlock>
+        </TextBlock>
 
-		<TextBlock Grid.Column="2" HorizontalAlignment="Center">
+        <TextBlock Grid.Column="2" HorizontalAlignment="Center">
 			Individual info goes here.
-		</TextBlock>
+        </TextBlock>
 
-		<DockPanel x:Name="entriesPanel" Grid.Column="1"
+        <DockPanel x:Name="entriesPanel" Grid.Column="1"
 				   HorizontalAlignment="Stretch"
 				   VerticalAlignment="Stretch">
-			<DockPanel DockPanel.Dock="Top" Margin="10,0">
-				<Button x:Name="previousPage" DockPanel.Dock="Left"
+            <DockPanel DockPanel.Dock="Top" Margin="10,0">
+                <Button x:Name="previousPage" DockPanel.Dock="Left"
 						IsEnabled="{Binding Path=IsFirstPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
 						Click="previousPage_Click">
-					&lt;
-				</Button>
-				<Button x:Name="nextPage" DockPanel.Dock="Right"
+                    &lt;
+                </Button>
+                <Button x:Name="nextPage" DockPanel.Dock="Right"
 						IsEnabled="{Binding Path=IsLastPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
 						Click="nextPage_Click">
-					&gt;
-				</Button>
-				<StackPanel HorizontalAlignment="Center"
+                    &gt;
+                </Button>
+                <StackPanel HorizontalAlignment="Center"
 							Orientation="Horizontal">
-					<TextBlock Text="Page " />
-					<TextBlock Text="{Binding Path=CurrentPage}" />
-					<TextBlock Text="/" />
-					<TextBlock Text="{Binding Path=TotalPages}" />
-				</StackPanel>
-			</DockPanel>
-			<TabControl x:Name="entriesTabControl" Margin="10"
+                    <TextBlock Text="Page " />
+                    <TextBlock Text="{Binding Path=CurrentPage}" />
+                    <TextBlock Text="/" />
+                    <TextBlock Text="{Binding Path=TotalPages}" />
+                </StackPanel>
+            </DockPanel>
+            <TabControl x:Name="entriesTabControl" Margin="10"
 						SelectionChanged="TabControl_SelectionChanged">
-				<TabItem x:Name="peopleTabItem" Header="People">
-					<ListBox x:Name="peopleListBox" Margin="10"
+                <TabItem x:Name="peopleTabItem" Header="People">
+                    <ListBox x:Name="peopleListBox" Margin="10"
 							BorderBrush="Black" BorderThickness="1">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Path=FullName}" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</TabItem>
-				<TabItem x:Name="companiesTabItem" Header="Companies">
-					<ListBox x:Name="companiesListBox" Margin="10"
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=FullName}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+                <TabItem x:Name="companiesTabItem" Header="Companies">
+                    <ListBox x:Name="companiesListBox" Margin="10"
 							 BorderBrush="Black" BorderThickness="1">
-						<ListBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Path=Name}" />
-							</DataTemplate>
-						</ListBox.ItemTemplate>
-					</ListBox>
-				</TabItem>
-			</TabControl>
-		</DockPanel>
-	</Grid>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+    </Grid>
 </Window>
