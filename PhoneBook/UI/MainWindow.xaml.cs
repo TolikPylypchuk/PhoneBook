@@ -68,6 +68,8 @@ namespace PhoneBook.UI
 
 				this.UpdateCompaniesListBox();
 			}
+
+			this.flipPanel.Flip();
 		}
 
 		private void previousPage_Click(
@@ -103,51 +105,37 @@ namespace PhoneBook.UI
 				this.UpdateCompaniesListBox();
 			}
 		}
-        
-        private void updateButton_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
+		private void MenuLogInClick(object sender, RoutedEventArgs e)
+		{
+		}
 
-        private void deleteButton_Click(object sender, RoutedEventArgs e)
-        {
+		private void MenuLogOutClick(object sender, RoutedEventArgs e)
+		{
+		}
 
-        }
+		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
+		{
+		}
 
-        private void MenuLogInClick(object sender, RoutedEventArgs e)
-        {
-            //
-        }
+		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
+		{
+		}
 
-        private void MenuLogOutClick(object sender, RoutedEventArgs e)
-        {
-            //
-        }
+		private void MenuExitClick(object sender, RoutedEventArgs e)
+		{
+			this.Close();
+		}
 
-        private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
-        {
-            //
-        }
+		private void MenuAboutClick(object sender, RoutedEventArgs e)
+		{
+		}
 
-        private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
-        {
-            //
-        }
+		#endregion
 
-        private void MenuExitClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+		#region Other methods
 
-        private void MenuAboutClick(object sender, RoutedEventArgs e)
-        {
-            //
-        }
-        #endregion
-
-        #region Other methods
-
-        private void UpdatePeopleListBox()
+		private void UpdatePeopleListBox()
 		{
 			IRepository<User> repo = new UserRepository();
 			this.LoadPeople(repo, this.peoplePageInfo);
@@ -182,10 +170,9 @@ namespace PhoneBook.UI
 				.OrderBy(company => company.Name)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
-				.Include("Address")
 				.LoadAsync();
 		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

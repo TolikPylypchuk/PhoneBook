@@ -17,10 +17,11 @@
 			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
-			<Setter Property="Width" Value="150"/>
-			<Setter Property="Margin" Value="5"/>
-			<Setter Property="VerticalAlignment" Value="Center"/>
-			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="Width" Value="150" />
+			<Setter Property="Margin" Value="0,5" />
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
+			<Setter Property="IsReadOnly" Value="True" />
 		</Style>
 
 		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
@@ -38,25 +39,25 @@
 		</TextBlock>
 
 		<DockPanel x:Name="entriesPanel" Grid.Column="1"
-					   HorizontalAlignment="Stretch"
-					   VerticalAlignment="Stretch">
+				   HorizontalAlignment="Stretch"
+				   VerticalAlignment="Stretch">
 			<DockPanel DockPanel.Dock="Top" Margin="10,0">
 				<Button x:Name="previousPage" DockPanel.Dock="Left"
-							IsEnabled="{Binding Path=IsFirstPage,
-								Converter={StaticResource
-									ResourceKey=InverseBoolConverter}}"
-							Click="previousPage_Click">
+						IsEnabled="{Binding Path=IsFirstPage,
+							Converter={StaticResource
+								ResourceKey=InverseBoolConverter}}"
+						Click="previousPage_Click">
 					&lt;
 				</Button>
 				<Button x:Name="nextPage" DockPanel.Dock="Right"
-							IsEnabled="{Binding Path=IsLastPage,
-								Converter={StaticResource
-									ResourceKey=InverseBoolConverter}}"
-							Click="nextPage_Click">
+						IsEnabled="{Binding Path=IsLastPage,
+							Converter={StaticResource
+								ResourceKey=InverseBoolConverter}}"
+						Click="nextPage_Click">
 					&gt;
 				</Button>
 				<StackPanel HorizontalAlignment="Center"
-								Orientation="Horizontal">
+							Orientation="Horizontal">
 					<TextBlock Text="Page " />
 					<TextBlock Text="{Binding Path=CurrentPage}" />
 					<TextBlock Text="/" />
@@ -64,10 +65,10 @@
 				</StackPanel>
 			</DockPanel>
 			<TabControl x:Name="entriesTabControl" Margin="10"
-							SelectionChanged="TabControl_SelectionChanged">
+						SelectionChanged="TabControl_SelectionChanged">
 				<TabItem x:Name="peopleTabItem" Header="People">
 					<ListBox x:Name="peopleListBox" Margin="10"
-								BorderBrush="Black" BorderThickness="1">
+							 BorderBrush="Black" BorderThickness="1">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Path=FullName}" />
@@ -77,7 +78,7 @@
 				</TabItem>
 				<TabItem x:Name="companiesTabItem" Header="Companies">
 					<ListBox x:Name="companiesListBox" Margin="10"
-								 BorderBrush="Black" BorderThickness="1">
+							 BorderBrush="Black" BorderThickness="1">
 						<ListBox.ItemTemplate>
 							<DataTemplate>
 								<TextBlock Text="{Binding Path=Name}" />
@@ -89,51 +90,51 @@
 		</DockPanel>
 
 		<StackPanel x:Name="individualInfoPanel" Grid.Column="2"
-					   HorizontalAlignment="Stretch"
-					   VerticalAlignment="Center">
-			<StackPanel Orientation="Horizontal"
-						HorizontalAlignment="Center">
-				<Button Click="updateButton_Click" Content="Update"/>
-				<Button Click="deleteButton_Click" Content="Delete"/>
-			</StackPanel>
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center">
+			<local:FlipPanel x:Name="flipPanel">
+				<local:FlipPanel.FrontContent>
+					<StackPanel x:Name="peoplePropertiesListBox" HorizontalAlignment="Center"
+								DataContext="{Binding SelectedItem, ElementName=peopleListBox}"
+								Orientation="Vertical">
+						<TextBlock Text="First name:" />
+						<TextBox Text="{Binding Path=FirstName, Mode=OneWay}" />
+						
+						<TextBlock Text="Middle name:" />
+						<TextBox Text="{Binding Path=MiddleName, Mode=OneWay}" />
+						
+						<TextBlock Text="Last name:" />
+						<TextBox Text="{Binding Path=LastName, Mode=OneWay}" />
+						
+						<TextBlock Text="Email:" />
+						<TextBox Text="{Binding Path=Email, Mode=OneWay}" />
+						
+						<TextBlock Text="Address:" />
+						<TextBox Text="{Binding Path=Address, Mode=OneWay}"
+							 MinLines="2" MaxLines="2"
+							 TextWrapping="Wrap" Height="34" />
+					</StackPanel>
+				</local:FlipPanel.FrontContent>
 
-			<ListBox x:Name="peoplePropertiesListBox" HorizontalAlignment="Center"
-						 ItemsSource="{Binding SelectedItem, ElementName=peopleListBox}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Text="First name:" />
-							<TextBox Text="{Binding Path=FirstName}" />
-							<TextBlock Text="Middle name: " />
-							<TextBox Text="{Binding Path=MiddleName}" />
-							<TextBlock Text="Last name: " />
-							<TextBox Text="{Binding Path=LastName}" />
-							<TextBlock Text="Email: " />
-							<TextBox Text="{Binding Path=Email}" />
-							<TextBlock Text="Address: " />
-							<TextBox Text="{Binding Path=Address}" />
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
-
-			<ListBox x:Name="companyPropertiesListBox" HorizontalAlignment="Center"
-						  ItemsSource="{Binding SelectedItems, ElementName=companiesListBox}">
-				<ListBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel Orientation="Vertical">
-							<TextBlock Text="Name:" />
-							<TextBox Text="{Binding Path=Name}" />
-							<TextBlock Text="Description: " />
-							<TextBox Text="{Binding Path=Description}" />
-							<TextBlock Text="Email: " />
-							<TextBox Text="{Binding Path=Email}" />
-							<TextBlock Text="Rating: " />
-							<TextBox Text="{Binding Path=Rating}" />
-						</StackPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
+				<local:FlipPanel.BackContent>
+					<StackPanel x:Name="companyPropertiesListBox" HorizontalAlignment="Center"
+								DataContext="{Binding SelectedItems, ElementName=companiesListBox}"
+								Orientation="Vertical">
+						<TextBlock Text="Name:" />
+						<TextBox Text="{Binding Path=Name, Mode=OneWay}" />
+						
+						<TextBlock Text="Description: " />
+						<TextBox Text="{Binding Path=Description, Mode=OneWay}"
+								 MinLines="3" TextWrapping="Wrap" Height="50" />
+						
+						<TextBlock Text="Email: " />
+						<TextBox Text="{Binding Path=Email, Mode=OneWay}" />
+						
+						<TextBlock Text="Rating: " />
+						<TextBox Text="{Binding Path=Rating, Mode=OneWay}" />
+					</StackPanel>
+				</local:FlipPanel.BackContent>
+			</local:FlipPanel>
 		</StackPanel>
 	</Grid>
 </Window>
