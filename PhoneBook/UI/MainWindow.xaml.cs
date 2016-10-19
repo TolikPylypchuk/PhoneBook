@@ -182,6 +182,7 @@ namespace PhoneBook.UI
 				.OrderBy(company => company.Name)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
+				.Include("Address")
 				.LoadAsync();
 		}
 
