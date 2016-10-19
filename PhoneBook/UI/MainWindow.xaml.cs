@@ -68,6 +68,8 @@ namespace PhoneBook.UI
 
 				this.UpdateCompaniesListBox();
 			}
+
+			this.flipPanel.Flip();
 		}
 
 		private void previousPage_Click(
