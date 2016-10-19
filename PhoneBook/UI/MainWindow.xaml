@@ -98,100 +98,41 @@
                 <Button Click="deleteButton_Click" Content="Delete"/>
             </StackPanel>
 
-            <!--
-            <ListBox x:Name="propertiesListBox" HorizontalAlignment="Center"
-					  ItemsSource="{Binding SelectedItem, ElementName=peopleListBox}">
+            <ListBox x:Name="peoplePropertiesListBox" HorizontalAlignment="Center"
+					 ItemsSource="{Binding SelectedItems, ElementName=peopleListBox}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="2">
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <TextBlock Grid.Column="0"  Height="Auto"
-                                       Text="FullName"/>
-                            <TextBox x:Name="FullNameTextBox"
-                                     Grid.Column="1" Height="Auto"
-                                     Text="{Binding FullName}" />
-                        </Grid>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="First name:" />
+                            <TextBox Text="{Binding Path=FirstName}" />
+                            <TextBlock Text="Middle name: " />
+                            <TextBox Text="{Binding Path=MiddleName}" />
+                            <TextBlock Text="Last name: " />
+                            <TextBox Text="{Binding Path=LastName}" />
+                            <TextBlock Text="Email: " />
+                            <TextBox Text="{Binding Path=Email}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            -->
 
-            <Grid x:Name="peopleInfoGrid" HorizontalAlignment="Center"
-					  DataContext="{Binding SelectedItem, ElementName=peopleListBox}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0" Grid.Row="0"><Run Text="First name:"/></TextBlock>
-                <TextBox x:Name="firstNameTextBox" Grid.Column="1" Grid.Row="0"
-							 Text="{Binding FirstName}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="1"><Run Text="Middle name:"/></TextBlock>
-                <TextBox x:Name="middleNameTextBox" Grid.Column="1" Grid.Row="1"
-							 Text="{Binding MiddleName}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="2"><Run Text="Last name:"/></TextBlock>
-                <TextBox x:Name="lastNameTextBox" Grid.Column="1" Grid.Row="2"
-							 Text="{Binding LastName}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="3"><Run Text="Address:"/></TextBlock>
-                <TextBox x:Name="addressTextBox" Grid.Column="1" Grid.Row="3"
-							 Text="{Binding AddressId}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="4"><Run Text="Number:"/></TextBlock>
-                <TextBox x:Name="personPhoneNumbersTextBox" Grid.Column="1" Grid.Row="4"
-							 Text="{Binding Phones}"/>
-            </Grid>
-
-            <!--
-            <Grid x:Name="companiesInfoGrid" HorizontalAlignment="Center"
-					  DataContext="{Binding SelectedItem, ElementName=companiesListBox}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.Column="0" Grid.Row="0"><Run Text="Name:"/></TextBlock>
-                <TextBox x:Name="nameTextBox" Grid.Column="1" Grid.Row="0"
-							 Text="{Binding Name}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="1"><Run Text="Description:"/></TextBlock>
-                <TextBox x:Name="descriptionTextBox" Grid.Column="1" Grid.Row="1"
-							 Text="{Binding Description}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="2"><Run Text="Email:"/></TextBlock>
-                <TextBox x:Name="emailTextBox" Grid.Column="1" Grid.Row="2"
-							 Text="{Binding Email}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="3"><Run Text="Rating:"/></TextBlock>
-                <TextBox x:Name="ratingTextBox" Grid.Column="1" Grid.Row="3"
-							 Text="{Binding Rating}"/>
-
-                <TextBlock Grid.Column="0" Grid.Row="4"><Run Text="Number:"/></TextBlock>
-                <TextBox x:Name="companyPhoneNumbersTextBox" Grid.Column="1" Grid.Row="4"
-							 Text="{Binding Phones}"/>
-            </Grid>
-            -->
+            <ListBox x:Name="companyPropertiesListBox" HorizontalAlignment="Center"
+					  ItemsSource="{Binding SelectedItems, ElementName=companiesListBox}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Name:" />
+                            <TextBox Text="{Binding Path=Name}" />
+                            <TextBlock Text="Description: " />
+                            <TextBox Text="{Binding Path=Description}" />
+                            <TextBlock Text="Email: " />
+                            <TextBox Text="{Binding Path=Email}" />
+                            <TextBlock Text="Rating: " />
+                            <TextBox Text="{Binding Path=Rating}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
         </StackPanel>
 
