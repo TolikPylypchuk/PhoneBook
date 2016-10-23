@@ -108,19 +108,23 @@ namespace PhoneBook.UI
 
 		private void MenuLogInClick(object sender, RoutedEventArgs e)
 		{
-		}
+            MessageBox.Show("Not implemented!");
+        }
 
-		private void MenuLogOutClick(object sender, RoutedEventArgs e)
+        private void MenuLogOutClick(object sender, RoutedEventArgs e)
 		{
-		}
+            MessageBox.Show("Not implemented!");
+        }
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
-		}
+            MessageBox.Show("Not implemented!");
+        }
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
 		{
-		}
+            MessageBox.Show("Not implemented!");
+        }
 
 		private void MenuExitClick(object sender, RoutedEventArgs e)
 		{
@@ -129,7 +133,8 @@ namespace PhoneBook.UI
 
 		private void MenuAboutClick(object sender, RoutedEventArgs e)
 		{
-		}
+            MessageBox.Show("The phone book can be used to find addresses and phones of people and companies.");            
+        }
 
 		#endregion
 
