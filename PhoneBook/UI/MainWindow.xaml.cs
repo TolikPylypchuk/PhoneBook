@@ -69,7 +69,8 @@ namespace PhoneBook.UI
 				this.UpdateCompaniesListBox();
 			}
 
-			this.flipPanel.Flip();
+			this.individualInfoFlipPanel.Flip();
+			this.filterFlipPanel.Flip();
 		}
 
 		private void previousPage_Click(
@@ -179,5 +180,15 @@ namespace PhoneBook.UI
 		}
 
 		#endregion
+
+		private void companiesFindButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+
+		private void peopleFindButton_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
 	}
 }
