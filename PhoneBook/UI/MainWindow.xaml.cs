@@ -136,23 +136,77 @@ namespace PhoneBook.UI
 		{
             MessageBox.Show("The phone book can be used to find addresses and phones of people and companies.");            
         }
+		
+		private void peopleFindButton_Click(object sender, RoutedEventArgs e)
+		{
+			this.peoplePageInfo.CurrentPage = 1;
+			this.UpdatePeopleListBox();
+		}
 
+		private void companiesFindButton_Click(object sender, RoutedEventArgs e)
+		{
+			this.companiesPageInfo.CurrentPage = 1;
+			this.UpdateCompaniesListBox();
+		}
+		
+		private void peopleClearFiltersButton_Click(object sender, RoutedEventArgs e)
+		{
+			this.firstNameTextBox.Text = string.Empty;
+			this.middleNameTextBox.Text = string.Empty;
+			this.lastNameTextBox.Text = string.Empty;
+		}
+
+		private void companiesClearFiltersButton_Click(object sender, RoutedEventArgs e)
+		{
+			this.companyNameTextBox.Text = string.Empty;
+			this.minRatingTextBox.Text = string.Empty;
+			this.maxRatingTextBox.Text = string.Empty;
+		}
 		#endregion
 
 		#region Other methods
 
 		private void UpdatePeopleListBox()
 		{
+			string firstName = this.firstNameTextBox.Text.ToString();
+			string middleName = this.middleNameTextBox.Text.ToString();
+			string lastName = this.lastNameTextBox.Text.ToString();
+
 			IRepository<User> repo = new UserRepository();
-			this.LoadPeople(repo, this.peoplePageInfo);
+			this.LoadPeopleWithFilters(
+				repo,
+				this.peoplePageInfo,
+				firstName,
+				middleName,
+				lastName
+				);
 
 			this.peopleListBox.ItemsSource = repo.LocalData;
 		}
 
 		private void UpdateCompaniesListBox()
 		{
+			string name = this.companyNameTextBox.Text.ToString();
+			double minRating = 0.0;
+			double maxRating = 5.0;
+
+			bool isInputValid = this.ValidateInput(
+				ref minRating,
+				ref maxRating
+				);
+
+			if (!isInputValid)
+			{
+				MessageBox.Show("Wrong input.");
+			}
+			
 			IRepository<Company> repo = new CompanyRepository();
-			this.LoadCompanies(repo, this.companiesPageInfo);
+			this.LoadCompaniesWithFilters(
+				repo,
+				this.companiesPageInfo,
+				name,
+				minRating,
+				maxRating);
 
 			this.companiesListBox.ItemsSource = repo.LocalData;
 		}
@@ -162,6 +216,27 @@ namespace PhoneBook.UI
 			PageInfo info)
 		{
 			repo.GetAll()
+				.OrderBy(user => user.LastName)
+				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
+				.Take(info.EntriesPerPage)
+				.Load();
+		}
+
+		private void LoadPeopleWithFilters(
+			IRepository<User> repo,
+			PageInfo info,
+			string firstName,
+			string middleName,
+			string lastName)
+		{
+			repo.GetAll()
+				.Where(user => (
+				(firstName == string.Empty? true:
+				user.FirstName.Contains(firstName)) &&
+				(middleName == string.Empty ? true :
+				user.MiddleName.Contains(middleName)) &&
+				(lastName == string.Empty ? true :
+				user.LastName.Contains(lastName))))
 				.OrderBy(user => user.LastName)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
@@ -179,16 +254,74 @@ namespace PhoneBook.UI
 				.LoadAsync();
 		}
 
+		private void LoadCompaniesWithFilters(
+			IRepository<Company> repo,
+			PageInfo info,
+			string name,
+			double minRating,
+			double maxRating)
+		{
+			repo.GetAll()
+				.Where(company => (
+				(name == string.Empty ? true :
+				company.Name.Contains(name)) &&
+				(company.Rating > minRating) &&
+				(company.Rating < maxRating)))
+				.OrderBy(company => company.Name)
+				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
+				.Take(info.EntriesPerPage)
+				.LoadAsync();
+		}
+
+		private bool ValidateInput(
+			ref double minRating,
+			ref double maxRating)
+		{
+			bool isInputValid = true;
+
+			if (this.minRatingTextBox.Text != string.Empty)
+			{
+				if (!double.TryParse(this.minRatingTextBox.Text, out minRating))
+				{
+					isInputValid = false;
+					this.minRatingTextBox.Text = string.Empty;
+				}
+				else
+				{
+					if(minRating < 0.0 || minRating > 5.0)
+					{
+						isInputValid = false;
+						this.minRatingTextBox.Text = string.Empty;
+					}
+				}
+			}
+
+			if (this.maxRatingTextBox.Text != string.Empty)
+			{
+				if (!double.TryParse(this.maxRatingTextBox.Text, out maxRating))
+				{
+					isInputValid = false;
+					this.maxRatingTextBox.Text = string.Empty;
+				}
+				else
+				{
+					if (maxRating < 0.0 || maxRating > 5.0)
+					{
+						isInputValid = false;
+						this.maxRatingTextBox.Text = string.Empty;
+					}
+				}
+			}
+
+			if(minRating > maxRating)
+			{
+				isInputValid = false;
+				this.minRatingTextBox.Text = string.Empty;
+				this.maxRatingTextBox.Text = string.Empty;
+			}
+
+			return isInputValid;
+		}
 		#endregion
-
-		private void companiesFindButton_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
-
-		private void peopleFindButton_Click(object sender, RoutedEventArgs e)
-		{
-
-		}
 	}
 }
