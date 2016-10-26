@@ -12,17 +12,15 @@
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="ViewStates">
 									<VisualState x:Name="Normal">
-										<Storyboard>
-											<DoubleAnimation Storyboard.TargetName="FrontContent"
-															 Storyboard.TargetProperty="Opacity"
-															 To="0" Duration="0" />
+										<Storyboard Duration="0" TargetName="BackContent">
+											<DoubleAnimation Storyboard.TargetProperty="Opacity"
+															 To="0" />
 										</Storyboard>
 									</VisualState>
 									<VisualState x:Name="Flipped">
-										<Storyboard>
-											<DoubleAnimation Storyboard.TargetName="BackContent"
-															 Storyboard.TargetProperty="Opacity"
-															 To="0" Duration="0" />
+										<Storyboard Duration="0" TargetName="FrontContent">
+											<DoubleAnimation Storyboard.TargetProperty="Opacity"
+															 To="0" />
 										</Storyboard>
 									</VisualState>
 								</VisualStateGroup>

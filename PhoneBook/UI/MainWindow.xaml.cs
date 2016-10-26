@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,6 +39,9 @@ namespace PhoneBook.UI
 		{
 			IRepository<User> repoPeople = new UserRepository();
 			IRepository<Company> repoCompanies = new CompanyRepository();
+			
+			this.individualInfoFlipPanel.Flip();
+			this.filterFlipPanel.Flip();
 
 			this.peoplePageInfo.TotalEntries =
 				await repoPeople.GetAll().CountAsync();
@@ -109,22 +113,22 @@ namespace PhoneBook.UI
 
 		private void MenuLogInClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!");
+            MessageBox.Show("Not implemented!", "Error");
         }
 
         private void MenuLogOutClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!");
+            MessageBox.Show("Not implemented!", "Error");
         }
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!");
+            MessageBox.Show("Not implemented!", "Error");
         }
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!");
+            MessageBox.Show("Not implemented!", "Error");
         }
 
 		private void MenuExitClick(object sender, RoutedEventArgs e)
@@ -134,29 +138,39 @@ namespace PhoneBook.UI
 
 		private void MenuAboutClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("The phone book can be used to find addresses and phones of people and companies.");            
+            MessageBox.Show(
+				"The phone book can be used " +
+				"to find addresses and phones of people and companies.",
+				"Info");            
         }
 		
-		private void peopleFindButton_Click(object sender, RoutedEventArgs e)
+		private void peopleFindButton_Click(
+			object sender,
+			RoutedEventArgs e)
 		{
 			this.peoplePageInfo.CurrentPage = 1;
 			this.UpdatePeopleListBox();
 		}
 
-		private void companiesFindButton_Click(object sender, RoutedEventArgs e)
+		private void companiesFindButton_Click(
+			object sender, RoutedEventArgs e)
 		{
 			this.companiesPageInfo.CurrentPage = 1;
 			this.UpdateCompaniesListBox();
 		}
 		
-		private void peopleClearFiltersButton_Click(object sender, RoutedEventArgs e)
+		private void peopleClearFiltersButton_Click(
+			object sender,
+			RoutedEventArgs e)
 		{
 			this.firstNameTextBox.Text = string.Empty;
 			this.middleNameTextBox.Text = string.Empty;
 			this.lastNameTextBox.Text = string.Empty;
 		}
 
-		private void companiesClearFiltersButton_Click(object sender, RoutedEventArgs e)
+		private void companiesClearFiltersButton_Click(
+			object sender,
+			RoutedEventArgs e)
 		{
 			this.companyNameTextBox.Text = string.Empty;
 			this.minRatingTextBox.Text = string.Empty;
@@ -168,40 +182,38 @@ namespace PhoneBook.UI
 
 		private void UpdatePeopleListBox()
 		{
-			string firstName = this.firstNameTextBox.Text.ToString();
-			string middleName = this.middleNameTextBox.Text.ToString();
-			string lastName = this.lastNameTextBox.Text.ToString();
+			string firstName = this.firstNameTextBox.Text;
+			string middleName = this.middleNameTextBox.Text;
+			string lastName = this.lastNameTextBox.Text;
 
 			IRepository<User> repo = new UserRepository();
-			this.LoadPeopleWithFilters(
+			this.LoadPeople(
 				repo,
 				this.peoplePageInfo,
 				firstName,
 				middleName,
-				lastName
-				);
+				lastName);
 
 			this.peopleListBox.ItemsSource = repo.LocalData;
 		}
 
 		private void UpdateCompaniesListBox()
 		{
-			string name = this.companyNameTextBox.Text.ToString();
+			string name = this.companyNameTextBox.Text;
 			double minRating = 0.0;
 			double maxRating = 5.0;
 
 			bool isInputValid = this.ValidateInput(
 				ref minRating,
-				ref maxRating
-				);
+				ref maxRating);
 
 			if (!isInputValid)
 			{
-				MessageBox.Show("Wrong input.");
+				MessageBox.Show("Wrong input.", "Error");
 			}
 			
 			IRepository<Company> repo = new CompanyRepository();
-			this.LoadCompaniesWithFilters(
+			this.LoadCompanies(
 				repo,
 				this.companiesPageInfo,
 				name,
@@ -210,19 +222,8 @@ namespace PhoneBook.UI
 
 			this.companiesListBox.ItemsSource = repo.LocalData;
 		}
-
+		
 		private void LoadPeople(
-			IRepository<User> repo,
-			PageInfo info)
-		{
-			repo.GetAll()
-				.OrderBy(user => user.LastName)
-				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
-				.Take(info.EntriesPerPage)
-				.Load();
-		}
-
-		private void LoadPeopleWithFilters(
 			IRepository<User> repo,
 			PageInfo info,
 			string firstName,
@@ -230,31 +231,20 @@ namespace PhoneBook.UI
 			string lastName)
 		{
 			repo.GetAll()
-				.Where(user => (
-				(firstName == string.Empty? true:
-				user.FirstName.Contains(firstName)) &&
-				(middleName == string.Empty ? true :
-				user.MiddleName.Contains(middleName)) &&
-				(lastName == string.Empty ? true :
-				user.LastName.Contains(lastName))))
+				.Where(user =>
+					(String.IsNullOrEmpty(firstName) ||
+						user.FirstName.Contains(firstName)) &&
+					(String.IsNullOrEmpty(middleName) ||
+						user.MiddleName.Contains(middleName)) &&
+					(String.IsNullOrEmpty(lastName) ||
+						user.LastName.Contains(lastName)))
 				.OrderBy(user => user.LastName)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
 				.Load();
 		}
-
+		
 		private void LoadCompanies(
-			IRepository<Company> repo,
-			PageInfo info)
-		{
-			repo.GetAll()
-				.OrderBy(company => company.Name)
-				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
-				.Take(info.EntriesPerPage)
-				.LoadAsync();
-		}
-
-		private void LoadCompaniesWithFilters(
 			IRepository<Company> repo,
 			PageInfo info,
 			string name,
@@ -262,11 +252,11 @@ namespace PhoneBook.UI
 			double maxRating)
 		{
 			repo.GetAll()
-				.Where(company => (
-				(name == string.Empty ? true :
-				company.Name.Contains(name)) &&
-				(company.Rating > minRating) &&
-				(company.Rating < maxRating)))
+				.Where(company =>
+					(String.IsNullOrEmpty(name) ||
+						company.Name.Contains(name)) &&
+					(company.Rating > minRating) &&
+					(company.Rating < maxRating))
 				.OrderBy(company => company.Name)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
@@ -288,7 +278,7 @@ namespace PhoneBook.UI
 				}
 				else
 				{
-					if(minRating < 0.0 || minRating > 5.0)
+					if (minRating < 0.0 || minRating > 5.0)
 					{
 						isInputValid = false;
 						this.minRatingTextBox.Text = string.Empty;
@@ -313,7 +303,7 @@ namespace PhoneBook.UI
 				}
 			}
 
-			if(minRating > maxRating)
+			if (minRating > maxRating)
 			{
 				isInputValid = false;
 				this.minRatingTextBox.Text = string.Empty;

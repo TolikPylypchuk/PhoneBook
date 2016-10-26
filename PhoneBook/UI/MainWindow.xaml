@@ -18,171 +18,189 @@
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
 			<Setter Property="Width" Value="150" />
-			<Setter Property="Margin" Value="0.5" />
+			<Setter Property="Margin" Value="0,5" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 		</Style>
 
 		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
 	</Window.Resources>
+	
 	<DockPanel x:Name="mainPanel">
 		<Menu DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Background="#FFFFFF">
 			<MenuItem Header="File" HorizontalAlignment="Left">
 				<MenuItem Header="Log in" HorizontalAlignment="Left" Width="160"
-                    Click="MenuLogInClick"/>
+						  Click="MenuLogInClick"/>
 				<MenuItem Header="Log out" HorizontalAlignment="Left" Width="160"
-                    Click="MenuLogOutClick"/>
+						  Click="MenuLogOutClick"/>
 				<MenuItem Header="Personal info" HorizontalAlignment="Left" Width="160"
-                    Click="MenuPersonInfoClick"/>
+						  Click="MenuPersonInfoClick"/>
 				<MenuItem Header="Company info" HorizontalAlignment="Left" Width="160"
-                    Click="MenuCompanyInfoClick"/>
+						  Click="MenuCompanyInfoClick"/>
+				<Separator />
 				<MenuItem Header="Exit" HorizontalAlignment="Left" Width="160"
-                    Click="MenuExitClick"/>
+						  Click="MenuExitClick"/>
 			</MenuItem>
 			<MenuItem Header="About" HorizontalAlignment="Left"
-                Click="MenuAboutClick">
+					  Click="MenuAboutClick">
 			</MenuItem>
 		</Menu>
 
 		<Grid HorizontalAlignment="Stretch"
-				   VerticalAlignment="Stretch">
+			  VerticalAlignment="Stretch">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition />
 				<ColumnDefinition />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
 
-			<StackPanel x:Name="filterPanel" Grid.Column="0"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Center">
-				<local:FlipPanel x:Name="filterFlipPanel">
-					<local:FlipPanel.FrontContent>
-						<StackPanel x:Name="peopleFiltersPanel"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Orientation="Vertical">
-							<Grid x:Name="peopleFiltersGrid"
-							  HorizontalAlignment="Center" VerticalAlignment="Center">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
+			<local:FlipPanel x:Name="filterFlipPanel">
+				<local:FlipPanel.Resources>
+					<Style TargetType="{x:Type TextBox}">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="Margin" Value="5" />
+						<Setter Property="Width" Value="100" />
+					</Style>
+					<Style TargetType="{x:Type TextBlock}">
+						<Setter Property="HorizontalAlignment" Value="Right" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="Margin" Value="5" />
+					</Style>
+				</local:FlipPanel.Resources>
+				
+				<local:FlipPanel.FrontContent>
+					<StackPanel Orientation="Vertical"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center">
+						<Grid x:Name="peopleFiltersGrid"
+							  HorizontalAlignment="Center"
+							  VerticalAlignment="Center">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
 
-								<TextBlock Grid.Column="0" Grid.Row="0"
+							<TextBlock Grid.Column="0" Grid.Row="0"
 									   HorizontalAlignment="Right">
-								<Run Text="First name:"/></TextBlock>
-								<TextBox Grid.Column="1" Grid.Row="0"
+								First name:
+							</TextBlock>
+							<TextBox Grid.Column="1" Grid.Row="0"
 									 x:Name="firstNameTextBox" />
 
-								<TextBlock Grid.Column="0" Grid.Row="1"
+							<TextBlock Grid.Column="0" Grid.Row="1"
 									   HorizontalAlignment="Right">
-								<Run Text="Middle name:"/></TextBlock>
-								<TextBox Grid.Column="1" Grid.Row="1"
+								Middle name:
+							</TextBlock>
+							<TextBox Grid.Column="1" Grid.Row="1"
 									 x:Name="middleNameTextBox" />
 
-								<TextBlock Grid.Column="0" Grid.Row="2"
+							<TextBlock Grid.Column="0" Grid.Row="2"
 									   HorizontalAlignment="Right">
-								<Run Text="Last name:"/></TextBlock>
-								<TextBox Grid.Column="1" Grid.Row="2"
+								Last name:
+							</TextBlock>
+							<TextBox Grid.Column="1" Grid.Row="2"
 									 x:Name="lastNameTextBox" />
-							</Grid>
+						</Grid>
 
-							<StackPanel Orientation="Horizontal"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center">
-								<Button x:Name="peopleFindButton"
-								Height="25" Width="35"
-								Click="peopleFindButton_Click">
-									Find
-								</Button>
+						<StackPanel Orientation="Horizontal"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+							<Button x:Name="peopleFindButton"
+									Height="25" Width="35"
+									Click="peopleFindButton_Click">
+								Find
+							</Button>
 
-								<Button x:Name="peopleClearFiltersButton"
-								Height="25" Width="35"
-								Click="peopleClearFiltersButton_Click">
-									Clear
-								</Button>
-							</StackPanel>
+							<Button x:Name="peopleClearFiltersButton"
+									Height="25" Width="35"
+									Click="peopleClearFiltersButton_Click">
+								Clear
+							</Button>
 						</StackPanel>
-					</local:FlipPanel.FrontContent>
+					</StackPanel>
+				</local:FlipPanel.FrontContent>
 
-					<local:FlipPanel.BackContent>
-						<StackPanel x:Name="companiesFiltersPanel"
-									HorizontalAlignment="Stretch"
-									VerticalAlignment="Center"
-									Orientation="Vertical">
-							<Grid x:Name="companiesFiltersGrid"
-							  HorizontalAlignment="Center" VerticalAlignment="Center">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto"/>
-									<ColumnDefinition Width="*"/>
-								</Grid.ColumnDefinitions>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto" />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
+				<local:FlipPanel.BackContent>
+					<StackPanel x:Name="companiesFiltersPanel"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Orientation="Vertical">
+						<Grid x:Name="companiesFiltersGrid"
+							  HorizontalAlignment="Center"
+							  VerticalAlignment="Center">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto"/>
+								<ColumnDefinition Width="*"/>
+							</Grid.ColumnDefinitions>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
 
-								<TextBlock Grid.Column="0" Grid.Row="0"
+							<TextBlock Grid.Column="0" Grid.Row="0"
 									   HorizontalAlignment="Right">
-								<Run Text="Name:"/></TextBlock>
-								<TextBox Grid.Column="1" Grid.Row="0"
+								Name:
+							</TextBlock>
+							
+							<TextBox Grid.Column="1" Grid.Row="0"
 									 x:Name="companyNameTextBox"/>
 
-								<TextBlock Grid.Column="0" Grid.Row="1"
+							<TextBlock Grid.Column="0" Grid.Row="1"
 									   HorizontalAlignment="Right">
-								<Run Text="Rating:" /></TextBlock>
-								<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
-									<TextBox x:Name="minRatingTextBox" Width="25" />
-									<TextBlock>-</TextBlock>
-									<TextBox x:Name="maxRatingTextBox" Width="25" />
-								</StackPanel>
-							</Grid>
-
-							<StackPanel Orientation="Horizontal"
-										HorizontalAlignment="Center"
-										VerticalAlignment="Center">
-								<Button x:Name="companiesFindButton"
-								Height="25" Width="35"
-								Click="companiesFindButton_Click">
-									Find
-								</Button>
-								<Button x:Name="companiesClearFiltersButton"
-								Height="25" Width="35"
-								Click="companiesClearFiltersButton_Click">
-									Clear
-								</Button>
+								Rating:
+							</TextBlock>
+							
+							<StackPanel Grid.Column="1" Grid.Row="1"
+										Orientation="Horizontal">
+								<TextBox x:Name="minRatingTextBox" Width="25" />
+								<TextBlock>-</TextBlock>
+								<TextBox x:Name="maxRatingTextBox" Width="25" />
 							</StackPanel>
+						</Grid>
+
+						<StackPanel Orientation="Horizontal"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center">
+							<Button x:Name="companiesFindButton"
+									Height="25" Width="35"
+									Click="companiesFindButton_Click">
+								Find
+							</Button>
+							<Button x:Name="companiesClearFiltersButton"
+									Height="25" Width="35"
+									Click="companiesClearFiltersButton_Click">
+								Clear
+							</Button>
 						</StackPanel>
-					</local:FlipPanel.BackContent>
-				</local:FlipPanel>
-
-			</StackPanel>
-
+					</StackPanel>
+				</local:FlipPanel.BackContent>
+			</local:FlipPanel>
 
 			<DockPanel x:Name="entriesPanel" Grid.Column="1"
-				   HorizontalAlignment="Stretch"
-				   VerticalAlignment="Stretch">
+					   HorizontalAlignment="Stretch"
+					   VerticalAlignment="Stretch">
 				<DockPanel DockPanel.Dock="Top" Margin="10,0">
 					<Button x:Name="previousPage" DockPanel.Dock="Left"
-						IsEnabled="{Binding Path=IsFirstPage,
+							IsEnabled="{Binding Path=IsFirstPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
-						Click="previousPage_Click">
+							Click="previousPage_Click">
 						&lt;
 					</Button>
 					<Button x:Name="nextPage" DockPanel.Dock="Right"
-						IsEnabled="{Binding Path=IsLastPage,
+							IsEnabled="{Binding Path=IsLastPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
-						Click="nextPage_Click">
+							Click="nextPage_Click">
 						&gt;
 					</Button>
 					<StackPanel HorizontalAlignment="Center"
-							Orientation="Horizontal">
+								Orientation="Horizontal">
 						<TextBlock Text="Page " />
 						<TextBlock Text="{Binding Path=CurrentPage}" />
 						<TextBlock Text="/" />
@@ -190,38 +208,28 @@
 					</StackPanel>
 				</DockPanel>
 				<TabControl x:Name="entriesTabControl" Margin="10"
-						SelectionChanged="TabControl_SelectionChanged">
+							SelectionChanged="TabControl_SelectionChanged">
 					<TabItem x:Name="peopleTabItem" Header="People">
 						<ListBox x:Name="peopleListBox" Margin="10"
-							 BorderBrush="Black" BorderThickness="1">
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Path=FullName}" />
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
+								 BorderBrush="Black" BorderThickness="1"
+								 DisplayMemberPath="FullName" />
 					</TabItem>
 					<TabItem x:Name="companiesTabItem" Header="Companies">
 						<ListBox x:Name="companiesListBox" Margin="10"
-							 BorderBrush="Black" BorderThickness="1">
-							<ListBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Path=Name}" />
-								</DataTemplate>
-							</ListBox.ItemTemplate>
-						</ListBox>
+								 BorderBrush="Black" BorderThickness="1"
+								 DisplayMemberPath="Name" />
 					</TabItem>
 				</TabControl>
 			</DockPanel>
 
 			<StackPanel x:Name="individualInfoPanel" Grid.Column="2"
-					HorizontalAlignment="Stretch"
-					VerticalAlignment="Center">
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Center">
 				<local:FlipPanel x:Name="individualInfoFlipPanel">
 					<local:FlipPanel.FrontContent>
 						<StackPanel x:Name="peoplePropertiesListBox" HorizontalAlignment="Center"
-								DataContext="{Binding SelectedItem, ElementName=peopleListBox}"
-								Orientation="Vertical">
+									DataContext="{Binding SelectedItem, ElementName=peopleListBox}"
+									Orientation="Vertical">
 							<TextBlock Text="First name:" />
 							<TextBox Text="{Binding Path=FirstName, Mode=OneWay}"
 									 IsReadOnly="True"/>
@@ -248,8 +256,8 @@
 
 					<local:FlipPanel.BackContent>
 						<StackPanel x:Name="companyPropertiesListBox" HorizontalAlignment="Center"
-								DataContext="{Binding SelectedItems, ElementName=companiesListBox}"
-								Orientation="Vertical">
+									DataContext="{Binding SelectedItems, ElementName=companiesListBox}"
+									Orientation="Vertical">
 							<TextBlock Text="Name:" />
 							<TextBox Text="{Binding Path=Name, Mode=OneWay}"
 									 IsReadOnly="True"/>

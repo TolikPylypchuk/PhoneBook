@@ -70,6 +70,22 @@ namespace PhoneBook.UI
 				this,
 				this.IsFlipped ? "Flipped" : "Normal",
 				false);
+
+			UIElement front = FrontContent as UIElement;
+			if (front != null)
+			{
+				front.Visibility = this.IsFlipped
+					? Visibility.Hidden
+					: Visibility.Visible;
+			}
+
+			UIElement back = BackContent as UIElement;
+			if (back != null)
+			{
+				back.Visibility = this.IsFlipped
+					? Visibility.Visible
+					: Visibility.Hidden;
+			}
 		}
 	}
 }
