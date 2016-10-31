@@ -7,13 +7,13 @@ namespace PhoneBook.DAL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MadeDateTimesNullable : IMigrationMetadata
+    public sealed partial class Another : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MadeDateTimesNullable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Another));
         
         string IMigrationMetadata.Id
         {
-            get { return "201610031201581_MadeDateTimesNullable"; }
+            get { return "201610312042481_Another"; }
         }
         
         string IMigrationMetadata.Source
