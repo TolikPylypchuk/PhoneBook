@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PhoneBook.DAL.Models
 {
-	public abstract partial class EntityBase
+	public abstract class EntityBase
 	{
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]

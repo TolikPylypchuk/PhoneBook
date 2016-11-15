@@ -6,7 +6,7 @@
 			xmlns:local="clr-namespace:PhoneBook.UI"
 			mc:Ignorable="d" WindowStartupLocation="CenterScreen"
 			Title="Phone Book" Height="350" Width="750"
-			MinHeight="300" MinWidth="400" Loaded="Window_Loaded">
+			MinHeight="300" MinWidth="500" Loaded="Window_Loaded">
 	<Window.Resources>
 		<Style TargetType="{x:Type Button}">
 			<Setter Property="Margin" Value="2" />
@@ -24,6 +24,7 @@
 		</Style>
 
 		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
+		<local:PhonesToStringConverter x:Key="PhonesToStringConverter" />
 	</Window.Resources>
 	
 	<DockPanel x:Name="mainPanel">
@@ -49,9 +50,9 @@
 		<Grid HorizontalAlignment="Stretch"
 			  VerticalAlignment="Stretch">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition />
-				<ColumnDefinition />
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="200" />
 			</Grid.ColumnDefinitions>
 
 			<local:FlipPanel x:Name="filterFlipPanel">
@@ -209,15 +210,42 @@
 				</DockPanel>
 				<TabControl x:Name="entriesTabControl" Margin="10"
 							SelectionChanged="TabControl_SelectionChanged">
+					<TabControl.Resources>
+						<Style TargetType="{x:Type ListView}">
+							<Setter Property="BorderBrush" Value="Black" />
+							<Setter Property="BorderThickness" Value="1" />
+							<Setter Property="Margin" Value="10" />
+						</Style>
+					</TabControl.Resources>
 					<TabItem x:Name="peopleTabItem" Header="People">
-						<ListBox x:Name="peopleListBox" Margin="10"
-								 BorderBrush="Black" BorderThickness="1"
-								 DisplayMemberPath="FullName" />
+						<ListView x:Name="peopleListView">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Name"
+													DisplayMemberBinding="{Binding Path=FullName}" />
+									<GridViewColumn Header="Phone(s)"
+													DisplayMemberBinding="{Binding Path=Phones,
+														Converter={StaticResource PhonesToStringConverter}}" />
+									<GridViewColumn Header="Email"
+													DisplayMemberBinding="{Binding Path=Email}" />
+								</GridView>
+							</ListView.View>
+						</ListView>
 					</TabItem>
 					<TabItem x:Name="companiesTabItem" Header="Companies">
-						<ListBox x:Name="companiesListBox" Margin="10"
-								 BorderBrush="Black" BorderThickness="1"
-								 DisplayMemberPath="Name" />
+						<ListView x:Name="companiesListView">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Name"
+													DisplayMemberBinding="{Binding Path=Name}" />
+									<GridViewColumn Header="Phone(s)"
+													DisplayMemberBinding="{Binding Path=Phones,
+														Converter={StaticResource PhonesToStringConverter}}" />
+									<GridViewColumn Header="Email"
+													DisplayMemberBinding="{Binding Path=Email}" />
+								</GridView>
+							</ListView.View>
+						</ListView>
 					</TabItem>
 				</TabControl>
 			</DockPanel>

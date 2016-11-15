@@ -4,13 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PhoneBook.DAL.Models
 {
 	[Table("CompanyPhones")]
-	public partial class CompanyPhone : EntityBase
+	public partial class CompanyPhone : PhoneBase
 	{
-		[Required]
-		[Phone]
-		[StringLength(15)]
-		public string Number { get; set; }
-
 		[Required]
 		[Display(Name = "Company ID")]
 		public int CompanyId { get; set; }
