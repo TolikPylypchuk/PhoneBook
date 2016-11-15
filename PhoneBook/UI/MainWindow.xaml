@@ -52,7 +52,6 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="200" />
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="200" />
 			</Grid.ColumnDefinitions>
 
 			<local:FlipPanel x:Name="filterFlipPanel">
@@ -218,7 +217,7 @@
 						</Style>
 					</TabControl.Resources>
 					<TabItem x:Name="peopleTabItem" Header="People">
-						<ListView x:Name="peopleListView">
+						<ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Name"
@@ -233,7 +232,7 @@
 						</ListView>
 					</TabItem>
 					<TabItem x:Name="companiesTabItem" Header="Companies">
-						<ListView x:Name="companiesListView">
+						<ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick">
 							<ListView.View>
 								<GridView>
 									<GridViewColumn Header="Name"
@@ -249,63 +248,6 @@
 					</TabItem>
 				</TabControl>
 			</DockPanel>
-
-			<StackPanel x:Name="individualInfoPanel" Grid.Column="2"
-						HorizontalAlignment="Stretch"
-						VerticalAlignment="Center">
-				<local:FlipPanel x:Name="individualInfoFlipPanel">
-					<local:FlipPanel.FrontContent>
-						<StackPanel x:Name="peoplePropertiesListBox" HorizontalAlignment="Center"
-									DataContext="{Binding SelectedItem, ElementName=peopleListBox}"
-									Orientation="Vertical">
-							<TextBlock Text="First name:" />
-							<TextBox Text="{Binding Path=FirstName, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Middle name:" />
-							<TextBox Text="{Binding Path=MiddleName, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Last name:" />
-							<TextBox Text="{Binding Path=LastName, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Email:" />
-							<TextBox Text="{Binding Path=Email, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Address:" />
-							<TextBox Text="{Binding Path=Address, Mode=OneWay}"
-									 MinLines="2" MaxLines="2"
-									 TextWrapping="Wrap" Height="34"
-									 IsReadOnly="True"/>
-						</StackPanel>
-					</local:FlipPanel.FrontContent>
-
-					<local:FlipPanel.BackContent>
-						<StackPanel x:Name="companyPropertiesListBox" HorizontalAlignment="Center"
-									DataContext="{Binding SelectedItems, ElementName=companiesListBox}"
-									Orientation="Vertical">
-							<TextBlock Text="Name:" />
-							<TextBox Text="{Binding Path=Name, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Description: " />
-							<TextBox Text="{Binding Path=Description, Mode=OneWay}"
-									 MinLines="3" TextWrapping="Wrap" Height="50"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Email: " />
-							<TextBox Text="{Binding Path=Email, Mode=OneWay}"
-									 IsReadOnly="True"/>
-
-							<TextBlock Text="Rating: " />
-							<TextBox Text="{Binding Path=Rating, Mode=OneWay}"
-									 IsReadOnly="True"/>
-						</StackPanel>
-					</local:FlipPanel.BackContent>
-				</local:FlipPanel>
-			</StackPanel>
 		</Grid>
 	</DockPanel>
 </Window>

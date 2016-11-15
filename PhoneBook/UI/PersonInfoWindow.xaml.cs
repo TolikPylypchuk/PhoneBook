@@ -1,15 +1,29 @@
 ﻿using System.Windows;
 
+using PhoneBook.DAL.Models;
+
 namespace PhoneBook.UI
 {
 	/// <summary>
-	/// Interaction logic for PersonalInfoWindow.xaml
+	/// Interaction logic for PersonInfoWindow.xaml
 	/// </summary>
-	public partial class PersonalInfoWindow : Window
+	public partial class PersonInfoWindow : Window
 	{
-		public PersonalInfoWindow()
+		public static readonly DependencyProperty PersonProperty =
+			DependencyProperty.Register(
+				nameof(PersonInfoData),
+				typeof(User),
+				typeof(PersonInfoWindow));
+
+		public PersonInfoWindow()
 		{
-			InitializeComponent();
+			this.InitializeComponent();
+		}
+
+		public User PersonInfoData
+		{
+			get { return (User)this.GetValue(PersonProperty); }
+			set { this.SetValue(PersonProperty, value); }
 		}
 	}
 }

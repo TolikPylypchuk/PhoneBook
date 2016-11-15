@@ -40,7 +40,6 @@ namespace PhoneBook.UI
 			IRepository<User> repoPeople = new UserRepository();
 			IRepository<Company> repoCompanies = new CompanyRepository();
 			
-			this.individualInfoFlipPanel.Flip();
 			this.filterFlipPanel.Flip();
 
 			this.peoplePageInfo.TotalEntries =
@@ -72,8 +71,7 @@ namespace PhoneBook.UI
 
 				this.UpdateCompaniesListBox();
 			}
-
-			this.individualInfoFlipPanel.Flip();
+			
 			this.filterFlipPanel.Flip();
 		}
 
@@ -313,5 +311,21 @@ namespace PhoneBook.UI
 			return isInputValid;
 		}
 		#endregion
+
+		private void peopleListView_MouseDoubleClick(
+			object sender,
+			System.Windows.Input.MouseButtonEventArgs e)
+		{
+			PersonInfoWindow nwindow = new PersonInfoWindow();
+			nwindow.PersonInfoData = (User)this.peopleListView.SelectedItem;
+			nwindow.ShowDialog();
+		}
+
+		private void companiesListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			CompanyInfoWindow nwindow = new CompanyInfoWindow();
+			nwindow.CompanyInfoData = (Company)this.companiesListView.SelectedItem;
+			nwindow.ShowDialog();
+		}
 	}
 }

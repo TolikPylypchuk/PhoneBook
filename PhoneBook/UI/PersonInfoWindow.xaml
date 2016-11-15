@@ -1,26 +1,54 @@
-﻿<Window x:Class="PhoneBook.UI.PersonalInfoWindow"
+﻿<Window x:Class="PhoneBook.UI.PersonInfoWindow"
+		x:Name="PersonInformationWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhoneBook.UI"
-        mc:Ignorable="d" WindowStartupLocation="CenterOwner"
-        Title="Individual Information" Height="300" Width="300">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Person Individual Information" Height="300" Width="300">
 	<Window.Resources>
-		<Style TargetType="{x:Type Button}">
-			<Setter Property="Margin" Value="2" />
-			<Setter Property="Padding" Value="2" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-		</Style>
 		<Style TargetType="{x:Type TextBlock}">
 			<Setter Property="VerticalAlignment" Value="Center" />
 		</Style>
 		<Style TargetType="{x:Type TextBox}">
-			<Setter Property="Width" Value="150" />
+			<Setter Property="Width" Value="250"/>
 			<Setter Property="Margin" Value="0,5" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 		</Style>
 	</Window.Resources>
-	
+	<local:FlipPanel x:Name="personInfoFlipPanel">
+		<local:FlipPanel.FrontContent>
+			<StackPanel HorizontalAlignment="Center"
+							DataContext="{Binding Path=PersonInfoData, ElementName=PersonInformationWindow}"
+							Orientation="Vertical">
+				<TextBlock Text="First name:" />
+				<TextBox Text="{Binding Path=FirstName, Mode=OneWay}"
+									 IsReadOnly="True"/>
+
+				<TextBlock Text="Middle name:" />
+				<TextBox Text="{Binding Path=MiddleName, Mode=OneWay}"
+									 IsReadOnly="True"/>
+
+				<TextBlock Text="Last name:" />
+				<TextBox Text="{Binding Path=LastName, Mode=OneWay}"
+									 IsReadOnly="True"/>
+
+				<TextBlock Text="Email:" />
+				<TextBox Text="{Binding Path=Email, Mode=OneWay}"
+									 IsReadOnly="True"/>
+
+				<TextBlock Text="Address:" />
+				<TextBox Text="{Binding Path=Address, Mode=OneWay}"
+									 MinLines="2" MaxLines="2"
+									 TextWrapping="Wrap" Height="34"
+									 IsReadOnly="True"/>
+			</StackPanel>
+		</local:FlipPanel.FrontContent>
+
+		<local:FlipPanel.BackContent>
+			<TextBox>Location on map goes here.</TextBox>
+		</local:FlipPanel.BackContent>
+	</local:FlipPanel>
 </Window>
