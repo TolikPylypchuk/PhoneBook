@@ -194,7 +194,7 @@ namespace PhoneBook.UI
 				middleName,
 				lastName);
 
-			this.peopleListBox.ItemsSource = repo.LocalData;
+			this.peopleListView.ItemsSource = repo.LocalData;
 		}
 
 		private void UpdateCompaniesListBox()
@@ -220,7 +220,7 @@ namespace PhoneBook.UI
 				minRating,
 				maxRating);
 
-			this.companiesListBox.ItemsSource = repo.LocalData;
+			this.companiesListView.ItemsSource = repo.LocalData;
 		}
 		
 		private void LoadPeople(
