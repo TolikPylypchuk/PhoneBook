@@ -11,16 +11,17 @@ namespace PhoneBook.UI
 	{
 		public static readonly DependencyProperty CompanyProperty =
 			DependencyProperty.Register(
-				nameof(CompanyInfoData),
+				nameof(Company),
 				typeof(Company),
 				typeof(CompanyInfoWindow));
 
 		public CompanyInfoWindow()
 		{
 			this.InitializeComponent();
+			this.DataContext = this.Company;
 		}
 
-		public Company CompanyInfoData
+		public Company Company
 		{
 			get { return (Company)this.GetValue(CompanyProperty); }
 			set { this.SetValue(CompanyProperty, value); }

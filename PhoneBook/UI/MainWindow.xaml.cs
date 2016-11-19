@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
@@ -174,6 +175,29 @@ namespace PhoneBook.UI
 			this.minRatingTextBox.Text = string.Empty;
 			this.maxRatingTextBox.Text = string.Empty;
 		}
+
+		private void peopleListView_MouseDoubleClick(
+			object sender,
+			MouseButtonEventArgs e)
+		{
+			new PersonInfoWindow
+			{
+				Person = this.peopleListView.SelectedItem as User,
+				Owner = this
+			}.ShowDialog();
+		}
+
+		private void companiesListView_MouseDoubleClick(
+			object sender,
+			MouseButtonEventArgs e)
+		{
+			new CompanyInfoWindow
+			{
+				Company = this.companiesListView.SelectedItem as Company,
+				Owner = this
+			}.ShowDialog();
+		}
+
 		#endregion
 
 		#region Other methods
@@ -311,21 +335,5 @@ namespace PhoneBook.UI
 			return isInputValid;
 		}
 		#endregion
-
-		private void peopleListView_MouseDoubleClick(
-			object sender,
-			System.Windows.Input.MouseButtonEventArgs e)
-		{
-			PersonInfoWindow nwindow = new PersonInfoWindow();
-			nwindow.PersonInfoData = (User)this.peopleListView.SelectedItem;
-			nwindow.ShowDialog();
-		}
-
-		private void companiesListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-		{
-			CompanyInfoWindow nwindow = new CompanyInfoWindow();
-			nwindow.CompanyInfoData = (Company)this.companiesListView.SelectedItem;
-			nwindow.ShowDialog();
-		}
 	}
 }

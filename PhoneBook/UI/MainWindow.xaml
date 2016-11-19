@@ -22,9 +22,6 @@
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 		</Style>
-
-		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
-		<local:PhonesToStringConverter x:Key="PhonesToStringConverter" />
 	</Window.Resources>
 	
 	<DockPanel x:Name="mainPanel">

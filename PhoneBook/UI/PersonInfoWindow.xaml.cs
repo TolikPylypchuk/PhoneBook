@@ -11,7 +11,7 @@ namespace PhoneBook.UI
 	{
 		public static readonly DependencyProperty PersonProperty =
 			DependencyProperty.Register(
-				nameof(PersonInfoData),
+				nameof(Person),
 				typeof(User),
 				typeof(PersonInfoWindow));
 
@@ -20,7 +20,7 @@ namespace PhoneBook.UI
 			this.InitializeComponent();
 		}
 
-		public User PersonInfoData
+		public User Person
 		{
 			get { return (User)this.GetValue(PersonProperty); }
 			set { this.SetValue(PersonProperty, value); }
