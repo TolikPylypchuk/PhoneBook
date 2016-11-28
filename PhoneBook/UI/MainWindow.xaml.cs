@@ -276,13 +276,11 @@ namespace PhoneBook.UI
 			repo.GetAll()
 				.Where(company =>
 					(String.IsNullOrEmpty(name) ||
-						company.Name.Contains(name)) &&
-					(company.Rating > minRating) &&
-					(company.Rating < maxRating))
+					company.Name.Contains(name)))
 				.OrderBy(company => company.Name)
 				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 				.Take(info.EntriesPerPage)
-				.LoadAsync();
+				.Load();
 		}
 
 		private bool ValidateInput(

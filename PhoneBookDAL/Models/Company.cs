@@ -22,6 +22,7 @@ namespace PhoneBook.DAL.Models
 		[NotMapped]
 		public double Rating { get; set; }
 
+		[Required]
 		[Display(Name = "User ID")]
 		public int UserId { get; set; }
 
@@ -45,5 +46,8 @@ namespace PhoneBook.DAL.Models
 
 		public virtual ICollection<CompanyPhone> Phones { get; set; } =
 			new HashSet<CompanyPhone>();
+
+		public virtual ICollection<Review> Reviews { get; set; } =
+			new HashSet<Review>();
 	}
 }

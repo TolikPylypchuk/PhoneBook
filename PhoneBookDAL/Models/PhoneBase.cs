@@ -2,7 +2,7 @@
 
 namespace PhoneBook.DAL.Models
 {
-	public abstract class PhoneBase : EntityBase
+	public abstract partial class PhoneBase : EntityBase
 	{
 		[Required]
 		[Phone]

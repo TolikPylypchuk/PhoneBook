@@ -19,7 +19,7 @@ namespace PhoneBook.DAL.Models
 		public string Street { get; set; }
 
 		[Required]
-		public int Number { get; set; }
+		public string Number { get; set; }
 
 		public int Apartment { get; set; }
 
