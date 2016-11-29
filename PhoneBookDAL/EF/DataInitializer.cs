@@ -56,7 +56,8 @@ namespace PhoneBook.DAL.EF
 				LastName = "Slobodianiuk",
 				Address = address1,
 				Email = "slo0nata@gmail.com",
-				PasswordHash = hash
+				PasswordHash = hash,
+				IsVisible = true
 			};
 
 			User tolik = new User
@@ -66,7 +67,8 @@ namespace PhoneBook.DAL.EF
 				LastName = "Pylypchuk",
 				Email = "pylypchuk.tolik@gmail.com",
 				Address = address2,
-				PasswordHash = hash
+				PasswordHash = hash,
+				IsVisible = true
 			};
 
 			UserPhone phone1 = new UserPhone

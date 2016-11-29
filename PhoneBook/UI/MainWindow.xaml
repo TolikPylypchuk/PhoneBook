@@ -28,16 +28,18 @@
 		<Menu DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Background="#FFFFFF">
 			<MenuItem Header="File" HorizontalAlignment="Left">
 				<MenuItem Header="Log in" HorizontalAlignment="Left" Width="160"
-						  Click="MenuLogInClick"/>
+						  Click="MenuLogInClick" />
+				<MenuItem Header="Sign up" HorizontalAlignment="Left" Width="160"
+						  Click="MenuSignUpClick" />
 				<MenuItem Header="Log out" HorizontalAlignment="Left" Width="160"
-						  Click="MenuLogOutClick"/>
+						  Click="MenuLogOutClick" Visibility="Collapsed" />
 				<MenuItem Header="Personal info" HorizontalAlignment="Left" Width="160"
-						  Click="MenuPersonInfoClick"/>
+						  Click="MenuPersonInfoClick" Visibility="Collapsed" />
 				<MenuItem Header="Company info" HorizontalAlignment="Left" Width="160"
-						  Click="MenuCompanyInfoClick"/>
+						  Click="MenuCompanyInfoClick" Visibility="Collapsed" />
 				<Separator />
 				<MenuItem Header="Exit" HorizontalAlignment="Left" Width="160"
-						  Click="MenuExitClick"/>
+						  Click="MenuExitClick" />
 			</MenuItem>
 			<MenuItem Header="About" HorizontalAlignment="Left"
 					  Click="MenuAboutClick">

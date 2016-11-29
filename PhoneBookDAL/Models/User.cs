@@ -16,6 +16,9 @@ namespace PhoneBook.DAL.Models
 		public string PasswordHash { get; set; }
 
 		[Required]
+		public bool IsVisible { get; set; }
+
+		[Required]
 		[StringLength(15)]
 		[Display(Name = "First name")]
 		public string FirstName { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 
+using PhoneBook.DAL.Models;
+
 namespace PhoneBook
 {
 	/// <summary>
@@ -7,5 +9,6 @@ namespace PhoneBook
 	/// </summary>
 	public partial class App : Application
 	{
+		public User CurrentUser { get; set; }
 	}
 }

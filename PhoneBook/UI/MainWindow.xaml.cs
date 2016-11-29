@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,6 +17,8 @@ namespace PhoneBook.UI
 	public partial class MainWindow : Window
 	{
 		#region Fields
+
+		App currentApp = Application.Current as App;
 
 		private PageInfo peoplePageInfo = new PageInfo
 		{
@@ -50,7 +53,7 @@ namespace PhoneBook.UI
 				await repoCompanies.GetAll().CountAsync();
 		}
 
-		private void TabControl_SelectionChanged(
+		private async void TabControl_SelectionChanged(
 			object sender,
 			SelectionChangedEventArgs e)
 		{
@@ -65,18 +68,18 @@ namespace PhoneBook.UI
 			{
 				this.entriesPanel.DataContext = this.peoplePageInfo;
 
-				this.UpdatePeopleListBox();
+				await this.UpdatePeopleListBoxAsync();
 			} else if (item == this.companiesTabItem)
 			{
 				this.entriesPanel.DataContext = this.companiesPageInfo;
 
-				this.UpdateCompaniesListBox();
+				await this.UpdateCompaniesListBoxAsync();
 			}
 			
 			this.filterFlipPanel.Flip();
 		}
 
-		private void previousPage_Click(
+		private async void previousPage_Click(
 			object sender,
 			RoutedEventArgs e)
 		{
@@ -84,16 +87,16 @@ namespace PhoneBook.UI
 				this.peopleTabItem)
 			{
 				this.peoplePageInfo.CurrentPage--;
-				this.UpdatePeopleListBox();
+				await this.UpdatePeopleListBoxAsync();
 			} else if (this.entriesTabControl.SelectedItem ==
 				this.companiesTabItem)
 			{
 				this.companiesPageInfo.CurrentPage--;
-				this.UpdateCompaniesListBox();
+				await this.UpdateCompaniesListBoxAsync();
 			}
 		}
 
-		private void nextPage_Click(
+		private async void nextPage_Click(
 			object sender,
 			RoutedEventArgs e)
 		{
@@ -101,12 +104,12 @@ namespace PhoneBook.UI
 				this.peopleTabItem)
 			{
 				this.peoplePageInfo.CurrentPage++;
-				this.UpdatePeopleListBox();
+				await this.UpdatePeopleListBoxAsync();
 			} else if (this.entriesTabControl.SelectedItem ==
 				this.companiesTabItem)
 			{
 				this.companiesPageInfo.CurrentPage++;
-				this.UpdateCompaniesListBox();
+				await this.UpdateCompaniesListBoxAsync();
 			}
 		}
 
@@ -115,7 +118,12 @@ namespace PhoneBook.UI
             MessageBox.Show("Not implemented!", "Error");
         }
 
-        private void MenuLogOutClick(object sender, RoutedEventArgs e)
+		private void MenuSignUpClick(object sender, RoutedEventArgs e)
+		{
+			MessageBox.Show("Not implemented!", "Error");
+		}
+
+		private void MenuLogOutClick(object sender, RoutedEventArgs e)
 		{
             MessageBox.Show("Not implemented!", "Error");
         }
@@ -143,37 +151,37 @@ namespace PhoneBook.UI
 				"Info");            
         }
 		
-		private void peopleFindButton_Click(
+		private async void peopleFindButton_Click(
 			object sender,
 			RoutedEventArgs e)
 		{
 			this.peoplePageInfo.CurrentPage = 1;
-			this.UpdatePeopleListBox();
+			await this.UpdatePeopleListBoxAsync();
 		}
 
-		private void companiesFindButton_Click(
+		private async void companiesFindButton_Click(
 			object sender, RoutedEventArgs e)
 		{
 			this.companiesPageInfo.CurrentPage = 1;
-			this.UpdateCompaniesListBox();
+			await this.UpdateCompaniesListBoxAsync();
 		}
 		
 		private void peopleClearFiltersButton_Click(
 			object sender,
 			RoutedEventArgs e)
 		{
-			this.firstNameTextBox.Text = string.Empty;
-			this.middleNameTextBox.Text = string.Empty;
-			this.lastNameTextBox.Text = string.Empty;
+			this.firstNameTextBox.Text = String.Empty;
+			this.middleNameTextBox.Text = String.Empty;
+			this.lastNameTextBox.Text = String.Empty;
 		}
 
 		private void companiesClearFiltersButton_Click(
 			object sender,
 			RoutedEventArgs e)
 		{
-			this.companyNameTextBox.Text = string.Empty;
-			this.minRatingTextBox.Text = string.Empty;
-			this.maxRatingTextBox.Text = string.Empty;
+			this.companyNameTextBox.Text = String.Empty;
+			this.minRatingTextBox.Text = String.Empty;
+			this.maxRatingTextBox.Text = String.Empty;
 		}
 
 		private void peopleListView_MouseDoubleClick(
@@ -202,14 +210,14 @@ namespace PhoneBook.UI
 
 		#region Other methods
 
-		private void UpdatePeopleListBox()
+		private async Task UpdatePeopleListBoxAsync()
 		{
 			string firstName = this.firstNameTextBox.Text;
 			string middleName = this.middleNameTextBox.Text;
 			string lastName = this.lastNameTextBox.Text;
 
 			IRepository<User> repo = new UserRepository();
-			this.LoadPeople(
+			await this.LoadPeopleAsync(
 				repo,
 				this.peoplePageInfo,
 				firstName,
@@ -219,13 +227,13 @@ namespace PhoneBook.UI
 			this.peopleListView.ItemsSource = repo.LocalData;
 		}
 
-		private void UpdateCompaniesListBox()
+		private async Task UpdateCompaniesListBoxAsync()
 		{
 			string name = this.companyNameTextBox.Text;
 			double minRating = 0.0;
 			double maxRating = 5.0;
 
-			bool isInputValid = this.ValidateInput(
+			bool isInputValid = this.ValidateRating(
 				ref minRating,
 				ref maxRating);
 
@@ -235,7 +243,7 @@ namespace PhoneBook.UI
 			}
 			
 			IRepository<Company> repo = new CompanyRepository();
-			this.LoadCompanies(
+			await this.LoadCompaniesAsync(
 				repo,
 				this.companiesPageInfo,
 				name,
@@ -245,45 +253,46 @@ namespace PhoneBook.UI
 			this.companiesListView.ItemsSource = repo.LocalData;
 		}
 		
-		private void LoadPeople(
+		private async Task LoadPeopleAsync(
 			IRepository<User> repo,
 			PageInfo info,
 			string firstName,
 			string middleName,
 			string lastName)
 		{
-			repo.GetAll()
-				.Where(user =>
-					(String.IsNullOrEmpty(firstName) ||
+			await repo.GetAll()
+					  .Where(user =>
+						user.IsVisible &&
+						(String.IsNullOrEmpty(firstName) ||
 						user.FirstName.Contains(firstName)) &&
-					(String.IsNullOrEmpty(middleName) ||
+						(String.IsNullOrEmpty(middleName) ||
 						user.MiddleName.Contains(middleName)) &&
-					(String.IsNullOrEmpty(lastName) ||
+						(String.IsNullOrEmpty(lastName) ||
 						user.LastName.Contains(lastName)))
-				.OrderBy(user => user.LastName)
-				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
-				.Take(info.EntriesPerPage)
-				.Load();
+					  .OrderBy(user => user.LastName)
+					  .Skip((info.CurrentPage - 1) * info.EntriesPerPage)
+					  .Take(info.EntriesPerPage)
+					  .LoadAsync();
 		}
 		
-		private void LoadCompanies(
+		private async Task LoadCompaniesAsync(
 			IRepository<Company> repo,
 			PageInfo info,
 			string name,
 			double minRating,
 			double maxRating)
 		{
-			repo.GetAll()
-				.Where(company =>
-					(String.IsNullOrEmpty(name) ||
-					company.Name.Contains(name)))
-				.OrderBy(company => company.Name)
-				.Skip((info.CurrentPage - 1) * info.EntriesPerPage)
-				.Take(info.EntriesPerPage)
-				.Load();
+			await repo.GetAll()
+					  .Where(company =>
+						(String.IsNullOrEmpty(name) ||
+						company.Name.Contains(name)))
+					  .OrderBy(company => company.Name)
+					  .Skip((info.CurrentPage - 1) * info.EntriesPerPage)
+					  .Take(info.EntriesPerPage)
+					  .LoadAsync();
 		}
 
-		private bool ValidateInput(
+		private bool ValidateRating(
 			ref double minRating,
 			ref double maxRating)
 		{
