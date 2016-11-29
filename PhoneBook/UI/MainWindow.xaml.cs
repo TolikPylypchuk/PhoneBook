@@ -4,11 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
-using System.Windows.Data;
 
 namespace PhoneBook.UI
 {
@@ -208,6 +208,22 @@ namespace PhoneBook.UI
 			}.ShowDialog();
 		}
 
+		private void UserFilter_TextChanged(
+			object sender,
+			TextChangedEventArgs e)
+		{
+			CollectionViewSource.GetDefaultView(peopleListView.ItemsSource)
+				.Refresh();
+		}
+
+		private void CompanyFilter_TextChanged(
+			object sender,
+			TextChangedEventArgs e)
+		{
+			CollectionViewSource.GetDefaultView(companiesListView.ItemsSource)
+				.Refresh();
+		}
+
 		#endregion
 
 		#region Other methods
@@ -255,7 +271,9 @@ namespace PhoneBook.UI
 				maxRating);
 
 			this.companiesListView.ItemsSource = repo.LocalData;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(companiesListView.ItemsSource);
+            CollectionView view =
+				(CollectionView)CollectionViewSource.GetDefaultView(
+					companiesListView.ItemsSource);
             view.Filter = CompanyFilter;
         }
 		
@@ -350,65 +368,74 @@ namespace PhoneBook.UI
 
         private bool UserFilter(object item)
         {
-            if (String.IsNullOrEmpty(UserFirstNameFilter.Text) &&
-                String.IsNullOrEmpty(UserMiddleNameFilter.Text) &&
-                String.IsNullOrEmpty(UserLastNameFilter.Text) &&
-                String.IsNullOrEmpty(UserEmailFilter.Text) &&
-                String.IsNullOrEmpty(UserPhoneFilter.Text)
-                )
-                return true;
-            else
-            {
-                bool b = false;
-                foreach (var t in (item as User).Phones)
-                {
-                    var a = t.Number;
-                    if (t.Number.IndexOf(UserPhoneFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        b = true;
-                    }
-                }
-                return (item as User).FirstName.IndexOf(UserFirstNameFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                    (item as User).MiddleName.IndexOf(UserMiddleNameFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                    (item as User).LastName.IndexOf(UserLastNameFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                     (item as User).Email.IndexOf(UserEmailFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                     b;
-            }
+			User user = item as User;
+
+			if (user == null)
+			{
+				return false;
+			}
+
+			if (String.IsNullOrEmpty(this.UserFirstNameFilter.Text) &&
+				String.IsNullOrEmpty(this.UserMiddleNameFilter.Text) &&
+				String.IsNullOrEmpty(this.UserLastNameFilter.Text) &&
+				String.IsNullOrEmpty(this.UserEmailFilter.Text) &&
+				String.IsNullOrEmpty(this.UserPhoneFilter.Text))
+			{
+				return true;
+			} else
+			{
+				bool anyPhones = user.Phones.Any(
+					t => t.Number.IndexOf(
+						this.UserPhoneFilter.Text,
+						StringComparison.OrdinalIgnoreCase) >= 0);
+
+				return user.FirstName.IndexOf(
+							this.UserFirstNameFilter.Text,
+							StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   user.MiddleName.IndexOf(
+						   this.UserMiddleNameFilter.Text,
+						   StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   user.LastName.IndexOf(
+						   this.UserLastNameFilter.Text,
+						   StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   user.Email.IndexOf(
+						   this.UserEmailFilter.Text,
+						   StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   anyPhones;
+			}
         }
 
         private bool CompanyFilter(object item)
         {
-            if (String.IsNullOrEmpty(CompanyNameFilter.Text) &&
-                String.IsNullOrEmpty(CompanyEmailFilter.Text) &&
-                String.IsNullOrEmpty(CompanyPhoneFilter.Text)
-                )
-                return true;
-            else
-            {
-                bool b = false;
-                foreach (var t in (item as Company).Phones)
-                {
-                    var a = t.Number;
-                    if (t.Number.IndexOf(CompanyPhoneFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        b = true;
-                    }
-                }
-                return (item as Company).Name.IndexOf(CompanyNameFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                     (item as Company).Email.IndexOf(CompanyEmailFilter.Text, StringComparison.OrdinalIgnoreCase) >= 0 &&
-                     b;
-            }
+			Company company = item as Company;
+
+			if (company == null)
+			{
+				return false;
+			}
+
+			if (String.IsNullOrEmpty(this.CompanyNameFilter.Text) &&
+				String.IsNullOrEmpty(this.CompanyEmailFilter.Text) &&
+				String.IsNullOrEmpty(this.CompanyPhoneFilter.Text))
+			{
+				return true;
+			} else
+			{
+				bool anyPhones = company.Phones.Any(
+					t => t.Number.IndexOf(
+						this.CompanyPhoneFilter.Text,
+						StringComparison.OrdinalIgnoreCase) >= 0);
+
+				return company.Name.IndexOf(
+							this.CompanyNameFilter.Text,
+							StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   company.Email.IndexOf(
+						   this.CompanyEmailFilter.Text,
+						   StringComparison.OrdinalIgnoreCase) >= 0 &&
+					   anyPhones;
+			}
         }
 
-        private void UserFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(peopleListView.ItemsSource).Refresh();
-        }
-
-        private void CompanyFilter_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
-        {
-            CollectionViewSource.GetDefaultView(companiesListView.ItemsSource).Refresh();
-        }
         #endregion
     }
 }
