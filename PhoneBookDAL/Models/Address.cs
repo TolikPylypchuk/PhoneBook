@@ -21,7 +21,7 @@ namespace PhoneBook.DAL.Models
 		[Required]
 		public string Number { get; set; }
 
-		public int Apartment { get; set; }
+		public int? Apartment { get; set; }
 
 		[Required]
 		[Display(Name = "Postal code")]

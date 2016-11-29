@@ -33,7 +33,7 @@
 		<Style TargetType="{x:Type Button}">
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="Margin" Value="5,0" />
-			<Setter Property="Padding" Value="5,2" />
+			<Setter Property="Padding" Value="10,4" />
 		</Style>
 	</Window.Resources>
 	
@@ -45,11 +45,7 @@
 			<RowDefinition />
 			<RowDefinition Height="2*" />
 			<RowDefinition />
-			<RowDefinition />
-			<RowDefinition />
-			<RowDefinition />
-			<RowDefinition />
-			<RowDefinition />
+			<RowDefinition Height="5*" />
 			<RowDefinition />
 			<RowDefinition />
 			<RowDefinition />
@@ -109,93 +105,110 @@
 				 Grid.Column="1" Grid.Row="5"
 				 Text="{Binding Path=Email}" />
 
-		<Label Grid.Column="0" Grid.Row="6" Target="{Binding ElementName=countryTextBox}">
-			_Country
-		</Label>
+		<Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2"
+			  DataContext="{Binding Path=Address}">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+				<RowDefinition />
+			</Grid.RowDefinitions>
 
-		<TextBox x:Name="countryTextBox"
-				 Grid.Column="1" Grid.Row="6"
-				 Text="{Binding Path=Address.Country}" />
-
-		<Label Grid.Column="0" Grid.Row="7" Target="{Binding ElementName=cityTextBox}">
-			Ci_ty
-		</Label>
-
-		<TextBox x:Name="cityTextBox"
-				 Grid.Column="1" Grid.Row="7"
-				 Text="{Binding Path=Address.City}" />
-
-		<Label Grid.Column="0" Grid.Row="8" Target="{Binding ElementName=streetTextBox}">
-			_Street
-		</Label>
-
-		<TextBox x:Name="streetTextBox"
-				 Grid.Column="1" Grid.Row="8"
-				 Text="{Binding Path=Address.Street}" />
-
-		<Grid Grid.Column="0" Grid.Row="9">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="2*" />
 			</Grid.ColumnDefinitions>
+			
+			<Label Grid.Column="0" Grid.Row="0" Target="{Binding ElementName=countryTextBox}">
+				_Country
+			</Label>
 
-			<Label Grid.Column="0" Target="{Binding ElementName=numTextBox}">
-				_Number
+			<TextBox x:Name="countryTextBox"
+				 Grid.Column="1" Grid.Row="0"
+				 Text="{Binding Path=Country}" />
+
+			<Label Grid.Column="0" Grid.Row="1" Target="{Binding ElementName=cityTextBox}">
+				Ci_ty
 			</Label>
-			<TextBlock Grid.Column="1">/</TextBlock>
-			<Label Grid.Column="2" Target="{Binding ElementName=aptTextBox}">
-				_Apt.
+
+			<TextBox x:Name="cityTextBox"
+				 Grid.Column="1" Grid.Row="1"
+				 Text="{Binding Path=City}" />
+
+			<Label Grid.Column="0" Grid.Row="2" Target="{Binding ElementName=streetTextBox}">
+				_Street
 			</Label>
-		</Grid>
-		
-		<Grid Grid.Column="1" Grid.Row="9"
+
+			<TextBox x:Name="streetTextBox"
+				 Grid.Column="1" Grid.Row="2"
+				 Text="{Binding Path=Street}" />
+
+			<Grid Grid.Column="0" Grid.Row="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<Label Grid.Column="0" Target="{Binding ElementName=numTextBox}">
+					_Number
+				</Label>
+				<TextBlock Grid.Column="1">/</TextBlock>
+				<Label Grid.Column="2" Target="{Binding ElementName=aptTextBox}">
+					_Apt.
+				</Label>
+			</Grid>
+
+			<Grid Grid.Column="1" Grid.Row="3"
 					HorizontalAlignment="Stretch">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<TextBox x:Name="numTextBox"
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="numTextBox"
 					 Grid.Column="0"
-					 Text="{Binding Path=Address.Number}" />
-			<Label Grid.Column="1">/</Label>
-			<TextBox x:Name="aptTextBox"
+					 Text="{Binding Path=Number}" />
+				<Label Grid.Column="1">/</Label>
+				<TextBox x:Name="aptTextBox"
 					 Grid.Column="2"
-					 Text="{Binding Path=Address.Apartment}" />
-		</Grid>
+					 Text="{Binding Path=Apartment}" />
+			</Grid>
 
-		<Label Grid.Column="0" Grid.Row="10" Target="{Binding ElementName=codeTextBox}">
-			Postal Co_de
-		</Label>
+			<Label Grid.Column="0" Grid.Row="4" Target="{Binding ElementName=codeTextBox}">
+				Postal Co_de
+			</Label>
 
-		<TextBox x:Name="codeTextBox"
-				 Grid.Column="1" Grid.Row="10"
+			<TextBox x:Name="codeTextBox"
+				 Grid.Column="1" Grid.Row="4"
 				 Text="{Binding Path=Address.PostalCode}" />
 
-		<Label Grid.Column="0" Grid.Row="11" Target="{Binding ElementName=passwordBox}">
+		</Grid>
+		
+		<Label Grid.Column="0" Grid.Row="7" Target="{Binding ElementName=passwordBox}">
 			Pa_ssword
 		</Label>
 
 		<PasswordBox x:Name="passwordBox"
-					 Grid.Column="1" Grid.Row="11" />
+					 Grid.Column="1" Grid.Row="7" />
 
-		<Label Grid.Column="0" Grid.Row="12" Target="{Binding ElementName=confirmPasswordBox}">
+		<Label Grid.Column="0" Grid.Row="8" Target="{Binding ElementName=confirmPasswordBox}">
 			Con_firm password
 		</Label>
 
 		<PasswordBox x:Name="confirmPasswordBox"
-					 Grid.Column="1" Grid.Row="12" />
+					 Grid.Column="1" Grid.Row="8" />
 
 		<CheckBox x:Name="visibilityCheckBox"
-				  Grid.Column="0" Grid.Row="13" Margin="5,0"
+				  Grid.Column="0" Grid.Row="9" Margin="5,0"
 				  IsChecked="{Binding Path=IsVisible, Mode=TwoWay}"
 				  HorizontalAlignment="Right" VerticalAlignment="Center"
 				  ToolTip="If you choose to not be visible, your entry will not be found in the phone book">
 			Visible
 		</CheckBox>
 
-		<StackPanel Grid.Column="1" Grid.Row="13"
+		<StackPanel Grid.Column="1" Grid.Row="9"
 					Orientation="Horizontal"
 					HorizontalAlignment="Right">
 			<Button IsDefault="True" Click="OK_Click">

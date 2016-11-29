@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Data.Entity.Validation;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
 using PhoneBook.DAL.Models;
+using PhoneBook.DAL.Repositories;
 
 namespace PhoneBook.Model
 {
@@ -64,7 +67,22 @@ namespace PhoneBook.Model
 					"The app cannot be null.");
 			}
 
-			return SignUpResult.NotAllPropertiesSet;
+			try
+			{
+				IRepository<User> repo = new UserRepository();
+				repo.Add(user);
+			} catch (DbEntityValidationException exp)
+			{
+				return exp.EntityValidationErrors.Any(
+					error => error.ValidationErrors.Any(
+						e => e.ErrorMessage.Contains("required")))
+					? SignUpResult.NotAllPropertiesSet
+					: SignUpResult.ValidationError;
+			}
+
+			app.CurrentUser = user;
+
+			return SignUpResult.Success;
 		}
 	}
 }

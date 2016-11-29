@@ -22,7 +22,11 @@ namespace PhoneBook.UI
 				typeof(SignUpWindow),
 				new PropertyMetadata
 				{
-					DefaultValue = new User { IsVisible = true }
+					DefaultValue = new User
+					{
+						IsVisible = true,
+						Address = new Address()
+					}
 				});
 		}
 
@@ -71,12 +75,18 @@ namespace PhoneBook.UI
 					break;
 				case UserManager.SignUpResult.NotAllPropertiesSet:
 					MessageBox.Show(
-						"Passwords are different.",
+						"Not all fields are filled out.",
 						"Error",
 						MessageBoxButton.OK,
 						MessageBoxImage.Error);
 					break;
 				case UserManager.SignUpResult.ValidationError:
+					MessageBox.Show(
+						"Please enter a valid email and valid phone numbers.\n" +
+						"Phone numbers cannot contain spaces or hyphens.",
+						"Error",
+						MessageBoxButton.OK,
+						MessageBoxImage.Error);
 					break;
 			}
 		}

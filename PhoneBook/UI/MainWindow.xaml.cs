@@ -119,10 +119,28 @@ namespace PhoneBook.UI
             MessageBox.Show("Not implemented!", "Error");
         }
 
-		private void MenuSignUpClick(object sender, RoutedEventArgs e)
+		private async void MenuSignUpClick(object sender, RoutedEventArgs e)
 		{
-			var window = new SignUpWindow { Owner = this };
-			window.ShowDialog();
+			var result = new SignUpWindow { Owner = this }.ShowDialog();
+
+			if (result != true)
+			{
+				return;
+			}
+
+			TabItem item = this.entriesTabControl.SelectedItem as TabItem;
+
+			if (item == this.peopleTabItem)
+			{
+				this.entriesPanel.DataContext = this.peoplePageInfo;
+
+				await this.UpdatePeopleListBoxAsync();
+			} else if (item == this.companiesTabItem)
+			{
+				this.entriesPanel.DataContext = this.companiesPageInfo;
+
+				await this.UpdateCompaniesListBoxAsync();
+			}
 		}
 
 		private void MenuLogOutClick(object sender, RoutedEventArgs e)
