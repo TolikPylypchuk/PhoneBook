@@ -120,7 +120,8 @@ namespace PhoneBook.UI
 
 		private void MenuSignUpClick(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show("Not implemented!", "Error");
+			var window = new SignUpWindow { Owner = this };
+			window.ShowDialog();
 		}
 
 		private void MenuLogOutClick(object sender, RoutedEventArgs e)

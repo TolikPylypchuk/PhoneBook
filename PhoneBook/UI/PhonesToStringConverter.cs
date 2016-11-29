@@ -18,11 +18,26 @@ namespace PhoneBook.UI
 			object parameter,
 			CultureInfo culture)
 		{
+			if (value == null)
+			{
+				throw new ArgumentNullException(
+					nameof(value),
+					"The value cannot be null.");
+			}
+
+			if (targetType == null)
+			{
+				throw new ArgumentNullException(
+					nameof(targetType),
+					"The target type cannot be null.");
+			}
+
 			var phones = value as IEnumerable<PhoneBase>;
 
 			if (phones == null || targetType != typeof(string))
 			{
-				return null;
+				throw new InvalidOperationException(
+					"Can only convert IEnumerable<PhoneBase> to string.");
 			}
 
 			StringBuilder builder = new StringBuilder();
@@ -43,8 +58,7 @@ namespace PhoneBook.UI
 			CultureInfo culture)
 		{
 			throw new NotSupportedException(
-				"Converting from string to a collection " +
-				"of phones is not supported.");
+				"Converting from string to phones is not supported.");
 		}
 	}
 }
