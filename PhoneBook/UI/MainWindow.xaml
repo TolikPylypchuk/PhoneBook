@@ -218,35 +218,55 @@
 						</Style>
 					</TabControl.Resources>
 					<TabItem x:Name="peopleTabItem" Header="People">
-						<ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Name"
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="33" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Row="0" x:Name="UserFirstNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="UserMiddleNameFilter" Height="22" Margin="97,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="UserLastNameFilter" Height="22" Margin="184,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="UserPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="UserEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+                            <ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick" Margin="10" Grid.Row="1">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name"
 													DisplayMemberBinding="{Binding Path=FullName}" />
-									<GridViewColumn Header="Phone(s)"
+                                        <GridViewColumn Header="Phone(s)"
 													DisplayMemberBinding="{Binding Path=Phones,
 														Converter={StaticResource PhonesToStringConverter}}" />
-									<GridViewColumn Header="Email"
+                                        <GridViewColumn Header="Email"
 													DisplayMemberBinding="{Binding Path=Email}" />
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</TabItem>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem>
 					<TabItem x:Name="companiesTabItem" Header="Companies">
-						<ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick">
-							<ListView.View>
-								<GridView>
-									<GridViewColumn Header="Name"
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="33" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <TextBox Grid.Row="0" x:Name="CompanyNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="CompanyPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+                            <TextBox Grid.Row="0" x:Name="CompanyEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+                            <ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick" Margin="10,5,10,10" Grid.Row="1">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Header="Name"
 													DisplayMemberBinding="{Binding Path=Name}" />
-									<GridViewColumn Header="Phone(s)"
+                                        <GridViewColumn Header="Phone(s)"
 													DisplayMemberBinding="{Binding Path=Phones,
 														Converter={StaticResource PhonesToStringConverter}}" />
-									<GridViewColumn Header="Email"
+                                        <GridViewColumn Header="Email"
 													DisplayMemberBinding="{Binding Path=Email}" />
-								</GridView>
-							</ListView.View>
-						</ListView>
-					</TabItem>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem>
 				</TabControl>
 			</DockPanel>
 		</Grid>
