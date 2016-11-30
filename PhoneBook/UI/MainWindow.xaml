@@ -45,230 +45,94 @@
 					  Click="MenuAboutClick">
 			</MenuItem>
 		</Menu>
-
-		<Grid HorizontalAlignment="Stretch"
-			  VerticalAlignment="Stretch">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="200" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-
-			<local:FlipPanel x:Name="filterFlipPanel">
-				<local:FlipPanel.Resources>
-					<Style TargetType="{x:Type TextBox}">
-						<Setter Property="VerticalAlignment" Value="Center" />
-						<Setter Property="Margin" Value="5" />
-						<Setter Property="Width" Value="100" />
-					</Style>
-					<Style TargetType="{x:Type TextBlock}">
-						<Setter Property="HorizontalAlignment" Value="Right" />
-						<Setter Property="VerticalAlignment" Value="Center" />
-						<Setter Property="Margin" Value="5" />
-					</Style>
-				</local:FlipPanel.Resources>
-				
-				<local:FlipPanel.FrontContent>
-					<StackPanel Orientation="Vertical"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center">
-						<Grid x:Name="peopleFiltersGrid"
-							  HorizontalAlignment="Center"
-							  VerticalAlignment="Center">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="*"/>
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-								<RowDefinition Height="Auto"/>
-							</Grid.RowDefinitions>
-
-							<TextBlock Grid.Column="0" Grid.Row="0"
-									   HorizontalAlignment="Right">
-								First name:
-							</TextBlock>
-							<TextBox Grid.Column="1" Grid.Row="0"
-									 x:Name="firstNameTextBox" />
-
-							<TextBlock Grid.Column="0" Grid.Row="1"
-									   HorizontalAlignment="Right">
-								Middle name:
-							</TextBlock>
-							<TextBox Grid.Column="1" Grid.Row="1"
-									 x:Name="middleNameTextBox" />
-
-							<TextBlock Grid.Column="0" Grid.Row="2"
-									   HorizontalAlignment="Right">
-								Last name:
-							</TextBlock>
-							<TextBox Grid.Column="1" Grid.Row="2"
-									 x:Name="lastNameTextBox" />
-						</Grid>
-
-						<StackPanel Orientation="Horizontal"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<Button x:Name="peopleFindButton"
-									Height="25" Width="35"
-									Click="peopleFindButton_Click">
-								Find
-							</Button>
-
-							<Button x:Name="peopleClearFiltersButton"
-									Height="25" Width="35"
-									Click="peopleClearFiltersButton_Click">
-								Clear
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</local:FlipPanel.FrontContent>
-
-				<local:FlipPanel.BackContent>
-					<StackPanel x:Name="companiesFiltersPanel"
-								HorizontalAlignment="Stretch"
-								VerticalAlignment="Center"
-								Orientation="Vertical">
-						<Grid x:Name="companiesFiltersGrid"
-							  HorizontalAlignment="Center"
-							  VerticalAlignment="Center">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto"/>
-								<ColumnDefinition Width="*"/>
-							</Grid.ColumnDefinitions>
-							<Grid.RowDefinitions>
-								<RowDefinition Height="Auto" />
-								<RowDefinition Height="Auto" />
-							</Grid.RowDefinitions>
-
-							<TextBlock Grid.Column="0" Grid.Row="0"
-									   HorizontalAlignment="Right">
-								Name:
-							</TextBlock>
-							
-							<TextBox Grid.Column="1" Grid.Row="0"
-									 x:Name="companyNameTextBox"/>
-
-							<TextBlock Grid.Column="0" Grid.Row="1"
-									   HorizontalAlignment="Right">
-								Rating:
-							</TextBlock>
-							
-							<StackPanel Grid.Column="1" Grid.Row="1"
-										Orientation="Horizontal">
-								<TextBox x:Name="minRatingTextBox" Width="25" />
-								<TextBlock>-</TextBlock>
-								<TextBox x:Name="maxRatingTextBox" Width="25" />
-							</StackPanel>
-						</Grid>
-
-						<StackPanel Orientation="Horizontal"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center">
-							<Button x:Name="companiesFindButton"
-									Height="25" Width="35"
-									Click="companiesFindButton_Click">
-								Find
-							</Button>
-							<Button x:Name="companiesClearFiltersButton"
-									Height="25" Width="35"
-									Click="companiesClearFiltersButton_Click">
-								Clear
-							</Button>
-						</StackPanel>
-					</StackPanel>
-				</local:FlipPanel.BackContent>
-			</local:FlipPanel>
-
-			<DockPanel x:Name="entriesPanel" Grid.Column="1"
+		<DockPanel x:Name="entriesPanel" Grid.Column="1"
 					   HorizontalAlignment="Stretch"
 					   VerticalAlignment="Stretch"
 					   Margin="10">
-				<DockPanel DockPanel.Dock="Bottom" Margin="10,0">
-					<Button x:Name="previousPage" DockPanel.Dock="Left"
+			<DockPanel DockPanel.Dock="Bottom" Margin="10,0">
+				<Button x:Name="previousPage" DockPanel.Dock="Left"
 							IsEnabled="{Binding Path=IsFirstPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
 							Click="previousPage_Click">
-						&lt;
-					</Button>
-					<Button x:Name="nextPage" DockPanel.Dock="Right"
+					&lt;
+				</Button>
+				<Button x:Name="nextPage" DockPanel.Dock="Right"
 							IsEnabled="{Binding Path=IsLastPage,
 							Converter={StaticResource
 								ResourceKey=InverseBoolConverter}}"
 							Click="nextPage_Click">
-						&gt;
-					</Button>
-					<StackPanel HorizontalAlignment="Center"
+					&gt;
+				</Button>
+				<StackPanel HorizontalAlignment="Center"
 								Orientation="Horizontal">
-						<TextBlock Text="Page " />
-						<TextBlock Text="{Binding Path=CurrentPage}" />
-						<TextBlock Text="/" />
-						<TextBlock Text="{Binding Path=TotalPages}" />
-					</StackPanel>
-				</DockPanel>
-				
-				<TabControl x:Name="entriesTabControl" Margin="10"
-							SelectionChanged="TabControl_SelectionChanged">
-					<TabControl.Resources>
-						<Style TargetType="{x:Type ListView}">
-							<Setter Property="BorderBrush" Value="Black" />
-							<Setter Property="BorderThickness" Value="1" />
-							<Setter Property="Margin" Value="10" />
-						</Style>
-					</TabControl.Resources>
-					<TabItem x:Name="peopleTabItem" Header="People">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="33" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBox Grid.Row="0" x:Name="UserFirstNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="UserMiddleNameFilter" Height="22" Margin="97,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="UserLastNameFilter" Height="22" Margin="184,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="UserPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="UserEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
-                            <ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick" Margin="10" Grid.Row="1">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Name"
-													DisplayMemberBinding="{Binding Path=FullName}" />
-                                        <GridViewColumn Header="Phone(s)"
-													DisplayMemberBinding="{Binding Path=Phones,
-														Converter={StaticResource PhonesToStringConverter}}" />
-                                        <GridViewColumn Header="Email"
-													DisplayMemberBinding="{Binding Path=Email}" />
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </Grid>
-                    </TabItem>
-					<TabItem x:Name="companiesTabItem" Header="Companies">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="33" />
-                                <RowDefinition />
-                            </Grid.RowDefinitions>
-                            <TextBox Grid.Row="0" x:Name="CompanyNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="CompanyPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
-                            <TextBox Grid.Row="0" x:Name="CompanyEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
-                            <ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick" Margin="10,5,10,10" Grid.Row="1">
-                                <ListView.View>
-                                    <GridView>
-                                        <GridViewColumn Header="Name"
-													DisplayMemberBinding="{Binding Path=Name}" />
-                                        <GridViewColumn Header="Phone(s)"
-													DisplayMemberBinding="{Binding Path=Phones,
-														Converter={StaticResource PhonesToStringConverter}}" />
-                                        <GridViewColumn Header="Email"
-													DisplayMemberBinding="{Binding Path=Email}" />
-                                    </GridView>
-                                </ListView.View>
-                            </ListView>
-                        </Grid>
-                    </TabItem>
-				</TabControl>
+					<TextBlock Text="Page " />
+					<TextBlock Text="{Binding Path=CurrentPage}" />
+					<TextBlock Text="/" />
+					<TextBlock Text="{Binding Path=TotalPages}" />
+				</StackPanel>
 			</DockPanel>
-		</Grid>
+
+			<TabControl x:Name="entriesTabControl" Margin="10"
+							SelectionChanged="TabControl_SelectionChanged">
+				<TabControl.Resources>
+					<Style TargetType="{x:Type ListView}">
+						<Setter Property="BorderBrush" Value="Black" />
+						<Setter Property="BorderThickness" Value="1" />
+						<Setter Property="Margin" Value="10" />
+					</Style>
+				</TabControl.Resources>
+				<TabItem x:Name="peopleTabItem" Header="People">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="33" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<TextBox Grid.Row="0" x:Name="UserFirstNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="UserMiddleNameFilter" Height="22" Margin="97,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="UserLastNameFilter" Height="22" Margin="184,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="UserPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="UserEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="UserFilter_TextChanged"/>
+						<ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick" Margin="10" Grid.Row="1">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Name"
+													DisplayMemberBinding="{Binding Path=FullName}" />
+									<GridViewColumn Header="Phone(s)"
+													DisplayMemberBinding="{Binding Path=Phones,
+														Converter={StaticResource PhonesToStringConverter}}" />
+									<GridViewColumn Header="Email"
+													DisplayMemberBinding="{Binding Path=Email}" />
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</Grid>
+				</TabItem>
+				<TabItem x:Name="companiesTabItem" Header="Companies">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="33" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<TextBox Grid.Row="0" x:Name="CompanyNameFilter" Height="22" Margin="10,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="CompanyPhoneFilter" Height="22" Margin="317,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+						<TextBox Grid.Row="0" x:Name="CompanyEmailFilter" Height="22" Margin="404,11,0,0" TextWrapping="Wrap" Width="82" TextChanged="CompanyFilter_TextChanged"/>
+						<ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick" Margin="10,5,10,10" Grid.Row="1">
+							<ListView.View>
+								<GridView>
+									<GridViewColumn Header="Name"
+													DisplayMemberBinding="{Binding Path=Name}" />
+									<GridViewColumn Header="Phone(s)"
+													DisplayMemberBinding="{Binding Path=Phones,
+														Converter={StaticResource PhonesToStringConverter}}" />
+									<GridViewColumn Header="Email"
+													DisplayMemberBinding="{Binding Path=Email}" />
+								</GridView>
+							</ListView.View>
+						</ListView>
+					</Grid>
+				</TabItem>
+			</TabControl>
+		</DockPanel>
 	</DockPanel>
 </Window>

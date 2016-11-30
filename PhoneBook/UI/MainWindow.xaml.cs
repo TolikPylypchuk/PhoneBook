@@ -44,8 +44,6 @@ namespace PhoneBook.UI
 		{
 			IRepository<User> repoPeople = new UserRepository();
 			IRepository<Company> repoCompanies = new CompanyRepository();
-			
-			this.filterFlipPanel.Flip();
 
 			this.peoplePageInfo.TotalEntries =
 				await repoPeople.GetAll().CountAsync();
@@ -76,8 +74,6 @@ namespace PhoneBook.UI
 
 				await this.UpdateCompaniesListBoxAsync();
 			}
-			
-			this.filterFlipPanel.Flip();
 		}
 
 		private async void previousPage_Click(
@@ -186,24 +182,6 @@ namespace PhoneBook.UI
 			await this.UpdateCompaniesListBoxAsync();
 		}
 		
-		private void peopleClearFiltersButton_Click(
-			object sender,
-			RoutedEventArgs e)
-		{
-			this.firstNameTextBox.Text = String.Empty;
-			this.middleNameTextBox.Text = String.Empty;
-			this.lastNameTextBox.Text = String.Empty;
-		}
-
-		private void companiesClearFiltersButton_Click(
-			object sender,
-			RoutedEventArgs e)
-		{
-			this.companyNameTextBox.Text = String.Empty;
-			this.minRatingTextBox.Text = String.Empty;
-			this.maxRatingTextBox.Text = String.Empty;
-		}
-
 		private void peopleListView_MouseDoubleClick(
 			object sender,
 			MouseButtonEventArgs e)
@@ -248,9 +226,9 @@ namespace PhoneBook.UI
 
 		private async Task UpdatePeopleListBoxAsync()
 		{
-			string firstName = this.firstNameTextBox.Text;
-			string middleName = this.middleNameTextBox.Text;
-			string lastName = this.lastNameTextBox.Text;
+			string firstName = this.UserFirstNameFilter.Text;
+			string middleName = this.UserMiddleNameFilter.Text;
+			string lastName = this.UserLastNameFilter.Text;
 
 			IRepository<User> repo = new UserRepository();
 			await this.LoadPeopleAsync(
@@ -267,26 +245,15 @@ namespace PhoneBook.UI
 
 		private async Task UpdateCompaniesListBoxAsync()
 		{
-			string name = this.companyNameTextBox.Text;
-			double minRating = 0.0;
-			double maxRating = 5.0;
-
-			bool isInputValid = this.ValidateRating(
-				ref minRating,
-				ref maxRating);
-
-			if (!isInputValid)
-			{
-				MessageBox.Show("Wrong input.", "Error");
-			}
+			string name = this.CompanyNameFilter.Text;
 			
 			IRepository<Company> repo = new CompanyRepository();
 			await this.LoadCompaniesAsync(
 				repo,
 				this.companiesPageInfo,
 				name,
-				minRating,
-				maxRating);
+				0,
+				5);
 
 			this.companiesListView.ItemsSource = repo.LocalData;
             CollectionView view =
@@ -332,56 +299,6 @@ namespace PhoneBook.UI
 					  .Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 					  .Take(info.EntriesPerPage)
 					  .LoadAsync();
-		}
-
-		private bool ValidateRating(
-			ref double minRating,
-			ref double maxRating)
-		{
-			bool isInputValid = true;
-
-			if (this.minRatingTextBox.Text != string.Empty)
-			{
-				if (!double.TryParse(this.minRatingTextBox.Text, out minRating))
-				{
-					isInputValid = false;
-					this.minRatingTextBox.Text = string.Empty;
-				}
-				else
-				{
-					if (minRating < 0.0 || minRating > 5.0)
-					{
-						isInputValid = false;
-						this.minRatingTextBox.Text = string.Empty;
-					}
-				}
-			}
-
-			if (this.maxRatingTextBox.Text != string.Empty)
-			{
-				if (!double.TryParse(this.maxRatingTextBox.Text, out maxRating))
-				{
-					isInputValid = false;
-					this.maxRatingTextBox.Text = string.Empty;
-				}
-				else
-				{
-					if (maxRating < 0.0 || maxRating > 5.0)
-					{
-						isInputValid = false;
-						this.maxRatingTextBox.Text = string.Empty;
-					}
-				}
-			}
-
-			if (minRating > maxRating)
-			{
-				isInputValid = false;
-				this.minRatingTextBox.Text = string.Empty;
-				this.maxRatingTextBox.Text = string.Empty;
-			}
-
-			return isInputValid;
 		}
 
         private bool UserFilter(object item)
