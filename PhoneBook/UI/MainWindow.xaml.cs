@@ -166,7 +166,7 @@ namespace PhoneBook.UI
 		{
 			this.currentApp.CurrentUser = null;
 
-			this.Title = this.Title.ToString().Split('-')[1].Trim();
+			this.Title = this.Title.Split('-')[1].Trim();
 
 			this.signInMenuItem.Visibility = Visibility.Visible;
 			this.signUpMenuItem.Visibility = Visibility.Visible;
@@ -270,7 +270,9 @@ namespace PhoneBook.UI
 				lastName);
 
 			this.peopleListView.ItemsSource = repo.LocalData;
-            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(peopleListView.ItemsSource);
+            CollectionView view =
+				(CollectionView)CollectionViewSource.GetDefaultView(
+					peopleListView.ItemsSource);
             view.Filter = UserFilter;
         }
 

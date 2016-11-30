@@ -42,7 +42,7 @@ namespace PhoneBook.Services
 					nameof(password));
 			}
 
-			var hashData = UserManager.GetHashPassword(password);
+			var hashData = GetHashPassword(password);
 
 			user.PasswordHash = hashData;
 		}
@@ -59,6 +59,14 @@ namespace PhoneBook.Services
 			try
 			{
 				IRepository<User> repo = new UserRepository();
+				var dbUser = repo.GetAll().FirstOrDefault(
+					u => u.Email == user.Email);
+
+				if (dbUser != null)
+				{
+					return SignUpResult.EmailAlreadyOccupied;
+				}
+
 				repo.Add(user);
 			} catch (DbEntityValidationException exp)
 			{
@@ -100,7 +108,7 @@ namespace PhoneBook.Services
 
 			User user = null;
 
-			string hashPassword = UserManager.GetHashPassword(password);
+			string hashPassword = GetHashPassword(password);
 
 			try
 			{
