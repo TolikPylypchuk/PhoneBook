@@ -110,10 +110,24 @@ namespace PhoneBook.UI
 			}
 		}
 
-		private void MenuLogInClick(object sender, RoutedEventArgs e)
+		private void MenuSignInClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!", "Error");
-        }
+			var result = new SignInWindow { Owner = this }.ShowDialog();
+
+			if (result != true)
+			{
+				return;
+			}
+
+			this.Title =
+				this.currentApp.CurrentUser.FullName + " - " + this.Title;
+
+			this.signInMenuItem.Visibility = Visibility.Collapsed;
+			this.signUpMenuItem.Visibility = Visibility.Collapsed;
+
+			this.signOutMenuItem.Visibility = Visibility.Visible;
+			this.personInfoMenuItem.Visibility = Visibility.Visible;
+		}
 
 		private async void MenuSignUpClick(object sender, RoutedEventArgs e)
 		{
@@ -123,6 +137,15 @@ namespace PhoneBook.UI
 			{
 				return;
 			}
+
+			this.Title =
+				this.currentApp.CurrentUser.FullName + " - " + this.Title;
+
+			this.signInMenuItem.Visibility = Visibility.Collapsed;
+			this.signUpMenuItem.Visibility = Visibility.Collapsed;
+
+			this.signOutMenuItem.Visibility = Visibility.Visible;
+			this.personInfoMenuItem.Visibility = Visibility.Visible;
 
 			TabItem item = this.entriesTabControl.SelectedItem as TabItem;
 
@@ -139,10 +162,18 @@ namespace PhoneBook.UI
 			}
 		}
 
-		private void MenuLogOutClick(object sender, RoutedEventArgs e)
+		private void MenuSignOutClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!", "Error");
-        }
+			this.currentApp.CurrentUser = null;
+
+			this.Title = this.Title.ToString().Split('-')[1].Trim();
+
+			this.signInMenuItem.Visibility = Visibility.Visible;
+			this.signUpMenuItem.Visibility = Visibility.Visible;
+
+			this.signOutMenuItem.Visibility = Visibility.Collapsed;
+			this.personInfoMenuItem.Visibility = Visibility.Collapsed;
+		}
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{

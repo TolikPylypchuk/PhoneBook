@@ -3,7 +3,7 @@ using System.Linq;
 using System.Windows;
 
 using PhoneBook.DAL.Models;
-using PhoneBook.Model;
+using PhoneBook.Services;
 
 namespace PhoneBook.UI
 {
@@ -55,11 +55,25 @@ namespace PhoneBook.UI
 					MessageBoxImage.Error);
 			}
 
-			var result = UserManager.SignUp(
-				this.User, Application.Current as App);
+			var result = UserManager.SignUp(this.User);
 			
 			if (result == UserManager.SignUpResult.Success)
 			{
+				try
+				{
+					UserManager.SignIn(
+						this.User.Email,
+						this.User.PasswordHash,
+						Application.Current as App);
+				} catch
+				{
+					MessageBox.Show(
+						"Some error occured.",
+						"Error",
+						MessageBoxButton.OK,
+						MessageBoxImage.Error);
+				}
+
 				this.DialogResult = true;
 				return;
 			}

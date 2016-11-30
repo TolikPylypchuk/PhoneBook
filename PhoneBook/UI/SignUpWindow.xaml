@@ -6,7 +6,7 @@
 		xmlns:local="clr-namespace:PhoneBook.UI"
 		mc:Ignorable="d" ResizeMode="NoResize"
 		WindowStartupLocation="CenterOwner"
-		Title="Sign Up" Height="475" Width="350">
+		Title="Sign Up" Height="475" Width="375">
 	<Window.Resources>
 		<Style TargetType="{x:Type Label}">
 			<Setter Property="HorizontalAlignment" Value="Right" />
