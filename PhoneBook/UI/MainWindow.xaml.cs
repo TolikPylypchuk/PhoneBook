@@ -217,22 +217,14 @@ namespace PhoneBook.UI
 			object sender,
 			MouseButtonEventArgs e)
 		{
-			new PersonInfoWindow
-			{
-				Person = this.peopleListView.SelectedItem as User,
-				Owner = this
-			}.ShowDialog();
+			this.openPersonInfoWindow();
 		}
 
 		private void companiesListView_MouseDoubleClick(
 			object sender,
 			MouseButtonEventArgs e)
 		{
-			new CompanyInfoWindow
-			{
-				Company = this.companiesListView.SelectedItem as Company,
-				Owner = this
-			}.ShowDialog();
+			this.openCompanyInfoWindow();
 		}
 
 		private void UserFilter_TextChanged(
@@ -249,6 +241,16 @@ namespace PhoneBook.UI
 		{
 			CollectionViewSource.GetDefaultView(companiesListView.ItemsSource)
 				.Refresh();
+		}
+		
+		private void personSeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			this.openPersonInfoWindow();
+		}
+
+		private void companySeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			this.openCompanyInfoWindow();
 		}
 
 		#endregion
@@ -404,6 +406,24 @@ namespace PhoneBook.UI
 			}
         }
 
-        #endregion
-    }
+		private void openPersonInfoWindow()
+		{
+			new PersonInfoWindow
+			{
+				Person = this.peopleListView.SelectedItem as User,
+				Owner = this
+			}.ShowDialog();
+		}
+
+		private void openCompanyInfoWindow()
+		{
+			new CompanyInfoWindow
+			{
+				Company = this.companiesListView.SelectedItem as Company,
+				Owner = this
+			}.ShowDialog();
+		}
+
+		#endregion
+	}
 }
