@@ -9,6 +9,12 @@ namespace PhoneBook.UI
 	/// </summary>
 	public partial class PersonInfoWindow : Window
 	{
+		public static readonly DependencyProperty IsReadOnlyProperty =
+			DependencyProperty.Register(
+				nameof(IsReadOnly),
+				typeof(bool),
+				typeof(PersonInfoWindow));
+
 		public static readonly DependencyProperty PersonProperty =
 			DependencyProperty.Register(
 				nameof(Person),
@@ -18,6 +24,12 @@ namespace PhoneBook.UI
 		public PersonInfoWindow()
 		{
 			this.InitializeComponent();
+		}
+
+		public bool IsReadOnly
+		{
+			get { return (bool)this.GetValue(IsReadOnlyProperty); }
+			set { this.SetValue(IsReadOnlyProperty, value); }
 		}
 
 		public User Person

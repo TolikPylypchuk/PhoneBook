@@ -14,12 +14,16 @@
 		<Style TargetType="{x:Type TextBox}">
 			<Setter Property="Width" Value="250"/>
 			<Setter Property="Margin" Value="0,5" />
-			<Setter Property="IsReadOnly" Value="True" />
+			<Setter Property="IsReadOnly" Value="{
+				Binding Path=IsReadOnly,
+				RelativeSource={RelativeSource
+				Mode=FindAncestor,
+				AncestorType=Window}}" />
 			<Setter Property="VerticalAlignment" Value="Center" />
 			<Setter Property="HorizontalAlignment" Value="Left" />
 		</Style>
 	</Window.Resources>
-	
+
 	<local:FlipPanel x:Name="personInfoFlipPanel"
 					 HorizontalAlignment="Stretch"
 					 VerticalAlignment="Center"

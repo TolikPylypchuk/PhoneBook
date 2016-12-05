@@ -182,7 +182,7 @@ namespace PhoneBook.UI
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!", "Error");
+			this.openPersonInfoWindow(this.currentApp.CurrentUser, false);
         }
 
 		private void MenuExitClick(object sender, RoutedEventArgs e)
@@ -217,7 +217,9 @@ namespace PhoneBook.UI
 			object sender,
 			MouseButtonEventArgs e)
 		{
-			this.openPersonInfoWindow();
+			this.openPersonInfoWindow(
+				this.peopleListView.SelectedItem as User,
+				true);
 		}
 
 		private void companiesListView_MouseDoubleClick(
@@ -245,7 +247,7 @@ namespace PhoneBook.UI
 		
 		private void personSeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			this.openPersonInfoWindow();
+			this.openPersonInfoWindow(this.peopleListView.SelectedItem as User, true);
 		}
 
 		private void companySeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
@@ -406,11 +408,12 @@ namespace PhoneBook.UI
 			}
         }
 
-		private void openPersonInfoWindow()
+		private void openPersonInfoWindow(User user, bool isReadOnly)
 		{
 			new PersonInfoWindow
 			{
-				Person = this.peopleListView.SelectedItem as User,
+				Person = user,
+				IsReadOnly = isReadOnly,
 				Owner = this
 			}.ShowDialog();
 		}
