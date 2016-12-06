@@ -22,9 +22,21 @@ namespace PhoneBook.UI
 				typeof(PersonInfoWindow));
 
 		public PersonInfoWindow()
-		{
-			this.InitializeComponent();
-		}
+        {
+            this.InitializeComponent();
+
+            if (!IsReadOnly)
+            {
+                this.OKButton.Visibility = Visibility.Collapsed;
+                this.CancelButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.OKButton.Visibility = Visibility.Visible;
+                this.CancelButton.Visibility = Visibility.Visible;
+            }
+
+        }
 
 		public bool IsReadOnly
 		{
@@ -37,5 +49,15 @@ namespace PhoneBook.UI
 			get { return (User)this.GetValue(PersonProperty); }
 			set { this.SetValue(PersonProperty, value); }
 		}
-	}
+
+        private void OKButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
 }

@@ -38,7 +38,7 @@
 				<MenuItem x:Name="personInfoMenuItem" Header="Personal info"
 						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuPersonInfoClick" Visibility="Collapsed" />
-				<MenuItem x:Name="campanyInfoMenuItem" Header="Company info"
+				<MenuItem x:Name="companyInfoMenuItem" Header="Company info"
 						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuCompanyInfoClick" Visibility="Collapsed" />
 				<Separator />

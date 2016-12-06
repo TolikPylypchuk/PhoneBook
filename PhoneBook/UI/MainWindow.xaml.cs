@@ -146,8 +146,16 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
+            foreach (var company in companiesListView.Items)
+            {
+                if ((company as Company).CreatedBy == this.currentApp.CurrentUser)
+                {
+                    this.companyInfoMenuItem.Visibility = Visibility.Visible;
+                    break;
+                }
+            }
 
-			TabItem item = this.entriesTabControl.SelectedItem as TabItem;
+            TabItem item = this.entriesTabControl.SelectedItem as TabItem;
 
 			if (item == this.peopleTabItem)
 			{
@@ -173,11 +181,21 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Collapsed;
 			this.personInfoMenuItem.Visibility = Visibility.Collapsed;
-		}
+            this.companyInfoMenuItem.Visibility = Visibility.Collapsed;
+        }
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
-            MessageBox.Show("Not implemented!", "Error");
+            Company createdCompany = new Company();
+            foreach (var company in companiesListView.Items)
+            {
+                if ((company as Company).CreatedBy == this.currentApp.CurrentUser)
+                {
+                    createdCompany = company as Company;
+                    break; 
+                }
+            }
+            this.openCompanyInfoWindow(createdCompany, false);
         }
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
@@ -226,7 +244,9 @@ namespace PhoneBook.UI
 			object sender,
 			MouseButtonEventArgs e)
 		{
-			this.openCompanyInfoWindow();
+			this.openCompanyInfoWindow(
+                this.companiesListView.SelectedItem as Company,
+                true);
 		}
 
 		private void UserFilter_TextChanged(
@@ -252,7 +272,9 @@ namespace PhoneBook.UI
 
 		private void companySeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
 		{
-			this.openCompanyInfoWindow();
+			this.openCompanyInfoWindow(
+                this.companiesListView.SelectedItem as Company,
+                true);
 		}
 
 		#endregion
@@ -418,12 +440,13 @@ namespace PhoneBook.UI
 			}.ShowDialog();
 		}
 
-		private void openCompanyInfoWindow()
+		private void openCompanyInfoWindow(Company company, bool isReadOnly)
 		{
 			new CompanyInfoWindow
 			{
-				Company = this.companiesListView.SelectedItem as Company,
-				Owner = this
+				Company = company,
+                IsReadOnly = isReadOnly,
+                Owner = this
 			}.ShowDialog();
 		}
 
