@@ -160,9 +160,10 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
-            foreach (var company in companiesListView.Items)
+
+            foreach (Company company in companiesListView.Items)
             {
-                if ((company as Company).CreatedBy == this.currentApp.CurrentUser)
+                if (company.CreatedBy == this.currentApp.CurrentUser)
                 {
                     this.companyInfoMenuItem.Visibility = Visibility.Visible;
                     break;
@@ -233,16 +234,17 @@ namespace PhoneBook.UI
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
-            Company createdCompany = new Company();
-            foreach (var company in companiesListView.Items)
-            {
-                if ((company as Company).CreatedBy == this.currentApp.CurrentUser)
-                {
-                    createdCompany = company as Company;
-                    break; 
-                }
-            }
-            this.openCompanyInfoWindow(createdCompany, false);
+			Company createdCompany = null;
+
+			using (var context = new PhoneBookContext())
+			{
+				createdCompany = new CompanyRepository(context)
+					.GetAll()
+					.FirstOrDefault(
+						c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
+			}
+
+            this.OpenCompanyInfoWindow(createdCompany, false);
         }
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
@@ -283,43 +285,46 @@ namespace PhoneBook.UI
 			MouseButtonEventArgs e)
 		{
 			this.openPersonInfoWindow(
-				this.peopleListView.SelectedItem as User,
-				true);
+				this.peopleListView.SelectedItem as User, true);
 		}
 
 		private void companiesListView_MouseDoubleClick(
 			object sender,
 			MouseButtonEventArgs e)
 		{
-			this.openCompanyInfoWindow(
-                this.companiesListView.SelectedItem as Company,
-                true);
+			this.OpenCompanyInfoWindow(
+				this.companiesListView.SelectedItem as Company, true);
 		}
 
 		private void UserFilter_TextChanged(
 			object sender,
 			TextChangedEventArgs e)
 		{
-			CollectionViewSource.GetDefaultView(peopleListView.ItemsSource)
-				.Refresh();
+			CollectionViewSource.GetDefaultView(
+				peopleListView.ItemsSource).Refresh();
 		}
 
 		private void CompanyFilter_TextChanged(
 			object sender,
 			TextChangedEventArgs e)
 		{
-			CollectionViewSource.GetDefaultView(companiesListView.ItemsSource)
-				.Refresh();
+			CollectionViewSource.GetDefaultView(
+				companiesListView.ItemsSource).Refresh();
 		}
 		
-		private void personSeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
+		private void personSeeMoreMenuItem_Click(
+			object sender,
+			RoutedEventArgs e)
 		{
-			this.openPersonInfoWindow(this.peopleListView.SelectedItem as User, true);
+			this.openPersonInfoWindow(
+				this.peopleListView.SelectedItem as User, true);
 		}
 
-		private void companySeeMoreMenuItem_Click(object sender, RoutedEventArgs e)
+		private void companySeeMoreMenuItem_Click(
+			object sender,
+			RoutedEventArgs e)
 		{
-			this.openCompanyInfoWindow(
+			this.OpenCompanyInfoWindow(
                 this.companiesListView.SelectedItem as Company,
                 true);
 		}
@@ -493,14 +498,17 @@ namespace PhoneBook.UI
 			}.ShowDialog();
 		}
 
-		private void openCompanyInfoWindow(Company company, bool isReadOnly)
+		private void OpenCompanyInfoWindow(Company company, bool isReadOnly)
 		{
-			new CompanyInfoWindow
+			if (company != null)
 			{
-				Company = company,
-                IsReadOnly = isReadOnly,
-                Owner = this
-			}.ShowDialog();
+				new CompanyInfoWindow
+				{
+					Company = company,
+					IsReadOnly = isReadOnly,
+					Owner = this
+				}.ShowDialog();
+			}
 		}
 
 		#endregion
