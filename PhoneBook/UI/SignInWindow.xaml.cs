@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.Services;
 
 namespace PhoneBook.UI
@@ -31,13 +32,17 @@ namespace PhoneBook.UI
 			set { this.SetValue(EmailProperty, value); }
 		}
 
+		public PhoneBookContext Context { get; set; } =
+			new PhoneBookContext();
+
 		private void OK_Click(object sender, RoutedEventArgs e)
 		{
 			var result = UserManager.SignIn(
 				this.Email,
 				this.passwordBox.Password,
-				Application.Current as App);
-
+				Application.Current as App,
+				this.Context);
+			
 			if (result == null)
 			{
 				MessageBox.Show(
@@ -45,16 +50,16 @@ namespace PhoneBook.UI
 						"Error",
 						MessageBoxButton.OK,
 						MessageBoxImage.Error);
-
-				this.DialogResult = false;
+				return;
 			}
 
+			this.Context.Dispose();
 			this.DialogResult = true;
-			return;
 		}
 
 		private void Cancel_Click(object sender, RoutedEventArgs e)
 		{
+			this.Context.Dispose();
 			this.DialogResult = false;
 		}
 	}
