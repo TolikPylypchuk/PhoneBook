@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
@@ -42,14 +43,20 @@ namespace PhoneBook.UI
 
 		private async void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			IRepository<User> repoPeople = new UserRepository();
-			IRepository<Company> repoCompanies = new CompanyRepository();
+			using (var context = new PhoneBookContext())
+			{
+				IRepository<User> repoPeople =
+					new UserRepository(context);
 
-			this.peoplePageInfo.TotalEntries =
-				await repoPeople.GetAll().CountAsync();
+				IRepository<Company> repoCompanies =
+					new CompanyRepository(context);
 
-			this.companiesPageInfo.TotalEntries =
-				await repoCompanies.GetAll().CountAsync();
+				this.peoplePageInfo.TotalEntries =
+					await repoPeople.GetAll().CountAsync();
+
+				this.companiesPageInfo.TotalEntries =
+					await repoCompanies.GetAll().CountAsync();
+			}
 		}
 
 		private async void TabControl_SelectionChanged(
@@ -119,14 +126,18 @@ namespace PhoneBook.UI
 				return;
 			}
 
-			this.Title =
-				this.currentApp.CurrentUser.FullName + " - " + this.Title;
+			if (this.currentApp.CurrentUser != null)
+			{
+				this.Title = this.currentApp.CurrentUser.FullName +
+					" - " + this.Title;
+			}
 
 			this.signInMenuItem.Visibility = Visibility.Collapsed;
 			this.signUpMenuItem.Visibility = Visibility.Collapsed;
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
+			this.createCompanyMenuItem.Visibility = Visibility.Visible;
 		}
 
 		private async void MenuSignUpClick(object sender, RoutedEventArgs e)
@@ -138,8 +149,11 @@ namespace PhoneBook.UI
 				return;
 			}
 
-			this.Title =
-				this.currentApp.CurrentUser.FullName + " - " + this.Title;
+			if (this.currentApp.CurrentUser != null)
+			{
+				this.Title = this.currentApp.CurrentUser.FullName +
+					" - " + this.Title;
+			}
 
 			this.signInMenuItem.Visibility = Visibility.Collapsed;
 			this.signUpMenuItem.Visibility = Visibility.Collapsed;
@@ -162,11 +176,44 @@ namespace PhoneBook.UI
 			}
 		}
 
+		private void MenuCreateCompanyClick(
+			object sender,
+			RoutedEventArgs e)
+		{
+			try
+			{
+				var result = new CreateCompanyWindow
+				{
+					User = currentApp.CurrentUser,
+					Owner = this
+				}.ShowDialog();
+
+				if (result == true)
+				{
+					MessageBox.Show(
+						"Created the company successfully.",
+						"Info",
+						MessageBoxButton.OK,
+						MessageBoxImage.Information);
+				}
+			} catch
+			{
+				MessageBox.Show(
+					"An unknown error occured.",
+					"Error",
+					MessageBoxButton.OK,
+					MessageBoxImage.Error);
+			}
+		}
+
 		private void MenuSignOutClick(object sender, RoutedEventArgs e)
 		{
 			this.currentApp.CurrentUser = null;
 
-			this.Title = this.Title.Split('-')[1].Trim();
+			if (this.Title.Contains('-'))
+			{
+				this.Title = this.Title.Split('-')[1].Trim();
+			}
 
 			this.signInMenuItem.Visibility = Visibility.Visible;
 			this.signUpMenuItem.Visibility = Visibility.Visible;
@@ -265,38 +312,44 @@ namespace PhoneBook.UI
 			string middleName = this.UserMiddleNameFilter.Text;
 			string lastName = this.UserLastNameFilter.Text;
 
-			IRepository<User> repo = new UserRepository();
-			await this.LoadPeopleAsync(
-				repo,
-				this.peoplePageInfo,
-				firstName,
-				middleName,
-				lastName);
+			using (var context = new PhoneBookContext())
+			{
+				IRepository<User> repo = new UserRepository(context);
+				await this.LoadPeopleAsync(
+					repo,
+					this.peoplePageInfo,
+					firstName,
+					middleName,
+					lastName);
 
-			this.peopleListView.ItemsSource = repo.LocalData;
-            CollectionView view =
-				(CollectionView)CollectionViewSource.GetDefaultView(
-					peopleListView.ItemsSource);
-            view.Filter = UserFilter;
+				this.peopleListView.ItemsSource = repo.LocalData;
+				CollectionView view =
+					(CollectionView)CollectionViewSource.GetDefaultView(
+						peopleListView.ItemsSource);
+				view.Filter = this.UserFilter;
+			}
         }
 
 		private async Task UpdateCompaniesListBoxAsync()
 		{
 			string name = this.CompanyNameFilter.Text;
-			
-			IRepository<Company> repo = new CompanyRepository();
-			await this.LoadCompaniesAsync(
-				repo,
-				this.companiesPageInfo,
-				name,
-				0,
-				5);
 
-			this.companiesListView.ItemsSource = repo.LocalData;
-            CollectionView view =
-				(CollectionView)CollectionViewSource.GetDefaultView(
-					companiesListView.ItemsSource);
-            view.Filter = CompanyFilter;
+			using (var context = new PhoneBookContext())
+			{
+				IRepository<Company> repo = new CompanyRepository(context);
+				await this.LoadCompaniesAsync(
+					repo,
+					this.companiesPageInfo,
+					name,
+					0,
+					5);
+
+				this.companiesListView.ItemsSource = repo.LocalData;
+				CollectionView view =
+					(CollectionView)CollectionViewSource.GetDefaultView(
+						companiesListView.ItemsSource);
+				view.Filter = this.CompanyFilter;
+			}
         }
 		
 		private async Task LoadPeopleAsync(

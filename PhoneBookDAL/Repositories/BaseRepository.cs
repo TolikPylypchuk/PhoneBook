@@ -13,8 +13,12 @@ namespace PhoneBook.DAL.Repositories
 	{
 		protected DbSet<T> table;
 
-		public PhoneBookContext Context { get; } =
-			new PhoneBookContext();
+		protected BaseRepository(PhoneBookContext context)
+		{
+			this.Context = context;
+		}
+
+		public PhoneBookContext Context { get; }
 
 		public IEnumerable<T> LocalData => this.table.Local;
 

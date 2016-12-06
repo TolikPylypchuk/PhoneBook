@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
@@ -47,7 +48,7 @@ namespace PhoneBook.Services
 			user.PasswordHash = hashData;
 		}
 
-		public static SignUpResult SignUp(User user)
+		public static SignUpResult SignUp(User user, PhoneBookContext context)
 		{
 			if (user == null)
 			{
@@ -58,7 +59,7 @@ namespace PhoneBook.Services
 
 			try
 			{
-				IRepository<User> repo = new UserRepository();
+				IRepository<User> repo = new UserRepository(context);
 				var dbUser = repo.GetAll().FirstOrDefault(
 					u => u.Email == user.Email);
 
@@ -83,7 +84,8 @@ namespace PhoneBook.Services
 		public static User SignIn(
 			string email,
 			string password,
-			App app)
+			App app,
+			PhoneBookContext context)
 		{
 			if (email == null)
 			{
@@ -112,7 +114,7 @@ namespace PhoneBook.Services
 
 			try
 			{
-				IRepository<User> repo = new UserRepository();
+				IRepository<User> repo = new UserRepository(context);
 
 				user = repo.GetAll().FirstOrDefault(u =>
 					((u.PasswordHash == hashPassword) && (u.Email == email)));
