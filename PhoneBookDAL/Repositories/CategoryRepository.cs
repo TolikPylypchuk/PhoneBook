@@ -1,13 +1,15 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 
 namespace PhoneBook.DAL.Repositories
 {
 	public class CategoryRepository : BaseRepository<Category>
 	{
-		public CategoryRepository()
+		public CategoryRepository(PhoneBookContext context)
+			: base(context)
 		{
 			table = Context.Categories;
 		}

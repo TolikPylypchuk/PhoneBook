@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.Services;
 
@@ -42,6 +43,9 @@ namespace PhoneBook.UI
 			set { this.SetValue(UserProperty, value); }
 		}
 
+		public PhoneBookContext Context { get; set; } =
+			new PhoneBookContext();
+
 		private void OK_Click(object sender, RoutedEventArgs e)
 		{
 			this.SetPhones();
@@ -55,7 +59,7 @@ namespace PhoneBook.UI
 					MessageBoxImage.Error);
 			}
 
-			var result = UserManager.SignUp(this.User);
+			var result = UserManager.SignUp(this.User, this.Context);
 			
 			if (result == UserManager.SignUpResult.Success)
 			{
@@ -64,7 +68,8 @@ namespace PhoneBook.UI
 					UserManager.SignIn(
 						this.User.Email,
 						this.User.PasswordHash,
-						Application.Current as App);
+						Application.Current as App,
+						this.Context);
 				} catch
 				{
 					MessageBox.Show(
@@ -75,6 +80,7 @@ namespace PhoneBook.UI
 				}
 
 				this.DialogResult = true;
+				this.Context.Dispose();
 				return;
 			}
 
@@ -107,6 +113,7 @@ namespace PhoneBook.UI
 
 		private void Cancel_Click(object sender, RoutedEventArgs e)
 		{
+			this.Context.Dispose();
 			this.DialogResult = false;
 		}
 

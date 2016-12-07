@@ -5,63 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhoneBook.UI"
         mc:Ignorable="d" WindowStartupLocation="CenterOwner"
-        Title="Person Info" Height="350" Width="300"
+        Title="Person Info" Height="380" Width="320"
 		ResizeMode="NoResize">
-	<Window.Resources>
-		<Style TargetType="{x:Type TextBlock}">
-			<Setter Property="VerticalAlignment" Value="Center" />
-		</Style>
-		<Style TargetType="{x:Type TextBox}">
-			<Setter Property="Width" Value="250"/>
-			<Setter Property="Margin" Value="0,5" />
-			<Setter Property="IsReadOnly" Value="{
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="IsReadOnly" Value="{
 				Binding Path=IsReadOnly,
 				RelativeSource={RelativeSource
 				Mode=FindAncestor,
 				AncestorType=Window}}" />
-			<Setter Property="VerticalAlignment" Value="Center" />
-			<Setter Property="HorizontalAlignment" Value="Left" />
-		</Style>
-	</Window.Resources>
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
 
-	<local:FlipPanel x:Name="personInfoFlipPanel"
+    <local:FlipPanel x:Name="personInfoFlipPanel"
 					 HorizontalAlignment="Stretch"
 					 VerticalAlignment="Center"
 					 DataContext="{Binding Path=Person,
 							RelativeSource={RelativeSource
 								Mode=FindAncestor,
-								AncestorType=Window}}">
-		<local:FlipPanel.FrontContent>
-			<StackPanel HorizontalAlignment="Center"
+								AncestorType=Window}}" Height="auto">
+        <local:FlipPanel.FrontContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" HorizontalAlignment="Center"
 						Orientation="Vertical">
-				<TextBlock Text="First name:" />
-				<TextBox Text="{Binding Path=FirstName}" />
+                    <TextBlock Text="First name:" />
+                    <TextBox Text="{Binding Path=FirstName}" />
 
-				<TextBlock Text="Middle name:" />
-				<TextBox Text="{Binding Path=MiddleName}" />
+                    <TextBlock Text="Middle name:" />
+                    <TextBox Text="{Binding Path=MiddleName}" />
 
-				<TextBlock Text="Last name:" />
-				<TextBox Text="{Binding Path=LastName}" />
+                    <TextBlock Text="Last name:" />
+                    <TextBox Text="{Binding Path=LastName}" />
 
-				<TextBlock Text="Phone(s):" />
-				<TextBox Text="{Binding Path=Phones, Mode=OneWay,
+                    <TextBlock Text="Phone(s):" />
+                    <TextBox Text="{Binding Path=Phones, Mode=OneWay,
 							Converter={StaticResource
 								ResourceKey=PhonesToStringConverter}}"
 						 MinLines="1" MaxLines="2"
 						 TextWrapping="Wrap" />
 
-				<TextBlock Text="Email:" />
-				<TextBox Text="{Binding Path=Email}" />
+                    <TextBlock Text="Email:" />
+                    <TextBox Text="{Binding Path=Email}" />
 
-				<TextBlock Text="Address:" />
-				<TextBox Text="{Binding Path=Address, Mode=OneWay}"
+                    <TextBlock Text="Address:" />
+                    <TextBox Text="{Binding Path=Address, Mode=OneWay}"
 						 MinLines="2" MaxLines="2"
 						 TextWrapping="Wrap" Height="34" />
-			</StackPanel>
-		</local:FlipPanel.FrontContent>
+                </StackPanel>
+                <Button Grid.Row="1" DockPanel.Dock="Bottom" x:Name="CancelButton" Content="Cancel" Height="23" Margin="208,0,32,0" Click="CancelButton_Click"/>
+                <Button Grid.Row="1" DockPanel.Dock="Bottom" x:Name="OKButton" Content="OK" Height="23" Margin="128,0,111,0" Click="OKButton_Click"  />
 
-		<local:FlipPanel.BackContent>
-			<TextBox>Location on map goes here.</TextBox>
-		</local:FlipPanel.BackContent>
-	</local:FlipPanel>
+            </Grid>
+        </local:FlipPanel.FrontContent>
+
+        <local:FlipPanel.BackContent>
+            <TextBox>Location on map goes here.</TextBox>
+        </local:FlipPanel.BackContent>
+    </local:FlipPanel>
 </Window>

@@ -1,13 +1,15 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 
+using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 
 namespace PhoneBook.DAL.Repositories
 {
 	public class UserRepository : BaseRepository<User>
 	{
-		public UserRepository()
+		public UserRepository(PhoneBookContext context)
+			: base(context)
 		{
 			table = Context.Users;
 		}

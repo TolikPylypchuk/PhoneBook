@@ -27,33 +27,29 @@
 		<Menu DockPanel.Dock="Top" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Background="#FFFFFF">
 			<MenuItem Header="File" HorizontalAlignment="Left">
 				<MenuItem x:Name="signInMenuItem" Header="Sign in"
-						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuSignInClick" />
 				<MenuItem x:Name="signUpMenuItem" Header="Sign up"
-						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuSignUpClick" />
 				<MenuItem x:Name="signOutMenuItem" Header="Sign out"
-						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuSignOutClick" Visibility="Collapsed" />
 				<Separator />
 				<MenuItem x:Name="personInfoMenuItem" Header="Personal info"
-						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuPersonInfoClick" Visibility="Collapsed" />
-				<MenuItem x:Name="campanyInfoMenuItem" Header="Company info"
-						  HorizontalAlignment="Left" Width="160"
-						  Click="MenuCompanyInfoClick" Visibility="Collapsed" />
+                <MenuItem x:Name="companyInfoMenuItem" Header="Company info"
+						  Click="MenuCompanyInfoClick" Visibility="Collapsed"/>
+                <MenuItem x:Name="createCompanyMenuItem" Header="Create a company"
+						  Click="MenuCreateCompanyClick" Visibility="Collapsed" />
 				<Separator />
 				<MenuItem Header="Exit" HorizontalAlignment="Left" Width="160"
 						  Click="MenuExitClick" />
 			</MenuItem>
-			<MenuItem Header="About" HorizontalAlignment="Left"
-					  Click="MenuAboutClick">
+			<MenuItem Header="About" Click="MenuAboutClick">
 			</MenuItem>
 		</Menu>
-		<DockPanel x:Name="entriesPanel" Grid.Column="1"
-					   HorizontalAlignment="Stretch"
-					   VerticalAlignment="Stretch"
-					   Margin="10">
+		<DockPanel x:Name="entriesPanel"
+				   HorizontalAlignment="Stretch"
+				   VerticalAlignment="Stretch"
+				   Margin="10">
 			<DockPanel DockPanel.Dock="Bottom" Margin="10,0">
 				<Button x:Name="previousPage" DockPanel.Dock="Left"
 							IsEnabled="{Binding Path=IsFirstPage,
@@ -127,7 +123,7 @@
 								 TextWrapping="Wrap" 
 								 TextChanged="UserFilter_TextChanged" />
 						<ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick" Margin="10"
-								  Grid.Row="1" Grid.ColumnSpan="7">
+								  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6">
 							<ListView.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="See more" x:Name="personSeeMoreContextMenuItem"
@@ -178,7 +174,7 @@
 								 Margin="10"
 								 TextChanged="CompanyFilter_TextChanged" />
 						<ListView x:Name="companiesListView" MouseDoubleClick="companiesListView_MouseDoubleClick" Margin="10"
-								  Grid.Row="1" Grid.ColumnSpan="4">
+								  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
 							<ListView.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="See more" x:Name="companySeeMoreMenuItem"
@@ -189,6 +185,8 @@
 								<GridView>
 									<GridViewColumn Header="Name"
 													DisplayMemberBinding="{Binding Path=Name}" />
+									<GridViewColumn Header="Category"
+													DisplayMemberBinding="{Binding Path=Category}" />
 									<GridViewColumn Header="Phone(s)"
 													DisplayMemberBinding="{Binding Path=Phones,
 														Converter={StaticResource PhonesToStringConverter}}" />

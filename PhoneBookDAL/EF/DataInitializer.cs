@@ -89,7 +89,12 @@ namespace PhoneBook.DAL.EF
 				Number = "+380322378667"
 			};
 
+			Category agriculture = new Category { Name = "Agriculture" };
+			Category energy = new Category { Name = "Energy" };
+			Category food = new Category { Name = "Food" };
 			Category it = new Category { Name = "IT" };
+			Category retail = new Category { Name = "Retail" };
+			Category services = new Category { Name = "Services" };
 
 			Company softServe = new Company
 			{
@@ -126,7 +131,12 @@ namespace PhoneBook.DAL.EF
 			context.UserPhones.Add(phone2);
 			context.UserPhones.Add(phone3);
 
+			context.Categories.Add(agriculture);
+			context.Categories.Add(energy);
+			context.Categories.Add(food);
 			context.Categories.Add(it);
+			context.Categories.Add(retail);
+			context.Categories.Add(services);
 
 			context.Companies.Add(softServe);
 
