@@ -6,6 +6,7 @@
 	<Application.Resources>
 		<local:InverseBoolConverter x:Key="InverseBoolConverter" />
 		<local:PhonesToStringConverter x:Key="PhonesToStringConverter" />
+		<local:BoolVisibilityConverter x:Key="BoolVisibilityConverter" />
 		
 		<Style TargetType="{x:Type local:FlipPanel}">
 			<Setter Property="Template">

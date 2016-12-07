@@ -35,6 +35,7 @@
 				<MenuItem x:Name="signOutMenuItem" Header="Sign out"
 						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuSignOutClick" Visibility="Collapsed" />
+				<Separator />
 				<MenuItem x:Name="personInfoMenuItem" Header="Personal info"
 						  HorizontalAlignment="Left" Width="160"
 						  Click="MenuPersonInfoClick" Visibility="Collapsed" />
@@ -129,8 +130,13 @@
 								  Grid.Row="1" Grid.ColumnSpan="7">
 							<ListView.ContextMenu>
 								<ContextMenu>
-									<MenuItem Header="See more" x:Name="personSeeMoreMenuItem"
+									<MenuItem Header="See more" x:Name="personSeeMoreContextMenuItem"
 											  Click="personSeeMoreMenuItem_Click" />
+									<MenuItem Header="Personal info" x:Name="personalInfoContextMenuItem"
+											  Visibility="{Binding Path=IsPersonalInfoContextMenuItemVisible,
+														Converter={StaticResource BoolVisibilityConverter}}"
+											  IsEnabled="{Binding Path=IsPersonalInfoContextMenuItemVisible}"
+											  Click="MenuPersonInfoClick" />
 								</ContextMenu>
 							</ListView.ContextMenu>
 							<ListView.View>

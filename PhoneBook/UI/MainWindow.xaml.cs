@@ -38,6 +38,16 @@ namespace PhoneBook.UI
 			this.InitializeComponent();
 		}
 
+		public bool IsPersonalInfoContextMenuItemVisible
+		{
+			get
+			{
+				User selectedUser = (User)this.peopleListView.SelectedItem;
+				return (selectedUser != null &&
+					this.currentApp.CurrentUser.Id == selectedUser.Id);
+			}
+		}
+
 		#region Event handlers
 
 		private async void Window_Loaded(object sender, RoutedEventArgs e)
