@@ -148,6 +148,8 @@ namespace PhoneBook.UI
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
 			this.companyInfoMenuItem.Visibility = Visibility.Visible;
+
+			this.createCompanyMenuItem.Visibility = Visibility.Visible;
 		}
 
 		private async void MenuSignUpClick(object sender, RoutedEventArgs e)
@@ -240,7 +242,9 @@ namespace PhoneBook.UI
 			this.signOutMenuItem.Visibility = Visibility.Collapsed;
 			this.personInfoMenuItem.Visibility = Visibility.Collapsed;
             this.companyInfoMenuItem.Visibility = Visibility.Collapsed;
-        }
+
+			this.createCompanyMenuItem.Visibility = Visibility.Collapsed;
+		}
 
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
@@ -252,6 +256,12 @@ namespace PhoneBook.UI
 					.GetAll()
 					.FirstOrDefault(
 						c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
+			}
+
+			if (createdCompany == null)
+			{
+				MessageBox.Show("No companies created by you.", "Error");
+				return;
 			}
 
             this.OpenCompanyInfoWindow(createdCompany, false);
