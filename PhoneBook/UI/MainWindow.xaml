@@ -123,15 +123,13 @@
 								 TextWrapping="Wrap" 
 								 TextChanged="UserFilter_TextChanged" />
 						<ListView x:Name="peopleListView" MouseDoubleClick="peopleListView_MouseDoubleClick" Margin="10"
-								  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6">
+								  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6"
+								  ContextMenuOpening="checkVisibility_ContextMenuOpening">
 							<ListView.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="See more" x:Name="personSeeMoreContextMenuItem"
 											  Click="personSeeMoreMenuItem_Click" />
 									<MenuItem Header="Personal info" x:Name="personalInfoContextMenuItem"
-											  Visibility="{Binding Path=IsPersonalInfoContextMenuItemVisible,
-														Converter={StaticResource BoolVisibilityConverter}}"
-											  IsEnabled="{Binding Path=IsPersonalInfoContextMenuItemVisible}"
 											  Click="MenuPersonInfoClick" />
 								</ContextMenu>
 							</ListView.ContextMenu>

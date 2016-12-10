@@ -24,19 +24,8 @@ namespace PhoneBook.UI
 		public PersonInfoWindow()
         {
             this.InitializeComponent();
-
-            if (!IsReadOnly)
-            {
-                this.OKButton.Visibility = Visibility.Collapsed;
-                this.CancelButton.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                this.OKButton.Visibility = Visibility.Visible;
-                this.CancelButton.Visibility = Visibility.Visible;
-            }
-
-        }
+			this.DataContext = this.Person;
+		}
 
 		public bool IsReadOnly
 		{
@@ -59,5 +48,19 @@ namespace PhoneBook.UI
         {
             this.Close();
         }
-    }
+
+		private void checkVisibilityWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (IsReadOnly)
+			{
+				this.OKButton.Visibility = Visibility.Collapsed;
+				this.CancelButton.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				this.OKButton.Visibility = Visibility.Visible;
+				this.CancelButton.Visibility = Visibility.Visible;
+			}
+		}
+	}
 }

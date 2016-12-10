@@ -10,6 +10,7 @@ using System.Windows.Input;
 using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
+using System.Globalization;
 
 namespace PhoneBook.UI
 {
@@ -44,7 +45,7 @@ namespace PhoneBook.UI
 			get
 			{
 				User selectedUser = (User)this.peopleListView.SelectedItem;
-				return (selectedUser != null &&
+				return (currentApp.CurrentUser != null &&
 					this.currentApp.CurrentUser.Id == selectedUser.Id);
 			}
 		}
@@ -349,6 +350,19 @@ namespace PhoneBook.UI
                 true);
 		}
 
+		private void checkVisibility_ContextMenuOpening(
+			object sender,
+			ContextMenuEventArgs e)
+		{
+			BooleanToVisibilityConverter converter =
+				new BooleanToVisibilityConverter();
+			this.personalInfoContextMenuItem.Visibility = (Visibility)converter.Convert(
+				this.IsPersonalInfoContextMenuItemVisible,
+				typeof(bool),
+				null,
+				new CultureInfo(1, true)
+				);
+		}
 		#endregion
 
 		#region Other methods
