@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -45,6 +46,7 @@ namespace PhoneBook.UI
 			{
 				User selectedUser = (User)this.peopleListView.SelectedItem;
 				return selectedUser != null &&
+					this.currentApp != null &&
 					this.currentApp.CurrentUser.Id == selectedUser.Id;
 			}
 		}
@@ -347,6 +349,20 @@ namespace PhoneBook.UI
 			this.OpenCompanyInfoWindow(
                 this.companiesListView.SelectedItem as Company,
                 true);
+		}
+
+		private void checkVisibility_ContextMenuOpening(
+			object sender,
+			ContextMenuEventArgs e)
+		{
+			BooleanToVisibilityConverter converter =
+				new BooleanToVisibilityConverter();
+			this.personalInfoContextMenuItem.Visibility =
+				(Visibility)converter.Convert(
+					this.IsPersonalInfoContextMenuItemVisible,
+					typeof(bool),
+					null,
+					new CultureInfo(1, true));
 		}
 
 		#endregion
