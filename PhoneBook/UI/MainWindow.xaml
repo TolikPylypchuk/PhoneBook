@@ -130,7 +130,7 @@
 											  Click="personSeeMoreMenuItem_Click" />
 									<MenuItem Header="Personal info" x:Name="personalInfoContextMenuItem"
 											  Visibility="{Binding Path=IsPersonalInfoContextMenuItemVisible,
-														Converter={StaticResource BoolVisibilityConverter}}"
+															Converter={StaticResource BoolVisibilityConverter}}"
 											  IsEnabled="{Binding Path=IsPersonalInfoContextMenuItemVisible}"
 											  Click="MenuPersonInfoClick" />
 								</ContextMenu>

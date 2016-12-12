@@ -18,14 +18,7 @@ namespace PhoneBook.UI
 			try
 			{
 				var x = bool.Parse(value.ToString());
-				if (x)
-				{
-					rv = Visibility.Visible;
-				}
-				else
-				{
-					rv = Visibility.Collapsed;
-				}
+				rv = x ? Visibility.Visible : Visibility.Collapsed;
 			}
 			catch (Exception)
 			{
@@ -41,18 +34,17 @@ namespace PhoneBook.UI
 			object parameter,
 			CultureInfo culture)
 		{
-			switch(value.ToString())
+			switch (value.ToString())
 			{
 				case "Visible":
-					return 1;
+					return true;
 				case "Hidden":
 				case "Collapsed":
-					return 0;
+					return false;
 				default:
 					throw new ArgumentException(
 					"The value must be a Visibility.");
 			}
 		}
-
 	}
 }

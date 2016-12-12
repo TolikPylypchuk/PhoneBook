@@ -44,8 +44,8 @@ namespace PhoneBook.UI
 			get
 			{
 				User selectedUser = (User)this.peopleListView.SelectedItem;
-				return (selectedUser != null &&
-					this.currentApp.CurrentUser.Id == selectedUser.Id);
+				return selectedUser != null &&
+					this.currentApp.CurrentUser.Id == selectedUser.Id;
 			}
 		}
 
