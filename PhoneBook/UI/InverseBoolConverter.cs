@@ -13,13 +13,38 @@ namespace PhoneBook.UI
 			object parameter,
 			CultureInfo culture)
 		{
+			if (value == null)
+			{
+				throw new ArgumentNullException(
+					nameof(value),
+					"The value cannot be null.");
+			}
+
+			if (targetType == null)
+			{
+				throw new ArgumentNullException(
+					nameof(targetType),
+					"The target type cannot be null.");
+			}
+
 			if (targetType != typeof(bool))
 			{
 				throw new InvalidOperationException(
-					"The target must be a bool.");
+					"Can only convert to bool.");
 			}
 
-			return !(bool)value;
+			bool actualValue;
+
+			try
+			{
+				actualValue = (bool)value;
+			} catch (InvalidCastException)
+			{
+				throw new InvalidOperationException(
+					"Can only convert from bool.");
+			}
+
+			return !actualValue;
 		}
 
 		public object ConvertBack(
