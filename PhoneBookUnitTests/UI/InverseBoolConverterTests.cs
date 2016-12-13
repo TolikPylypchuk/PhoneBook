@@ -58,5 +58,33 @@ namespace PhoneBook.UnitTests.UI
                 inverseBoolConverter.ConvertBack(false, typeof(bool), null, null),
                 true);
         }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void ConvertBackFromNullTest()
+        {
+            inverseBoolConverter.ConvertBack(null, typeof(bool), null, null);
+        }
+
+        [ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
+        public void ConvertBackToNullTest()
+        {
+            inverseBoolConverter.ConvertBack(typeof(bool), null, null, null);
+        }
+
+        [ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
+        public void ConvertBackWrongDestinationTest()
+        {
+            inverseBoolConverter.ConvertBack(typeof(bool), typeof(string), null, null);
+        }
+
+        [ExpectedException(typeof(InvalidOperationException))]
+        [TestMethod]
+        public void ConvertBackWrongSourceTest()
+        {
+            inverseBoolConverter.ConvertBack(typeof(string), typeof(bool), null, null);
+        }
     }
 }
