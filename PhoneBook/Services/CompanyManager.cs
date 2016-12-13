@@ -2,7 +2,6 @@
 using System.Data.Entity.Validation;
 using System.Linq;
 
-using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
@@ -20,7 +19,7 @@ namespace PhoneBook.Services
 
 		public static CreateResult Create(
 			Company company,
-			PhoneBookContext context)
+			IRepository<Company> companies)
 		{
 			if (company == null)
 			{
@@ -31,8 +30,7 @@ namespace PhoneBook.Services
 
 			try
 			{
-				IRepository<Company> repo = new CompanyRepository(context);
-				var dbCompany = repo.GetAll().FirstOrDefault(
+				var dbCompany = companies.GetAll().FirstOrDefault(
 					u => u.Email == company.Email);
 
 				if (dbCompany != null)
@@ -40,7 +38,7 @@ namespace PhoneBook.Services
 					return CreateResult.EmailAlreadyOccupied;
 				}
 
-				repo.Add(company);
+				companies.Add(company);
 			} catch (DbEntityValidationException exp)
 			{
 				return exp.EntityValidationErrors.Any(

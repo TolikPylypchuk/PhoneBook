@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
@@ -48,7 +47,7 @@ namespace PhoneBook.Services
 			user.PasswordHash = hashData;
 		}
 
-		public static SignUpResult SignUp(User user, PhoneBookContext context)
+		public static SignUpResult SignUp(User user, IRepository<User> users)
 		{
 			if (user == null)
 			{
@@ -59,8 +58,7 @@ namespace PhoneBook.Services
 
 			try
 			{
-				IRepository<User> repo = new UserRepository(context);
-				var dbUser = repo.GetAll().FirstOrDefault(
+				var dbUser = users.GetAll().FirstOrDefault(
 					u => u.Email == user.Email);
 
 				if (dbUser != null)
@@ -68,7 +66,7 @@ namespace PhoneBook.Services
 					return SignUpResult.EmailAlreadyOccupied;
 				}
 
-				repo.Add(user);
+				users.Add(user);
 			} catch (DbEntityValidationException exp)
 			{
 				return exp.EntityValidationErrors.Any(
@@ -85,7 +83,7 @@ namespace PhoneBook.Services
 			string email,
 			string password,
 			App app,
-			PhoneBookContext context)
+			IRepository<User> users)
 		{
 			if (email == null)
 			{
@@ -114,9 +112,7 @@ namespace PhoneBook.Services
 
 			try
 			{
-				IRepository<User> repo = new UserRepository(context);
-
-				user = repo.GetAll().FirstOrDefault(u =>
+				user = users.GetAll().FirstOrDefault(u =>
 					((u.PasswordHash == hashPassword) && (u.Email == email)));
 			}
 			catch (DbUnexpectedValidationException e)

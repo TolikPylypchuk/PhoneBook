@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 
 using PhoneBook.DAL.EF;
+using PhoneBook.DAL.Models;
+using PhoneBook.DAL.Repositories;
 using PhoneBook.Services;
 
 namespace PhoneBook.UI
@@ -32,8 +34,7 @@ namespace PhoneBook.UI
 			set { this.SetValue(EmailProperty, value); }
 		}
 
-		public PhoneBookContext Context { get; set; } =
-			new PhoneBookContext();
+		public IRepository<User> Users { get; set; }
 
 		private void OK_Click(object sender, RoutedEventArgs e)
 		{
@@ -41,7 +42,7 @@ namespace PhoneBook.UI
 				this.Email,
 				this.passwordBox.Password,
 				Application.Current as App,
-				this.Context);
+				this.Users);
 			
 			if (result == null)
 			{
@@ -53,13 +54,11 @@ namespace PhoneBook.UI
 				return;
 			}
 
-			this.Context.Dispose();
 			this.DialogResult = true;
 		}
 
 		private void Cancel_Click(object sender, RoutedEventArgs e)
 		{
-			this.Context.Dispose();
 			this.DialogResult = false;
 		}
 	}

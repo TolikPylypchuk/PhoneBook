@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 
-using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 using PhoneBook.DAL.Repositories;
 
@@ -22,7 +21,6 @@ namespace PhoneBook.UI
 		#region Fields
 
 		App currentApp = Application.Current as App;
-		PhoneBookContext context = new PhoneBookContext();
 
 		private PageInfo peoplePageInfo = new PageInfo
 		{
@@ -56,17 +54,11 @@ namespace PhoneBook.UI
 
 		private async void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			IRepository<User> repoPeople =
-				new UserRepository(this.context);
-
-			IRepository<Company> repoCompanies =
-				new CompanyRepository(this.context);
-
 			this.peoplePageInfo.TotalEntries =
-				await repoPeople.GetAll().CountAsync();
+				await new UserRepository().GetAll().CountAsync();
 
 			this.companiesPageInfo.TotalEntries =
-				await repoCompanies.GetAll().CountAsync();
+				await new CompanyRepository().GetAll().CountAsync();
 		}
 
 		private async void TabControl_SelectionChanged(
@@ -129,7 +121,11 @@ namespace PhoneBook.UI
 
 		private void MenuSignInClick(object sender, RoutedEventArgs e)
 		{
-			var result = new SignInWindow { Owner = this }.ShowDialog();
+			var result = new SignInWindow
+			{
+				Owner = this,
+				Users = new UserRepository()
+			}.ShowDialog();
 
 			if (result != true)
 			{
@@ -155,7 +151,11 @@ namespace PhoneBook.UI
 
 		private async void MenuSignUpClick(object sender, RoutedEventArgs e)
 		{
-			var result = new SignUpWindow { Owner = this }.ShowDialog();
+			var result = new SignUpWindow
+			{
+				Owner = this,
+				Users = new UserRepository()
+			}.ShowDialog();
 
 			if (result != true)
 			{
@@ -208,7 +208,8 @@ namespace PhoneBook.UI
 				var result = new CreateCompanyWindow
 				{
 					User = currentApp.CurrentUser,
-					Owner = this
+					Owner = this,
+					Companies = new CompanyRepository()
 				}.ShowDialog();
 
 				if (result == true)
@@ -253,7 +254,7 @@ namespace PhoneBook.UI
 		{
 			Company createdCompany = null;
 			
-			createdCompany = new CompanyRepository(this.context)
+			createdCompany = new CompanyRepository()
 				.GetAll()
 				.FirstOrDefault(
 					c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
@@ -363,11 +364,6 @@ namespace PhoneBook.UI
 					new CultureInfo(1, true));
 		}
 		
-		private void Window_Closed(object sender, EventArgs e)
-		{
-			this.context.Dispose();
-		}
-
 		#endregion
 
 		#region Other methods
@@ -378,7 +374,7 @@ namespace PhoneBook.UI
 			string middleName = this.UserMiddleNameFilter.Text;
 			string lastName = this.UserLastNameFilter.Text;
 			
-			IRepository<User> repo = new UserRepository(this.context);
+			IRepository<User> repo = new UserRepository();
 			await this.LoadPeopleAsync(
 				repo,
 				this.peoplePageInfo,
@@ -397,7 +393,7 @@ namespace PhoneBook.UI
 		{
 			string name = this.CompanyNameFilter.Text;
 			
-			IRepository<Company> repo = new CompanyRepository(this.context);
+			IRepository<Company> repo = new CompanyRepository();
 			await this.LoadCompaniesAsync(
 				repo,
 				this.companiesPageInfo,

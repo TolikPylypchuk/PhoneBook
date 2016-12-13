@@ -1,15 +1,13 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
 
-using PhoneBook.DAL.EF;
 using PhoneBook.DAL.Models;
 
 namespace PhoneBook.DAL.Repositories
 {
 	public class ReviewRepository : BaseRepository<Review>
 	{
-		public ReviewRepository(PhoneBookContext context)
-			: base(context)
+		public ReviewRepository()
 		{
 			table = Context.Reviews;
 		}

@@ -13,9 +13,9 @@ namespace PhoneBook.DAL.Repositories
 	{
 		protected DbSet<T> table;
 
-		protected BaseRepository(PhoneBookContext context)
+		protected BaseRepository()
 		{
-			this.Context = context;
+			this.Context = new PhoneBookContext();
 		}
 
 		public PhoneBookContext Context { get; }

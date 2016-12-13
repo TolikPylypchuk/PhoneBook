@@ -6,7 +6,6 @@
 		xmlns:local="clr-namespace:PhoneBook.UI"
 		mc:Ignorable="d" WindowStartupLocation="CenterScreen"
 		Title="Phone Book" Height="350" Width="750"
-		Closed="Window_Closed"
 		MinHeight="300" MinWidth="500" Loaded="Window_Loaded">
 	<Window.Resources>
 		<Style TargetType="{x:Type Button}">

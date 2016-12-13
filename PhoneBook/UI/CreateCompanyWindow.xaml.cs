@@ -53,13 +53,11 @@ namespace PhoneBook.UI
 			set { this.SetValue(UserProperty, value); }
 		}
 
-		public PhoneBookContext Context { get; set; } =
-			new PhoneBookContext();
+		public IRepository<Company> Companies { get; set; }
 		
 		private async void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			IRepository<Category> categories =
-				new CategoryRepository(this.Context);
+			IRepository<Category> categories = new CategoryRepository();
 
 			await categories.GetAll().LoadAsync();
 
@@ -71,12 +69,11 @@ namespace PhoneBook.UI
 			this.Company.CreatedBy = this.User;
 			this.SetPhones();
 
-			var result = CompanyManager.Create(this.Company, this.Context);
+			var result = CompanyManager.Create(this.Company, this.Companies);
 
 			if (result == CompanyManager.CreateResult.Success)
 			{
 				this.DialogResult = true;
-				this.Context.Dispose();
 				return;
 			}
 
@@ -109,7 +106,6 @@ namespace PhoneBook.UI
 
 		private void Cancel_Click(object sender, RoutedEventArgs e)
 		{
-			this.Context.Dispose();
 			this.DialogResult = false;
 		}
 
