@@ -143,7 +143,9 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
-			this.companyInfoMenuItem.Visibility = Visibility.Visible;
+			this.myCompaniesMenuItem.Visibility = Visibility.Visible;
+			this.deleteAccountMenuItem.Visibility = Visibility.Visible;
+
 			this.menuSeparator.Visibility = Visibility.Visible;
 
 			this.createCompanyMenuItem.Visibility = Visibility.Visible;
@@ -173,16 +175,9 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
-			this.menuSeparator.Visibility = Visibility.Visible;
+			this.deleteAccountMenuItem.Visibility = Visibility.Visible;
 
-            foreach (Company company in companiesListView.Items)
-            {
-                if (company.CreatedBy == this.currentApp.CurrentUser)
-                {
-                    this.companyInfoMenuItem.Visibility = Visibility.Visible;
-                    break;
-                }
-            }
+			this.menuSeparator.Visibility = Visibility.Visible;
 
             TabItem item = this.entriesTabControl.SelectedItem as TabItem;
 
@@ -244,28 +239,30 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Collapsed;
 			this.personInfoMenuItem.Visibility = Visibility.Collapsed;
-            this.companyInfoMenuItem.Visibility = Visibility.Collapsed;
+            this.myCompaniesMenuItem.Visibility = Visibility.Collapsed;
+			this.deleteAccountMenuItem.Visibility = Visibility.Collapsed;
+
 			this.menuSeparator.Visibility = Visibility.Collapsed;
 
 			this.createCompanyMenuItem.Visibility = Visibility.Collapsed;
 		}
 
-		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
+		private void MenuMyCompaniesClick(object sender, RoutedEventArgs e)
 		{
-			Company createdCompany = null;
-			
-			createdCompany = new CompanyRepository()
-				.GetAll()
-				.FirstOrDefault(
-					c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
-
-			if (createdCompany == null)
+			if (currentApp.CurrentUser == null)
 			{
-				MessageBox.Show("No companies created by you.", "Error");
-				return;
+				MessageBox.Show(
+					"This action is unavailable for unsigned users.",
+					"Error",
+					MessageBoxButton.OK,
+					MessageBoxImage.Error);
 			}
 
-            this.OpenCompanyInfoWindow(createdCompany, false);
+			new MyCompaniesWindow()
+			{
+				Person = this.currentApp.CurrentUser,
+				Owner = this
+			}.ShowDialog();
         }
 
 		private void MenuPersonInfoClick(object sender, RoutedEventArgs e)
@@ -286,6 +283,43 @@ namespace PhoneBook.UI
 				"Info");            
         }
 		
+		private void MenuDeleteAccountClick(object sender, RoutedEventArgs e)
+		{
+			var result = MessageBox.Show(
+				"Do you really want to delete your account?" + 
+				"(Information about your companies will be deleted as well.)",
+				"Delete account",
+				MessageBoxButton.YesNo,
+				MessageBoxImage.Question);
+
+			if (result == MessageBoxResult.No)
+			{
+				return;
+			}
+
+			User userToDelete = this.currentApp.CurrentUser;
+
+			var companiesToDel = new CompanyRepository()
+				.GetAll()
+				.Where(
+					c => c.CreatedBy.Id == userToDelete.Id);
+
+			this.MenuSignOutClick(sender, e);
+
+			foreach (var company in companiesToDel)
+			{
+				new CompanyRepository().Delete(company);
+			}
+
+			new UserRepository().Delete(userToDelete);
+
+			MessageBox.Show(
+				"Your account was successfully deleted.",
+				"Account deleted.",
+				MessageBoxButton.OK,
+				MessageBoxImage.Information);
+		}
+
 		private async void peopleFindButton_Click(
 			object sender,
 			RoutedEventArgs e)

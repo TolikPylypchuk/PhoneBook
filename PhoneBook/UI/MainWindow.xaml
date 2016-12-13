@@ -35,10 +35,12 @@
 				<Separator />
 				<MenuItem x:Name="personInfoMenuItem" Header="Personal info"
 						  Click="MenuPersonInfoClick" Visibility="Collapsed" />
-                <MenuItem x:Name="companyInfoMenuItem" Header="Company info"
-						  Click="MenuCompanyInfoClick" Visibility="Collapsed"/>
+                <MenuItem x:Name="myCompaniesMenuItem" Header="My companies"
+						  Click="MenuMyCompaniesClick" Visibility="Collapsed"/>
                 <MenuItem x:Name="createCompanyMenuItem" Header="Create a company"
 						  Click="MenuCreateCompanyClick" Visibility="Collapsed" />
+				<MenuItem x:Name="deleteAccountMenuItem" Header="Delete account"
+						  Click="MenuDeleteAccountClick" Visibility="Collapsed" />
 				<Separator x:Name="menuSeparator" Visibility="Collapsed" />
 				<MenuItem Header="Exit" HorizontalAlignment="Left" Width="160"
 						  Click="MenuExitClick" />

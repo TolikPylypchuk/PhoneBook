@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 
 using PhoneBook.DAL.Models;
+using PhoneBook.DAL.Repositories;
 
 namespace PhoneBook.UI
 {
@@ -40,9 +41,11 @@ namespace PhoneBook.UI
 		}
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+		{
+			new UserRepository().Update(this.Person);
+
+			this.Close();
+		}
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
