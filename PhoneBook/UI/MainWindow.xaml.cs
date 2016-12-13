@@ -22,6 +22,7 @@ namespace PhoneBook.UI
 		#region Fields
 
 		App currentApp = Application.Current as App;
+		PhoneBookContext context = new PhoneBookContext();
 
 		private PageInfo peoplePageInfo = new PageInfo
 		{
@@ -55,20 +56,17 @@ namespace PhoneBook.UI
 
 		private async void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			using (var context = new PhoneBookContext())
-			{
-				IRepository<User> repoPeople =
-					new UserRepository(context);
+			IRepository<User> repoPeople =
+				new UserRepository(this.context);
 
-				IRepository<Company> repoCompanies =
-					new CompanyRepository(context);
+			IRepository<Company> repoCompanies =
+				new CompanyRepository(this.context);
 
-				this.peoplePageInfo.TotalEntries =
-					await repoPeople.GetAll().CountAsync();
+			this.peoplePageInfo.TotalEntries =
+				await repoPeople.GetAll().CountAsync();
 
-				this.companiesPageInfo.TotalEntries =
-					await repoCompanies.GetAll().CountAsync();
-			}
+			this.companiesPageInfo.TotalEntries =
+				await repoCompanies.GetAll().CountAsync();
 		}
 
 		private async void TabControl_SelectionChanged(
@@ -150,6 +148,7 @@ namespace PhoneBook.UI
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
 			this.companyInfoMenuItem.Visibility = Visibility.Visible;
+			this.menuSeparator.Visibility = Visibility.Visible;
 
 			this.createCompanyMenuItem.Visibility = Visibility.Visible;
 		}
@@ -174,6 +173,7 @@ namespace PhoneBook.UI
 
 			this.signOutMenuItem.Visibility = Visibility.Visible;
 			this.personInfoMenuItem.Visibility = Visibility.Visible;
+			this.menuSeparator.Visibility = Visibility.Visible;
 
             foreach (Company company in companiesListView.Items)
             {
@@ -244,6 +244,7 @@ namespace PhoneBook.UI
 			this.signOutMenuItem.Visibility = Visibility.Collapsed;
 			this.personInfoMenuItem.Visibility = Visibility.Collapsed;
             this.companyInfoMenuItem.Visibility = Visibility.Collapsed;
+			this.menuSeparator.Visibility = Visibility.Collapsed;
 
 			this.createCompanyMenuItem.Visibility = Visibility.Collapsed;
 		}
@@ -251,14 +252,11 @@ namespace PhoneBook.UI
 		private void MenuCompanyInfoClick(object sender, RoutedEventArgs e)
 		{
 			Company createdCompany = null;
-
-			using (var context = new PhoneBookContext())
-			{
-				createdCompany = new CompanyRepository(context)
-					.GetAll()
-					.FirstOrDefault(
-						c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
-			}
+			
+			createdCompany = new CompanyRepository(this.context)
+				.GetAll()
+				.FirstOrDefault(
+					c => c.CreatedBy.Id == this.currentApp.CurrentUser.Id);
 
 			if (createdCompany == null)
 			{
@@ -364,6 +362,11 @@ namespace PhoneBook.UI
 					null,
 					new CultureInfo(1, true));
 		}
+		
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			this.context.Dispose();
+		}
 
 		#endregion
 
@@ -374,45 +377,39 @@ namespace PhoneBook.UI
 			string firstName = this.UserFirstNameFilter.Text;
 			string middleName = this.UserMiddleNameFilter.Text;
 			string lastName = this.UserLastNameFilter.Text;
+			
+			IRepository<User> repo = new UserRepository(this.context);
+			await this.LoadPeopleAsync(
+				repo,
+				this.peoplePageInfo,
+				firstName,
+				middleName,
+				lastName);
 
-			using (var context = new PhoneBookContext())
-			{
-				IRepository<User> repo = new UserRepository(context);
-				await this.LoadPeopleAsync(
-					repo,
-					this.peoplePageInfo,
-					firstName,
-					middleName,
-					lastName);
-
-				this.peopleListView.ItemsSource = repo.LocalData;
-				CollectionView view =
-					(CollectionView)CollectionViewSource.GetDefaultView(
-						peopleListView.ItemsSource);
-				view.Filter = this.UserFilter;
-			}
+			this.peopleListView.ItemsSource = repo.LocalData;
+			CollectionView view =
+				(CollectionView)CollectionViewSource.GetDefaultView(
+					peopleListView.ItemsSource);
+			view.Filter = this.UserFilter;
         }
 
 		private async Task UpdateCompaniesListBoxAsync()
 		{
 			string name = this.CompanyNameFilter.Text;
+			
+			IRepository<Company> repo = new CompanyRepository(this.context);
+			await this.LoadCompaniesAsync(
+				repo,
+				this.companiesPageInfo,
+				name,
+				0,
+				5);
 
-			using (var context = new PhoneBookContext())
-			{
-				IRepository<Company> repo = new CompanyRepository(context);
-				await this.LoadCompaniesAsync(
-					repo,
-					this.companiesPageInfo,
-					name,
-					0,
-					5);
-
-				this.companiesListView.ItemsSource = repo.LocalData;
-				CollectionView view =
-					(CollectionView)CollectionViewSource.GetDefaultView(
-						companiesListView.ItemsSource);
-				view.Filter = this.CompanyFilter;
-			}
+			this.companiesListView.ItemsSource = repo.LocalData;
+			CollectionView view =
+				(CollectionView)CollectionViewSource.GetDefaultView(
+					companiesListView.ItemsSource);
+			view.Filter = this.CompanyFilter;
         }
 		
 		private async Task LoadPeopleAsync(
@@ -434,6 +431,7 @@ namespace PhoneBook.UI
 					  .OrderBy(user => user.LastName)
 					  .Skip((info.CurrentPage - 1) * info.EntriesPerPage)
 					  .Take(info.EntriesPerPage)
+					  .Include(user => user.Phones)
 					  .LoadAsync();
 		}
 		

@@ -1,12 +1,13 @@
 ﻿<Window x:Class="PhoneBook.UI.MainWindow"
-			xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			xmlns:local="clr-namespace:PhoneBook.UI"
-			mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-			Title="Phone Book" Height="350" Width="750"
-			MinHeight="300" MinWidth="500" Loaded="Window_Loaded">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:PhoneBook.UI"
+		mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+		Title="Phone Book" Height="350" Width="750"
+		Closed="Window_Closed"
+		MinHeight="300" MinWidth="500" Loaded="Window_Loaded">
 	<Window.Resources>
 		<Style TargetType="{x:Type Button}">
 			<Setter Property="Margin" Value="2" />
@@ -39,7 +40,7 @@
 						  Click="MenuCompanyInfoClick" Visibility="Collapsed"/>
                 <MenuItem x:Name="createCompanyMenuItem" Header="Create a company"
 						  Click="MenuCreateCompanyClick" Visibility="Collapsed" />
-				<Separator />
+				<Separator x:Name="menuSeparator" Visibility="Collapsed" />
 				<MenuItem Header="Exit" HorizontalAlignment="Left" Width="160"
 						  Click="MenuExitClick" />
 			</MenuItem>
