@@ -5,7 +5,7 @@ using System.Windows.Data;
 namespace PhoneBook.UI
 {
 	[ValueConversion(typeof(bool), typeof(bool))]
-	class InverseBoolConverter : IValueConverter
+	public class InverseBoolConverter : IValueConverter
 	{
 		public object Convert(
 			object value,
