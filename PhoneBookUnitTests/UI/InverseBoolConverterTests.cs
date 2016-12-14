@@ -2,89 +2,94 @@
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using PhoneBook.DAL.Models;
 using PhoneBook.UI;
 
 namespace PhoneBook.UnitTests.UI
-
 {
-    [TestClass]
-    public class InverseBoolConverterTests
-    {
-        
-        InverseBoolConverter inverseBoolConverter =
-            new InverseBoolConverter();
+	[TestClass]
+	public class InverseBoolConverterTests
+	{
+		InverseBoolConverter inverseBoolConverter =
+			new InverseBoolConverter();
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void ConvertFromNullTest()
-        {
-            inverseBoolConverter.Convert(null, typeof(bool), null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ConvertFromNullTest()
+		{
+			this.inverseBoolConverter.Convert(null, typeof(bool), null, null);
+		}
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void ConvertToNullTest()
-        {
-            inverseBoolConverter.Convert(typeof(bool), null, null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ConvertToNullTest()
+		{
+			this.inverseBoolConverter.Convert(true, null, null, null);
+		}
 
-        [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
-        public void ConvertWrongDestinationTest()
-        {
-            inverseBoolConverter.Convert(typeof(bool), typeof(string), null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ConvertWrongDestinationTest()
+		{
+			this.inverseBoolConverter.Convert(
+				true, typeof(string), null, null);
+		}
 
-        [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
-        public void ConvertWrongSourceTest()
-        {
-            inverseBoolConverter.Convert(typeof(string), typeof(bool), null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ConvertWrongSourceTest()
+		{
+			this.inverseBoolConverter.Convert(
+				new object(), typeof(bool), null, null);
+		}
 
-        [TestMethod]
-        public void ConvertTest()
-        {
-            Assert.AreEqual(
-                inverseBoolConverter.Convert(true, typeof(bool), null, null),
-                false);
-        }
+		[TestMethod]
+		public void ConvertTest()
+		{
+			Assert.AreEqual(
+				this.inverseBoolConverter.Convert(
+					true, typeof(bool), null, null),
+				false);
+		}
 
-        [TestMethod]
-        public void BackConvertTest()
-        {
-            Assert.AreEqual(
-                inverseBoolConverter.ConvertBack(false, typeof(bool), null, null),
-                true);
-        }
+		[TestMethod]
+		public void ConvertBackTest()
+		{
+			Assert.AreEqual(
+				this.inverseBoolConverter.ConvertBack(
+					false, typeof(bool), null, null),
+				true);
+		}
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void ConvertBackFromNullTest()
-        {
-            inverseBoolConverter.ConvertBack(null, typeof(bool), null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ConvertBackFromNullTest()
+		{
+			this.inverseBoolConverter.ConvertBack(
+				null, typeof(bool), null, null);
+		}
 
-        [ExpectedException(typeof(ArgumentNullException))]
-        [TestMethod]
-        public void ConvertBackToNullTest()
-        {
-            inverseBoolConverter.ConvertBack(typeof(bool), null, null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void ConvertBackToNullTest()
+		{
+			this.inverseBoolConverter.ConvertBack(
+				true, null, null, null);
+		}
 
-        [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
-        public void ConvertBackWrongDestinationTest()
-        {
-            inverseBoolConverter.ConvertBack(typeof(bool), typeof(string), null, null);
-        }
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ConvertBackWrongDestinationTest()
+		{
+			this.inverseBoolConverter.ConvertBack(
+				true, typeof(string), null, null);
+		}
 
-        [ExpectedException(typeof(InvalidOperationException))]
-        [TestMethod]
-        public void ConvertBackWrongSourceTest()
-        {
-            inverseBoolConverter.ConvertBack(typeof(string), typeof(bool), null, null);
-        }
-    }
+		[TestMethod]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void ConvertBackWrongSourceTest()
+		{
+			this.inverseBoolConverter.ConvertBack(
+				new object(), typeof(bool), null, null);
+		}
+	}
 }

@@ -1,31 +1,35 @@
 ﻿using System;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using PhoneBook.Services;
 using PhoneBook.DAL.Models;
 
-namespace PhoneBook.UnitTests.UI
+namespace PhoneBook.UnitTests.Services
 {
     [TestClass]
     public class UserManagerTests
     {
-        [ExpectedException(typeof(ArgumentNullException))]
+		static App app = new App();
+
         [TestMethod]
-        public void NoExistingUserTest()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void NoExistingUserTest()
         {
             UserManager.SetPassword(null, "password");
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void NullPasswordTest()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void NullPasswordTest()
         {
             User user = new User();
             UserManager.SetPassword(user, null);
         }
 
-        [ExpectedException(typeof(ArgumentException))]
         [TestMethod]
-        public void EmptyPasswordTest()
+		[ExpectedException(typeof(ArgumentException))]
+		public void EmptyPasswordTest()
         {
             User user = new User();
             UserManager.SetPassword(user, String.Empty);
@@ -41,23 +45,23 @@ namespace PhoneBook.UnitTests.UI
             Assert.AreEqual(testUser2.PasswordHash, testUser1.PasswordHash);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void SignInNullEmailTest()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void SignInNullEmailTest()
         {
-            UserManager.SignIn(null, String.Empty, new App(), null);
+            UserManager.SignIn(null, String.Empty, app, null);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void SignInNullPasswordTest()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void SignInNullPasswordTest()
         {
-            UserManager.SignIn(String.Empty, null, new App(), null);
+            UserManager.SignIn(String.Empty, null, app, null);
         }
 
-        [ExpectedException(typeof(ArgumentNullException))]
         [TestMethod]
-        public void SignInNullAppTest()
+		[ExpectedException(typeof(ArgumentNullException))]
+		public void SignInNullAppTest()
         {
             UserManager.SignIn(String.Empty, String.Empty, null, null);
         }
